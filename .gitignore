@@ -1,0 +1,4 @@
+.idea/**
+.vscode/**
+i3status-go
+i3status-go.json
