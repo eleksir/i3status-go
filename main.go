@@ -2,11 +2,13 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/DisposaBoy/JsonConfigReader"
@@ -44,7 +46,7 @@ type Config struct {
 	} `json:"battery"`
 
 	CPUTemp struct {
-		Enabled string `json:"enabled"`
+		Enabled int    `json:"enabled"`
 		File    string `json:"file"`
 	} `json:"cputemp"`
 
@@ -116,19 +118,33 @@ type Mem struct {
 	Swap    int64
 }
 
-// I3BarOut is output json string prototype as described in https://i3wm.org/docs/i3bar-protocol.html
-type I3BarOut []struct {
-	FullText   string `json:"full_text"`
-	Name       string `json:"name"`
-	Color      string `json:"color"`
-	Border     string `json:"border"`
-	Background string `json:"background"`
-	Markup     string `json:"markup"`
+// I3BarOutBlock is structure element for I3BarOut, it represents i3bar output json block format
+type I3BarOutBlock struct {
+	FullText string `json:"full_text"`
+	// ShortText will be shown if not enough room for FullText, threshold width defined in MinWidth
+	ShortText    string `json:"short_text,omitempty"`
+	Color        string `json:"color,omitempty"`
+	Background   string `json:"background,omitempty"`
+	Border       int    `json:"border,omitempty"`
+	BorderTop    int    `json:"border_top,omitempty"`
+	BorderRight  int    `json:"border_right,omitempty"`
+	BorderBottom int    `json:"border_bottom,omitempty"`
+	BorderLeft   int    `json:"border_left,omitempty"`
+	// measured either in pixels or in characters, so either int or string, let's make it string :)
+	MinWidth            string `json:"min_width,omitempty"`
+	Align               string `json:"align,omitempty"`
+	Name                string `json:"name,omitempty"`
+	Instance            string `json:"instance,omitempty"`
+	Urgent              bool   `json:"urgent,omitempty"`
+	Separator           bool   `json:"separator,omitempty"`
+	SeparatorBlockWidth int    `json:"separator_block_width,omitempty"`
+	Markup              string `json:"markup,omitempty"`
 }
 
+// Conf is config file structure
 var Conf Config
 
-// UpdateReady flag says that something changed, and it is time to give a message to i3bar
+// UpdateReady triggers stdout json output
 var UpdateReady = make(chan bool)
 
 // Memory stores statistics about memory
@@ -150,16 +166,6 @@ var Batt = "<big>⚡</big> ??% •"
 func main() {
 	loadConfig()
 
-	// just for giggles print what we parsed
-	var j, err = json.MarshalIndent(Conf, "", "  ")
-
-	if err != nil {
-		log.Fatalf("Unable to unmarshal jst: %s\n", err)
-	}
-
-	fmt.Printf("%s\n", j)
-	// Enough giggles
-
 	// Populate memory stats
 	if Conf.Mem == 1 {
 		go UpdateMemStats()
@@ -171,7 +177,7 @@ func main() {
 	}
 
 	// Populate CPUTemperature
-	if Conf.CPUTemp.Enabled == "1" {
+	if Conf.CPUTemp.Enabled == 1 {
 		go UpdateCPUTemperature()
 	}
 
@@ -185,14 +191,52 @@ func main() {
 		go UpdateBattery()
 	}
 
-	// print header and one empty message and wait for updates
+	/*
+		I3bar documentation pretends that message protocol must be valid json. In practice, we only have to print valid
+		header, empty json array and (potentially infinite) json lines (line that is valid json by itself) that is
+		actually json arrays. We do not need to *close* this json at all.
+		Gracefully closed json required when i3bar initiates our program to stop|quit, this (should) happens just before
+		i3bar itself terminating. So we don't care.
+	*/
+
+	// Print header and one empty message and wait for updates
 	fmt.Printf("{\"version\": 1, \"click_events\": true}\n")
 	fmt.Println("[ [],")
 
 	for {
 		if <-UpdateReady {
 			// actually build json struct, marshal it and print result
-			fmt.Println("Stub")
+			var j []I3BarOutBlock
+
+			if Conf.CPUTemp.Enabled == 1 {
+				var b I3BarOutBlock
+				b.FullText = fmt.Sprintf("%d°", CPUTemperature)
+				j = append(j, b)
+			}
+
+			if Conf.Mem == 1 {
+				var b I3BarOutBlock
+				b.FullText = fmt.Sprintf("M:%d%% SHM:%dM SW:%dM", Memory.Usedpct, Memory.Shared, Memory.Swap)
+				j = append(j, b)
+			}
+
+			if Conf.La == 1 {
+				var b I3BarOutBlock
+				b.FullText = fmt.Sprintf("La: %d", La)
+				j = append(j, b)
+			}
+
+			if Conf.Clock.Enabled == 1 {
+				var b I3BarOutBlock
+				b.FullText = Clock
+				b.Markup = "pango"
+				b.Color = Conf.Clock.Color
+				j = append(j, b)
+			}
+
+			if len(j) > 0 {
+				PrintToI3bar(j)
+			}
 		}
 	}
 }
@@ -217,11 +261,11 @@ func UpdateMemStats() {
 	for {
 		v, _ := mem.VirtualMemory()
 
-		if Memory.Usedpct != int64(v.UsedPercent) || Memory.Shared != int64(v.Shared) ||
-			Memory.Swap != (int64(v.SwapTotal)-int64(v.SwapFree)) {
+		if Memory.Usedpct != int64(v.UsedPercent) || Memory.Shared != int64(v.Shared/1024/1024) ||
+			Memory.Swap != int64(v.SwapTotal-v.SwapFree) {
 			Memory.Usedpct = int64(v.UsedPercent)
-			Memory.Shared = int64(v.Shared)
-			Memory.Swap = int64(v.SwapTotal) - int64(v.SwapFree)
+			Memory.Shared = int64(v.Shared / 1024 / 1024)
+			Memory.Swap = int64(v.SwapTotal - v.SwapFree)
 			UpdateReady <- true
 		}
 
@@ -299,7 +343,7 @@ func UpdateClock() {
 		rmonth := [12]string{"Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"}
 		rdow := [7]string{"Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"}
 
-		myclock := fmt.Sprintf("<big>     %s, %d %s %d  % d:%0d  </big>", rdow[dow], day, rmonth[month], year, hours, minutes)
+		myclock := fmt.Sprintf("<big>     %s, %d %s %d  % d:%0d  </big>", rdow[dow-1], day, rmonth[month-1], year, hours, minutes)
 
 		if myclock != Clock {
 			Clock = myclock
@@ -319,13 +363,17 @@ func UpdateBattery() {
 	}
 }
 
-// Prints to stdout json string in i3bar protocol (https://i3wm.org/docs/i3bar-protocol.html)
-func printToI3bar(message I3BarOut) {
-	j, err := json.Marshal(message)
+// PrintToI3bar prints to stdout json string in i3bar protocol (https://i3wm.org/docs/i3bar-protocol.html)
+func PrintToI3bar(message []I3BarOutBlock) {
+	// we do not need to html-encode output, json.Marshal does this forcefully, so invent our own Marshal
+	buf := new(bytes.Buffer)
+	encoder := json.NewEncoder(buf)
+	encoder.SetEscapeHTML(false)
+	err := encoder.Encode(message)
 
 	if err != nil {
-		log.Printf("Unable to unmarshal message, %s\n", err)
-	} else {
-		fmt.Println(j)
+		log.Printf("Unable to json-encode message, %s\n", err)
 	}
+
+	fmt.Println(strings.TrimSuffix(buf.String(), "\n") + ",")
 }
