@@ -1,0 +1,247 @@
+{
+// Default text and *block* background colors
+"color" : "#3e78fd",
+"background" : "#000000",
+
+// Load Average
+"la" : true,
+
+// Memory stats
+"mem" : true,
+
+// Just clock
+"clock": {
+	"enabled" : true,
+	// Text color in html (actually, pango) notation
+	"color" : "#666666",
+	"left_click" : {
+		"enabled" : false,
+		// cmd is array of command itself and its arguments
+		"cmd" : [ "orage" ]
+	},
+	"right_click" : {
+		"enabled" : false,
+		"cmd" : [ "true" ]
+	}
+},
+
+// Battery, useful for laptops
+"battery": {
+	"enabled": false,
+	"color": {
+		// colors in html notation
+		"full": "green",
+		"empty": "red",
+		"almost_full": "yellow",
+		"almost_empty": "orange"
+	}
+},
+
+// CPU Temperature monitor, shows average value among given sources
+"cpu_temp": {
+	"enabled": false,
+	// Files in sysfs that contains cpu temperatures
+	"file": [
+	  "/sys/class/hwmon/hwmon4/temp2_input",
+	  "/sys/class/hwmon/hwmon4/temp3_input",
+	  "/sys/class/hwmon/hwmon4/temp4_input",
+	  "/sys/class/hwmon/hwmon4/temp5_input",
+	  "/sys/class/hwmon/hwmon4/temp6_input",
+	  "/sys/class/hwmon/hwmon4/temp7_input"
+	]
+},
+
+// Caps Lock status
+"capslock": {
+	"enabled" : false,
+	// Colors in html notation
+	"background" : "#000000",
+	"color" : "#3e78fd"
+},
+
+// OpenVPN status. Note that directive status in openvpn.conf should point to
+// state file and *update* its timestamp at least as frequent as mtime_threshold in seconds
+"vpn": {
+	"enabled": false,
+	"statusfile" : "/tmp/openvpn-status.stat",
+	"mtime_threshold": 10,
+	// Color in html notation
+	"down_color" : "red",
+	"up_color" : "green",
+	// Also we can tcp-ping some service inside vpn network to ensure that connection is not stoned
+	"tcp_check" : {
+		"enabled": false,
+		"host": "somehost.tld",
+		"port": 443,
+		"timeout" : 3
+	}
+},
+
+// Simple sound volume indicator
+"simple-volume-pa": {
+	"enabled": false,
+	"symbol": "🔊",
+	// If not defined - will be "true"
+	"right_click_cmd": ["pavucontrol"],
+	// Change volume step in %, if not configured it is 5
+	"step": 3,
+	// We'll change volume level with mouse wheel. Under X11 it is mapped to some buttons, typically 4 and 5 (z-axis).
+	// If omited, default value is 4
+	"wheel_up": 4,
+	// If omited, default value is 5
+	"wheel_down": 5,
+	// Maximum sound volume, can be over 100%, but sould not be :) Default value 100 if not set.
+	"max_volume_limit": 120
+},
+
+"net-if" : {
+	"enabled" : false,
+	// In html notation
+	"down_color" : "red",
+	"up_color" : "green",
+	"if" : [
+		{
+			// Name as it displayed on i3bar
+			"name" : "eth0",
+			// Directory containing net if status files
+			"dir" : "/sys/class/net/eth0"
+		}
+	]
+},
+
+// Intended mainly for use with desktop notifications
+// Because it inherits all env vars from i3, it can intercat with dbus and other
+// such user session services.
+"cron" : {
+	"enabled" : false,
+	"tasks" : [
+		{
+			// Time in crontab notation
+			"time" : "55 23 * * *",
+			"cmd" : [
+				"notify-send", "Sleeping Time!", "Take a nap."
+			]
+		},
+		{
+			// time in crontab format
+			"time" : "55 12 * * 2,4",
+			// commands as it should be invoked in bash script
+			"cmd" : [
+				"notify-send", "Pizza time!", "M-m-m, tasty!"
+			]
+		}
+	]
+},
+
+// Weather to display Application Buttons
+"app_buttons": true,
+
+// Buttons - application launch "buttons"
+"apps": [
+		{
+			// Text dispalyed on button
+			"full_text" : "📂",
+			// Internal name, can be any string, but unique for each app button
+			"name" : "thunar",
+			// Command itself
+			"cmd" : "thunar",
+			// Array of command args, optional
+			"args": [ "." ],
+			// Regexp that match with Instance component of WM_CLASS(STRING) of xprop output
+			"instance": "^thunar$",
+			// Regexp that match with Class component of WM_CLASS(STRING) of xprop output
+			"class": "^Thunar$",
+			// text color in html notation
+			"color": "#ffa500",
+			// border color in html notation
+			"border": "#666666",
+			// border color if there is at least one window with given Instance and/or Class exist
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 2
+		},
+		{
+			"full_text" : " ♬ ",
+			"name" : "deadbeef",
+			"cmd" : "deadbeef",
+			"instance" : "^deadbeef$",
+			"class" : "^Deadbeef$",
+			"color" : "#00aa33",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 2
+		},
+		{
+			"full_text" : " Term ",
+			"name" : "xterm",
+			"cmd" : "xterm",
+			"instance" : "^xterm$",
+			"class" : "^XTerm$",
+			"color" : "#666666",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 2
+		},
+		{
+			"full_text" : " Ff ",
+			"name" : "firefox",
+			"cmd" : "firefox",
+			"instance" : "^Navigator$",
+			"class" : "^Firefox$",
+			"color" : "#ffa500",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 2
+		},
+		{
+			"full_text" : " C ",
+			"name" : "chrome",
+			"cmd" : "chrome",
+			"instance" : "^google-chrome$",
+			"class" : "^Google-chrome$",
+			"color" : "#ffa500",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 2
+		},
+		{
+			"full_text" : " @ ",
+			"name" : "thunderbird",
+			"cmd" : "thunderbird",
+			"instance" : "^Mail$",
+			"class" : "^Thunderbird$",
+			"color" : "#006994",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 2
+		},
+		{
+			"full_text" : " Tg ",
+			"name" : "telegram",
+			"cmd" : "Telegram",
+			"instance" : "^Telegram$",
+			"class" : "^TelegramDesktop$",
+			"color" : "#5a8850",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 2
+		},
+		{
+			"full_text" : " T ",
+			"name" : "mousepad",
+			"cmd" : "mousepad",
+			"instance" : "^mousepad$",
+			"class" : "^Mousepad$",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 2
+		}
+	]
+}

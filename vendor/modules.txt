@@ -1,0 +1,61 @@
+# github.com/BurntSushi/xgb v0.0.0-20210121224620-deaf085860bc
+## explicit
+github.com/BurntSushi/xgb
+github.com/BurntSushi/xgb/xinerama
+github.com/BurntSushi/xgb/xproto
+# github.com/BurntSushi/xgbutil v0.0.0-20190907113008-ad855c713046
+## explicit
+github.com/BurntSushi/xgbutil
+github.com/BurntSushi/xgbutil/xprop
+# github.com/adrg/xdg v0.4.0
+## explicit; go 1.14
+github.com/adrg/xdg
+github.com/adrg/xdg/internal/pathutil
+# github.com/distatus/battery v0.11.0
+## explicit; go 1.18
+github.com/distatus/battery
+# github.com/go-co-op/gocron/v2 v2.1.2
+## explicit; go 1.20
+github.com/go-co-op/gocron/v2
+# github.com/go-ole/go-ole v1.3.0
+## explicit; go 1.12
+github.com/go-ole/go-ole
+github.com/go-ole/go-ole/oleutil
+# github.com/google/uuid v1.5.0
+## explicit
+github.com/google/uuid
+# github.com/hjson/hjson-go v3.3.0+incompatible
+## explicit
+github.com/hjson/hjson-go
+# github.com/jonboulle/clockwork v0.4.0
+## explicit; go 1.15
+github.com/jonboulle/clockwork
+# github.com/mafik/pulseaudio v0.0.0-20200511091429-8449222912dd
+## explicit
+github.com/mafik/pulseaudio
+# github.com/robfig/cron/v3 v3.0.1
+## explicit; go 1.12
+github.com/robfig/cron/v3
+# github.com/shirou/gopsutil v3.21.11+incompatible
+## explicit
+github.com/shirou/gopsutil/internal/common
+github.com/shirou/gopsutil/load
+github.com/shirou/gopsutil/mem
+# github.com/yusufpapurcu/wmi v1.2.3
+## explicit; go 1.16
+github.com/yusufpapurcu/wmi
+# go.i3wm.org/i3 v0.0.0-20190720062127-36e6ec85cc5a
+## explicit
+go.i3wm.org/i3
+# golang.org/x/exp v0.0.0-20240103183307-be819d1f06fc
+## explicit; go 1.20
+golang.org/x/exp/constraints
+golang.org/x/exp/maps
+golang.org/x/exp/slices
+# golang.org/x/sys v0.16.0
+## explicit; go 1.18
+golang.org/x/sys/unix
+golang.org/x/sys/windows
+# howett.net/plist v1.0.1
+## explicit; go 1.12
+howett.net/plist

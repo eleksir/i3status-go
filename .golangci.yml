@@ -1,0 +1,66 @@
+run:
+  tests: false
+  skip-dirs:
+    - data
+    - vendor
+  modules-download-mode: readonly
+  allow-parallel-runners: true
+  go: '1.21'
+output:
+  sort-results: true
+linters-settings:
+  gosec:
+    excludes:
+      # not relevant here
+      - G404 # Insecure random number source (rand)
+      - G306 # Expect WriteFile permissions to be 0600 or less (gosec)
+linters:
+  disable-all: true
+  enable:
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - asasalint
+    - asciicheck
+    - bodyclose
+    - containedctx
+    - contextcheck
+    - decorder
+    - durationcheck
+    - errchkjson
+    - errorlint
+    - exportloopref
+    - ginkgolinter
+    - gocheckcompilerdirectives
+    - gocritic
+    - godot
+    - goerr113
+    - gofmt
+    - goimports
+    - gosec
+    - gosmopolitan
+    - grouper
+    - importas
+    - ireturn
+    - makezero
+    - mirror
+    - nakedret
+    - nilerr
+    - nilnil
+    - nlreturn
+    - noctx
+    - nolintlint
+    - nonamedreturns
+    - predeclared
+    - promlinter
+    - reassign
+    - revive
+    - rowserrcheck
+    - stylecheck
+    - unconvert
+    - wastedassign
+    - whitespace
+    - wsl
