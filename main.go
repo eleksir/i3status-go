@@ -196,6 +196,7 @@ func main() {
 				var b I3BarOutBlock
 				b.Name = "simple-volume-pa"
 				b.FullText = SoundVolume
+				b.Markup = "pango"
 				j = append(j, b)
 			}
 
