@@ -9,9 +9,9 @@ import (
 
 // Mem struct with mem stats.
 type Mem struct {
-	Usedpct int64
-	Shared  int64
-	Swap    int64
+	Usedpct uint64
+	Shared  uint64
+	Swap    uint64
 }
 
 // Memory stores string with mem stats for i3bar.
@@ -39,17 +39,17 @@ func UpdateMemStats() {
 		}
 
 		if Conf.Mem.ShowSwap {
-			if Memory.Usedpct != int64(v.UsedPercent) || Memory.Shared != int64(v.Shared/1024/1024) ||
-				Memory.Swap != int64(v.SwapTotal-v.SwapFree) {
-				Memory.Usedpct = int64(v.UsedPercent)
-				Memory.Shared = int64(v.Shared / 1024 / 1024)
-				Memory.Swap = int64(sw.Total - sw.Free)
+			if Memory.Usedpct != uint64(v.UsedPercent) || Memory.Shared != v.Shared/1024/1024 ||
+				Memory.Swap != v.SwapTotal-v.SwapFree {
+				Memory.Usedpct = uint64(v.UsedPercent)
+				Memory.Shared = v.Shared / 1024 / 1024
+				Memory.Swap = sw.Used
 				UpdateReady <- true
 			}
 		} else {
-			if Memory.Usedpct != int64(v.UsedPercent) || Memory.Shared != int64(v.Shared/1024/1024) {
-				Memory.Usedpct = int64(v.UsedPercent)
-				Memory.Shared = int64(v.Shared / 1024 / 1024)
+			if Memory.Usedpct != uint64(v.UsedPercent) || Memory.Shared != v.Shared/1024/1024 {
+				Memory.Usedpct = uint64(v.UsedPercent)
+				Memory.Shared = v.Shared / 1024 / 1024
 				UpdateReady <- true
 			}
 		}

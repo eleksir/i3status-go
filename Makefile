@@ -11,7 +11,7 @@ all: clean build
 
 ## This target compiles binary
 build:
-	CGO_ENABLED=0 go build ${BUILDOPTS} -o ${BINARY} ${FILELIST}
+	go build ${BUILDOPTS} -o ${BINARY} ${FILELIST}
 
 
 ## Remove binary with golang compiler' means
