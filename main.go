@@ -29,7 +29,7 @@ type I3BarOutBlock struct {
 	Name                string `json:"name,omitempty"`
 	Instance            string `json:"instance,omitempty"`
 	Urgent              bool   `json:"urgent,omitempty"`
-	Separator           bool   `json:"separator,omitempty"`
+	Separator           bool   `json:"separator"`
 	SeparatorBlockWidth int    `json:"separator_block_width,omitempty"`
 	Markup              string `json:"markup,omitempty"`
 }
@@ -157,6 +157,7 @@ func main() {
 			if Conf.CPUTemp.Enabled {
 				var b I3BarOutBlock
 				b.FullText = fmt.Sprintf("CPU: %d°", CPUTemperature)
+				b.Separator = true
 				j = append(j, b)
 			}
 
@@ -169,12 +170,15 @@ func main() {
 					b.FullText = fmt.Sprintf("M:%d%% SHM:%dM", Memory.Usedpct, Memory.Shared)
 				}
 
+				b.Separator = true
+
 				j = append(j, b)
 			}
 
 			if Conf.LA {
 				var b I3BarOutBlock
 				b.FullText = fmt.Sprintf("La: %s", La)
+				b.Separator = true
 				j = append(j, b)
 			}
 
@@ -182,6 +186,7 @@ func main() {
 				var b I3BarOutBlock
 				b.FullText = IfStatus
 				b.Markup = "pango"
+				b.Separator = true
 				j = append(j, b)
 			}
 
@@ -189,12 +194,14 @@ func main() {
 				var b I3BarOutBlock
 				b.FullText = VPNStatus
 				b.Markup = "pango"
+				b.Separator = true
 				j = append(j, b)
 			}
 
 			if Conf.Battery.Enabled {
 				var b I3BarOutBlock
 				b.FullText = Batt
+				b.Separator = true
 				j = append(j, b)
 			}
 
@@ -203,6 +210,7 @@ func main() {
 				b.Name = "simple-volume-pa"
 				b.FullText = SoundVolume
 				b.Markup = "pango"
+				b.Separator = true
 				j = append(j, b)
 			}
 
@@ -212,6 +220,7 @@ func main() {
 				b.FullText = Clock
 				b.Markup = "pango"
 				b.Color = Conf.Clock.Color
+				b.Separator = true
 				j = append(j, b)
 			}
 

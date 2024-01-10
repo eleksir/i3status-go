@@ -10,8 +10,8 @@
 
 // Memory stats
 "mem" : {
-  "enabled": true,
-  "show_swap": false
+	"enabled": true,
+	"show_swap": false
 },
 
 // Just clock
@@ -19,11 +19,13 @@
 	"enabled" : true,
 	// Text color in html (actually, pango) notation
 	"color" : "#666666",
+
 	"left_click" : {
 		"enabled" : false,
 		// cmd is array of command itself and its arguments
 		"cmd" : [ "orage" ]
 	},
+
 	"right_click" : {
 		"enabled" : false,
 		"cmd" : [ "true" ]
@@ -33,6 +35,7 @@
 // Battery, useful for laptops
 "battery": {
 	"enabled": false,
+
 	"color": {
 		// colors in html notation
 		"full": "green",
@@ -45,6 +48,7 @@
 // CPU Temperature monitor, shows average value among given sources
 "cpu_temp": {
 	"enabled": false,
+
 	// Files in sysfs that contains cpu temperatures
 	"file": [
 	  "/sys/class/hwmon/hwmon4/temp2_input",
@@ -54,14 +58,6 @@
 	  "/sys/class/hwmon/hwmon4/temp6_input",
 	  "/sys/class/hwmon/hwmon4/temp7_input"
 	]
-},
-
-// Caps Lock status
-"capslock": {
-	"enabled" : false,
-	// Colors in html notation
-	"background" : "#000000",
-	"color" : "#3e78fd"
 },
 
 // OpenVPN status. Note that directive status in openvpn.conf should point to
@@ -74,6 +70,7 @@
 	"down_color" : "red",
 	"up_color" : "green",
 	// Also we can tcp-ping some service inside vpn network to ensure that connection is not stoned
+
 	"tcp_check" : {
 		"enabled": false,
 		"host": "somehost.tld",
@@ -104,6 +101,7 @@
 	// In html notation
 	"down_color" : "red",
 	"up_color" : "green",
+
 	"if" : [
 		{
 			// Name as it displayed on i3bar
@@ -119,6 +117,7 @@
 // such user session services.
 "cron" : {
 	"enabled" : false,
+
 	"tasks" : [
 		{
 			// Time in crontab notation
@@ -158,12 +157,14 @@
 			"class": "^Thunar$",
 			// text color in html notation
 			"color": "#ffa500",
-		    // background color in html notation
-		    "background" : "#000000",
+			// background color in html notation
+			"background" : "#000000",
 			// border color in html notation
 			"border": "#666666",
 			// border color if there is at least one window with given Instance and/or Class exist
 			"border_active": "#3e78fd",
+			// Vertical line between objects on bar - if omitted true value is assumed by i3bar, but we set it to false
+			// in that case. It is limitation of golang json parser.
 			"separator": false,
 			"separator_block_width": 2
 		},
