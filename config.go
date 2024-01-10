@@ -280,7 +280,7 @@ func readConf() (MyConfig, error) {
 	// sampleConfig.Vpn.UpColor will be empty string if no value set in config
 	// sampleConfig.Vpn.TcpCheck.Enabled will false if not set in config
 
-	// Disable plugin if value indaquate
+	// Disable plugin if value inadequate
 	if sampleConfig.Vpn.TCPCheck.Port > 65535 {
 		if sampleConfig.Vpn.TCPCheck.Enabled {
 			log.Printf("vpn.tcp_check.port > 65535, disabling vpn.tcp_check.enabled")
