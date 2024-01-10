@@ -1,6 +1,8 @@
 {
-// Default text and *block* background colors
+// Default text and *block* border colors. If not set #3e78fd is used.
 "color" : "#3e78fd",
+
+// Default backbround color. If not set value of #edeceb is used.
 "background" : "#000000",
 
 // Load Average
@@ -156,6 +158,8 @@
 			"class": "^Thunar$",
 			// text color in html notation
 			"color": "#ffa500",
+		    // background color in html notation
+		    "background" : "#000000",
 			// border color in html notation
 			"border": "#666666",
 			// border color if there is at least one window with given Instance and/or Class exist

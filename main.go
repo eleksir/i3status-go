@@ -136,7 +136,7 @@ func main() {
 					var b I3BarOutBlock
 
 					b.FullText = app.FullText
-					b.Background = Conf.Background
+					b.Background = app.Background
 					b.Color = app.Color
 					b.Instance = app.Instance
 					b.Markup = `pango`

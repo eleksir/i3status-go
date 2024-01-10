@@ -120,6 +120,7 @@ type MyConfig struct {
 		Instance            string   `json:"instance,omitempty"`
 		Class               string   `json:"class,omitempty"`
 		Color               string   `json:"color,omitempty"`
+		Background          string   `json:"background,omitempty"`
 		Border              string   `json:"border,omitempty"`
 		BorderActive        string   `json:"border_active,omitempty"`
 		Separator           bool     `json:"separator,omitempty"`
@@ -381,6 +382,10 @@ func readConf() (MyConfig, error) {
 
 			if app.Color == "" {
 				app.Color = Conf.Color
+			}
+
+			if app.Background == "" {
+				app.Background = Conf.Background
 			}
 
 			if app.Border == "" {
