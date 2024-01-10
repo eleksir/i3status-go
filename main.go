@@ -70,7 +70,7 @@ func main() {
 		syscall.SIGUSR2)
 
 	// Populate memory stats
-	if Conf.Mem {
+	if Conf.Mem.Enabled {
 		go UpdateMemStats()
 	}
 
@@ -160,9 +160,15 @@ func main() {
 				j = append(j, b)
 			}
 
-			if Conf.Mem {
+			if Conf.Mem.Enabled {
 				var b I3BarOutBlock
-				b.FullText = fmt.Sprintf("M:%d%% SHM:%dM SW:%dM", Memory.Usedpct, Memory.Shared, Memory.Swap)
+
+				if Conf.Mem.ShowSwap {
+					b.FullText = fmt.Sprintf("M:%d%% SHM:%dM SW:%dM", Memory.Usedpct, Memory.Shared, Memory.Swap)
+				} else {
+					b.FullText = fmt.Sprintf("M:%d%% SHM:%dM", Memory.Usedpct, Memory.Shared)
+				}
+
 				j = append(j, b)
 			}
 

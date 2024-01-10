@@ -7,7 +7,10 @@
 "la" : true,
 
 // Memory stats
-"mem" : true,
+"mem" : {
+  "enabled": true,
+  "show_swap": false
+},
 
 // Just clock
 "clock": {

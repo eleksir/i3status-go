@@ -23,7 +23,10 @@ type MyConfig struct {
 	// LA Plugin
 	LA bool `json:"la,omitempty"`
 
-	Mem bool `json:"mem,omitempty"`
+	Mem struct {
+		Enabled  bool `json:"enabled,omitempty"`
+		ShowSwap bool `json:"show_swap,omitempty"`
+	} `json:"mem,omitempty"`
 
 	Clock struct {
 		Enabled bool   `json:"enabled,omitempty"`
