@@ -5,13 +5,214 @@
 // Default backbround color. If not set value of #edeceb is used.
 "background" : "#000000",
 
-// Load Average
-"la" : true,
+"separator"	: {
+	"left": {
+		"enabled": true,
+		"color": "#3e78fd",
+		"background": "#000000",
+		"symbol": "▶",
+		"font": "Noto Sans",
+		// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+		// one of the relative sizes ‘smaller’ or ‘larger’
+		"font_size": "medium"
+	},
+
+	"right": {
+		// False if value omitted
+		"enabled": true,
+		// Used #edeceb as default if value omitted
+		"color": "#3e78fd",
+		// If not set #3e78fd is used.
+		"background": "#000000",
+		// If omitted, used "|" (no quotes) as default
+		"symbol": "◀",
+		"font": "Noto Sans",
+		// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+		// one of the relative sizes ‘smaller’ or ‘larger’
+		"font_size": "medium"
+	}
+},
 
 // Memory stats
 "mem" : {
 	"enabled": true,
-	"show_swap": false
+	"show_swap": false,
+
+	"separator"	: {
+		"left": {
+			"enabled": true,
+			"color": "#3e78fd",
+			"background": "#000000",
+			"symbol": "▶",
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+			// one of the relative sizes ‘smaller’ or ‘larger’
+			"font_size": "medium"
+		},
+
+		"right": {
+			"enabled": true,
+			"color": "#3e78fd",
+			"background": "#000000",
+			"symbol": "◀",
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+			// one of the relative sizes ‘smaller’ or ‘larger’
+			"font_size": "medium"
+		}
+	}
+},
+
+// Load Average
+"la" : {
+	"enabled": true,
+
+	"separator"	: {
+		"left": {
+			"enabled": true,
+			"color": "#3e78fd",
+			"background": "#000000",
+			"symbol": "▶",
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+			// one of the relative sizes ‘smaller’ or ‘larger’
+			"font_size": "medium"
+		},
+
+		"right": {
+			"enabled": true,
+			"color": "#3e78fd",
+			"background": "#000000",
+			"symbol": "◀",
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+			// one of the relative sizes ‘smaller’ or ‘larger’
+			"font_size": "medium"
+		}
+	}
+},
+
+"net-if" : {
+	"enabled" : false,
+	// In html notation
+	"down_color" : "red",
+	"up_color" : "green",
+
+	"separator"	: {
+		"left": {
+			"enabled": true,
+			"color": "#3e78fd",
+			"symbol": "▶",
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+			// one of the relative sizes ‘smaller’ or ‘larger’
+			"font_size": "medium"
+		},
+
+		"right": {
+			"enabled": true,
+			"color": "#3e78fd",
+			"background": "#000000",
+			"symbol": "◀",
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+			// one of the relative sizes ‘smaller’ or ‘larger’
+			"font_size": "medium"
+		}
+	},
+
+	"if" : [
+		{
+			// Name as it displayed on i3bar
+			"name" : "eth0",
+			// Directory containing net if status files
+			"dir" : "/sys/class/net/eth0"
+		}
+	]
+},
+
+// OpenVPN status. Note that directive status in openvpn.conf should point to
+// state file and *update* its timestamp at least as frequent as mtime_threshold in seconds
+"vpn": {
+	"enabled": false,
+	"statusfile" : "/tmp/openvpn-status.stat",
+	"mtime_threshold": 10,
+	// Color in html notation
+	"down_color" : "red",
+	"up_color" : "green",
+
+	"separator"	: {
+		"left": {
+			"enabled": true,
+			"color": "#3e78fd",
+			"background": "#000000",
+			"symbol": "▶",
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+			// one of the relative sizes ‘smaller’ or ‘larger’
+			"font_size": "medium"
+		},
+
+		"right": {
+			"enabled": true,
+			"color": "#3e78fd",
+			"background": "#000000",
+			"symbol": "◀",
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+			// one of the relative sizes ‘smaller’ or ‘larger’
+			"font_size": "medium"
+		}
+	},
+
+	// Also we can tcp-ping some service inside vpn network to ensure that connection is not stoned
+	"tcp_check" : {
+		"enabled": false,
+		"host": "somehost.tld",
+		"port": 443,
+		"timeout" : 3
+	}
+},
+
+// Simple sound volume indicator
+"simple-volume-pa": {
+	"enabled": false,
+	"symbol": "🔊",
+	// If not defined - will be "true"
+	"right_click_cmd": ["pavucontrol"],
+	// Change volume step in %, if not configured it is 5
+	"step": 3,
+	// We'll change volume level with mouse wheel. Under X11 it is mapped to some buttons, typically 4 and 5 (z-axis).
+	// If omited, default value is 4
+	"wheel_up": 4,
+	// If omited, default value is 5
+	"wheel_down": 5,
+	// Maximum sound volume, can be over 100%, but sould not be :) Default value 100 if not set.
+	"max_volume_limit": 120,
+
+	"separator"	: {
+		"left": {
+			"enabled": true,
+			"color": "#3e78fd",
+			"background": "#000000",
+			"symbol": "▶",
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+			// one of the relative sizes ‘smaller’ or ‘larger’
+			"font_size": "medium"
+		},
+
+		"right": {
+			"enabled": true,
+			"color": "#3e78fd",
+			"background": "#000000",
+			"symbol": "◀",
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+			// one of the relative sizes ‘smaller’ or ‘larger’
+			"font_size": "medium"
+		}
+	}
 },
 
 // Just clock
@@ -19,6 +220,30 @@
 	"enabled" : true,
 	// Text color in html (actually, pango) notation
 	"color" : "#666666",
+
+	"separator"	: {
+		"left": {
+			"enabled": true,
+			"color": "#3e78fd",
+			"background": "#000000",
+			"symbol": "▶",
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+			// one of the relative sizes ‘smaller’ or ‘larger’
+			"font_size": "medium"
+		},
+
+		"right": {
+			"enabled": true,
+			"color": "#3e78fd",
+			"background": "#000000",
+			"symbol": "◀",
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+			// one of the relative sizes ‘smaller’ or ‘larger’
+			"font_size": "medium"
+		}
+	},
 
 	"left_click" : {
 		"enabled" : false,
@@ -42,12 +267,60 @@
 		"empty": "red",
 		"almost_full": "yellow",
 		"almost_empty": "orange"
+	},
+
+	"separator"	: {
+		"left": {
+			"enabled": true,
+			"color": "#3e78fd",
+			"background": "#000000",
+			"symbol": "▶",
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+			// one of the relative sizes ‘smaller’ or ‘larger’
+			"font_size": "medium"
+		},
+
+		"right": {
+			"enabled": true,
+			"color": "#3e78fd",
+			"background": "#000000",
+			"symbol": "◀",
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+			// one of the relative sizes ‘smaller’ or ‘larger’
+			"font_size": "medium"
+		}
 	}
 },
 
 // CPU Temperature monitor, shows average value among given sources
 "cpu_temp": {
 	"enabled": false,
+
+	"separator"	: {
+		"left": {
+			"enabled": true,
+			"color": "#3e78fd",
+			"background": "#000000",
+			"symbol": "▶",
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+			// one of the relative sizes ‘smaller’ or ‘larger’
+			"font_size": "medium"
+		},
+
+		"right": {
+			"enabled": true,
+			"color": "#3e78fd",
+			"background": "#000000",
+			"symbol": "◀",
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+			// one of the relative sizes ‘smaller’ or ‘larger’
+			"font_size": "medium"
+		}
+	},
 
 	// Files in sysfs that contains cpu temperatures
 	"file": [
@@ -57,58 +330,6 @@
 	  "/sys/class/hwmon/hwmon4/temp5_input",
 	  "/sys/class/hwmon/hwmon4/temp6_input",
 	  "/sys/class/hwmon/hwmon4/temp7_input"
-	]
-},
-
-// OpenVPN status. Note that directive status in openvpn.conf should point to
-// state file and *update* its timestamp at least as frequent as mtime_threshold in seconds
-"vpn": {
-	"enabled": false,
-	"statusfile" : "/tmp/openvpn-status.stat",
-	"mtime_threshold": 10,
-	// Color in html notation
-	"down_color" : "red",
-	"up_color" : "green",
-	// Also we can tcp-ping some service inside vpn network to ensure that connection is not stoned
-
-	"tcp_check" : {
-		"enabled": false,
-		"host": "somehost.tld",
-		"port": 443,
-		"timeout" : 3
-	}
-},
-
-// Simple sound volume indicator
-"simple-volume-pa": {
-	"enabled": false,
-	"symbol": "🔊",
-	// If not defined - will be "true"
-	"right_click_cmd": ["pavucontrol"],
-	// Change volume step in %, if not configured it is 5
-	"step": 3,
-	// We'll change volume level with mouse wheel. Under X11 it is mapped to some buttons, typically 4 and 5 (z-axis).
-	// If omited, default value is 4
-	"wheel_up": 4,
-	// If omited, default value is 5
-	"wheel_down": 5,
-	// Maximum sound volume, can be over 100%, but sould not be :) Default value 100 if not set.
-	"max_volume_limit": 120
-},
-
-"net-if" : {
-	"enabled" : false,
-	// In html notation
-	"down_color" : "red",
-	"up_color" : "green",
-
-	"if" : [
-		{
-			// Name as it displayed on i3bar
-			"name" : "eth0",
-			// Directory containing net if status files
-			"dir" : "/sys/class/net/eth0"
-		}
 	]
 },
 
@@ -138,7 +359,31 @@
 },
 
 // Weather to display Application Buttons
-"app_buttons": true,
+"app_buttons": {
+	"enabled": true,
+
+	"separator"	: {
+		"left": {
+			"enabled": true,
+			"color": "#3e78fd",
+			"symbol": "▶",
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+			// one of the relative sizes ‘smaller’ or ‘larger’
+			"font_size": "medium"
+		},
+
+		"right": {
+			"enabled": true,
+			"color": "#3e78fd",
+			"symbol": "◀",
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
+			// one of the relative sizes ‘smaller’ or ‘larger’
+			"font_size": "medium"
+		}
+	}
+},
 
 // Buttons - application launch "buttons"
 "apps": [

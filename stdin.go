@@ -143,7 +143,7 @@ func ParseStdin() {
 			continue
 		}
 
-		if !Conf.AppButtons {
+		if !Conf.AppButtons.Enabled {
 			continue
 		}
 
