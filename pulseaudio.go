@@ -35,7 +35,12 @@ func UpdateVolumeInfo() {
 		return
 	}
 
-	SoundVolume = fmt.Sprintf("%s:%d%%", Conf.SimpleVolumePa.Symbol, int64(vol*100))
+	SoundVolume = fmt.Sprintf(
+		"<span size='%s'>%s</span>:%d%%",
+		Conf.SimpleVolumePa.FontSize,
+		Conf.SimpleVolumePa.Symbol,
+		int64(vol*100),
+	)
 
 	UpdateReady <- true
 
@@ -59,7 +64,12 @@ func UpdateVolumeInfo() {
 				return
 			}
 
-			SoundVolume = fmt.Sprintf("%s:%d%%", Conf.SimpleVolumePa.Symbol, int64(vol*100))
+			SoundVolume = fmt.Sprintf(
+				"<span size='%s'>%s:%d%%",
+				Conf.SimpleVolumePa.FontSize,
+				Conf.SimpleVolumePa.Symbol,
+				int64(vol*100),
+			)
 
 			UpdateReady <- true
 		}
@@ -72,7 +82,7 @@ func UpdateVolumeInfo() {
 	}
 
 	// This code is unreachable :(
-	pa.Close()
+	pa.Close() //nolint:govet
 }
 
 // PaReinit re-inits pulseaudio and connection to it.
@@ -90,13 +100,13 @@ func PaReinit() error {
 
 	if err := cmd.Run(); err != nil {
 		return fmt.Errorf("unable to initialize pulseaudio server instance: %w", err)
-	} //nolint:wsl
+	}
 
 	pa, err = p.NewClient()
 
 	if err != nil {
 		return fmt.Errorf("unable to make client connection to pulseaudio: %s", err)
-	} //nolint:wsl
+	}
 
 	return err
 }

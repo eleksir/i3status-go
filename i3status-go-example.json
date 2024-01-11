@@ -12,8 +12,8 @@
 		"background": "#000000",
 		"symbol": "▶",
 		"font": "Noto Sans",
-		// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-		// one of the relative sizes ‘smaller’ or ‘larger’
+		// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+		// ‘smaller’ or ‘larger’
 		"font_size": "medium"
 	},
 
@@ -27,8 +27,8 @@
 		// If omitted, used "|" (no quotes) as default
 		"symbol": "◀",
 		"font": "Noto Sans",
-		// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-		// one of the relative sizes ‘smaller’ or ‘larger’
+		// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+		// ‘smaller’ or ‘larger’
 		"font_size": "medium"
 	}
 },
@@ -45,8 +45,8 @@
 			"background": "#000000",
 			"symbol": "▶",
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-			// one of the relative sizes ‘smaller’ or ‘larger’
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’
 			"font_size": "medium"
 		},
 
@@ -56,8 +56,8 @@
 			"background": "#000000",
 			"symbol": "◀",
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-			// one of the relative sizes ‘smaller’ or ‘larger’
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’
 			"font_size": "medium"
 		}
 	}
@@ -74,8 +74,8 @@
 			"background": "#000000",
 			"symbol": "▶",
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-			// one of the relative sizes ‘smaller’ or ‘larger’
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’
 			"font_size": "medium"
 		},
 
@@ -85,8 +85,8 @@
 			"background": "#000000",
 			"symbol": "◀",
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-			// one of the relative sizes ‘smaller’ or ‘larger’
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’
 			"font_size": "medium"
 		}
 	}
@@ -104,8 +104,8 @@
 			"color": "#3e78fd",
 			"symbol": "▶",
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-			// one of the relative sizes ‘smaller’ or ‘larger’
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’
 			"font_size": "medium"
 		},
 
@@ -115,8 +115,8 @@
 			"background": "#000000",
 			"symbol": "◀",
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-			// one of the relative sizes ‘smaller’ or ‘larger’
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’
 			"font_size": "medium"
 		}
 	},
@@ -148,8 +148,8 @@
 			"background": "#000000",
 			"symbol": "▶",
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-			// one of the relative sizes ‘smaller’ or ‘larger’
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’
 			"font_size": "medium"
 		},
 
@@ -159,8 +159,8 @@
 			"background": "#000000",
 			"symbol": "◀",
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-			// one of the relative sizes ‘smaller’ or ‘larger’
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’
 			"font_size": "medium"
 		}
 	},
@@ -178,15 +178,24 @@
 "simple-volume-pa": {
 	"enabled": false,
 	"symbol": "🔊",
+
+	// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or one of the relative sizes
+	// ‘smaller’ or ‘larger’. If omitted set to medium by default.
+	"font_size": "medium",
+
 	// If not defined - will be "true"
 	"right_click_cmd": ["pavucontrol"],
+
 	// Change volume step in %, if not configured it is 5
 	"step": 3,
+
 	// We'll change volume level with mouse wheel. Under X11 it is mapped to some buttons, typically 4 and 5 (z-axis).
 	// If omited, default value is 4
 	"wheel_up": 4,
+
 	// If omited, default value is 5
 	"wheel_down": 5,
+
 	// Maximum sound volume, can be over 100%, but sould not be :) Default value 100 if not set.
 	"max_volume_limit": 120,
 
@@ -197,8 +206,8 @@
 			"background": "#000000",
 			"symbol": "▶",
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-			// one of the relative sizes ‘smaller’ or ‘larger’
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,, or one of the relative sizes
+			// ‘smaller’ or ‘larger’
 			"font_size": "medium"
 		},
 
@@ -208,8 +217,8 @@
 			"background": "#000000",
 			"symbol": "◀",
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-			// one of the relative sizes ‘smaller’ or ‘larger’
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or one of the relative sizes
+			// ‘smaller’ or ‘larger’
 			"font_size": "medium"
 		}
 	}
@@ -228,8 +237,8 @@
 			"background": "#000000",
 			"symbol": "▶",
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-			// one of the relative sizes ‘smaller’ or ‘larger’
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’
 			"font_size": "medium"
 		},
 
@@ -239,8 +248,8 @@
 			"background": "#000000",
 			"symbol": "◀",
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-			// one of the relative sizes ‘smaller’ or ‘larger’
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’
 			"font_size": "medium"
 		}
 	},
@@ -276,8 +285,8 @@
 			"background": "#000000",
 			"symbol": "▶",
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-			// one of the relative sizes ‘smaller’ or ‘larger’
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’
 			"font_size": "medium"
 		},
 
@@ -287,8 +296,8 @@
 			"background": "#000000",
 			"symbol": "◀",
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-			// one of the relative sizes ‘smaller’ or ‘larger’
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’
 			"font_size": "medium"
 		}
 	}
@@ -305,8 +314,8 @@
 			"background": "#000000",
 			"symbol": "▶",
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-			// one of the relative sizes ‘smaller’ or ‘larger’
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’
 			"font_size": "medium"
 		},
 
@@ -316,8 +325,8 @@
 			"background": "#000000",
 			"symbol": "◀",
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-			// one of the relative sizes ‘smaller’ or ‘larger’
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’
 			"font_size": "medium"
 		}
 	},
@@ -368,8 +377,8 @@
 			"color": "#3e78fd",
 			"symbol": "▶",
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-			// one of the relative sizes ‘smaller’ or ‘larger’
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’
 			"font_size": "medium"
 		},
 
@@ -378,8 +387,8 @@
 			"color": "#3e78fd",
 			"symbol": "◀",
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or a percentage (e.g. ‘200%’), or
-			// one of the relative sizes ‘smaller’ or ‘larger’
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’
 			"font_size": "medium"
 		}
 	}

@@ -209,9 +209,9 @@ type MyConfig struct {
 	} `json:"vpn,omitempty"`
 
 	SimpleVolumePa struct {
-		Enabled bool   `json:"enabled,omitempty"`
-		Symbol  string `json:"symbol,omitempty"`
-
+		Enabled   bool   `json:"enabled,omitempty"`
+		Symbol    string `json:"symbol,omitempty"`
+		FontSize  string `json:"font_size,omitempty"`
 		Separator struct {
 			Left struct {
 				Enabled    bool   `json:"enabled,omitempty"`
@@ -1115,6 +1115,10 @@ func readConf() (MyConfig, error) {
 	if sampleConfig.SimpleVolumePa.Enabled {
 		if sampleConfig.SimpleVolumePa.Symbol == "" {
 			sampleConfig.SimpleVolumePa.Symbol = `🔊`
+		}
+
+		if sampleConfig.SimpleVolumePa.FontSize == "" {
+			sampleConfig.SimpleVolumePa.FontSize = "medium"
 		}
 
 		if sampleConfig.SimpleVolumePa.Step == 0 {
