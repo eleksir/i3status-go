@@ -65,7 +65,7 @@ func UpdateVolumeInfo() {
 			}
 
 			SoundVolume = fmt.Sprintf(
-				"<span size='%s'>%s:%d%%",
+				"<span size='%s'>%s</span>:%d%%",
 				Conf.SimpleVolumePa.FontSize,
 				Conf.SimpleVolumePa.Symbol,
 				int64(vol*100),
@@ -105,7 +105,7 @@ func PaReinit() error {
 	pa, err = p.NewClient()
 
 	if err != nil {
-		return fmt.Errorf("unable to make client connection to pulseaudio: %s", err)
+		return fmt.Errorf("unable to make client connection to pulseaudio: %w", err)
 	}
 
 	return err
