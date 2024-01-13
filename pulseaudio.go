@@ -36,16 +36,19 @@ func UpdateVolumeInfo() {
 	}
 
 	SoundVolume = fmt.Sprintf(
-		"<span size='%s'>%s</span>:%d%%",
-		Conf.SimpleVolumePa.FontSize,
+		"<span font='%s' size='%s'>%s</span><span font='%s' size='%s'>:%d%%</span>",
+		Conf.SimpleVolumePa.SymbolFont,
+		Conf.SimpleVolumePa.SymbolFontSize,
 		Conf.SimpleVolumePa.Symbol,
+		Conf.SimpleVolumePa.Font,
+		Conf.SimpleVolumePa.FontSize,
 		int64(vol*100),
 	)
 
 	UpdateReady <- true
 
 	for {
-		// Subscribe to update notification channel, to get info that volume changed
+		// Subscribe to update notification channel, to get info that volume changed.
 		pulseUpdate, err := pa.Updates()
 
 		if err != nil {
@@ -65,9 +68,12 @@ func UpdateVolumeInfo() {
 			}
 
 			SoundVolume = fmt.Sprintf(
-				"<span size='%s'>%s</span>:%d%%",
-				Conf.SimpleVolumePa.FontSize,
+				"<span font='%s' size='%s'>%s</span><span font='%s' size='%s'>:%d%%</span>",
+				Conf.SimpleVolumePa.SymbolFont,
+				Conf.SimpleVolumePa.SymbolFontSize,
 				Conf.SimpleVolumePa.Symbol,
+				Conf.SimpleVolumePa.Font,
+				Conf.SimpleVolumePa.FontSize,
 				int64(vol*100),
 			)
 
@@ -89,7 +95,7 @@ func UpdateVolumeInfo() {
 func PaReinit() error {
 	var err error
 
-	// If we out of updates, it seems that someone killed pulseaudio server. Restart it.
+	// If we out of updates, seems someone killed pulseaudio server. Restart it.
 	cmd := exec.Command("pulseaudio", "--check")
 
 	if err := cmd.Run(); err == nil {

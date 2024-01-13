@@ -21,6 +21,12 @@ type MyConfig struct {
 	// Default background color
 	Background string `json:"background,omitempty"`
 
+	// Default text font
+	Font string `json:"font,omitempty"`
+
+	// Default text font size
+	FontSize string `json:"font_size,omitempty"`
+
 	Separator struct {
 		Left struct {
 			Enabled    bool   `json:"enabled,omitempty"`
@@ -30,6 +36,7 @@ type MyConfig struct {
 			Font       string `json:"font,omitempty"`
 			FontSize   string `json:"font_size,omitempty"`
 		} `json:"left,omitempty"`
+
 		Right struct {
 			Enabled    bool   `json:"enabled,omitempty"`
 			Color      string `json:"color,omitempty"`
@@ -42,7 +49,11 @@ type MyConfig struct {
 
 	// LA Plugin
 	LA struct {
-		Enabled bool `json:"enabled,omitempty"`
+		Enabled    bool   `json:"enabled,omitempty"`
+		Color      string `json:"color,omitempty"`
+		Background string `json:"background,omitempty"`
+		Font       string `json:"font,omitempty"`
+		FontSize   string `json:"font_size,omitempty"`
 
 		Separator struct {
 			Left struct {
@@ -53,6 +64,7 @@ type MyConfig struct {
 				Font       string `json:"font,omitempty"`
 				FontSize   string `json:"font_size,omitempty"`
 			} `json:"left,omitempty"`
+
 			Right struct {
 				Enabled    bool   `json:"enabled,omitempty"`
 				Color      string `json:"color,omitempty"`
@@ -64,9 +76,14 @@ type MyConfig struct {
 		} `json:"separator,omitempty"`
 	} `json:"la,omitempty"`
 
+	// Mem plugin
 	Mem struct {
-		Enabled  bool `json:"enabled,omitempty"`
-		ShowSwap bool `json:"show_swap,omitempty"`
+		Enabled    bool   `json:"enabled,omitempty"`
+		Color      string `json:"color,omitempty"`
+		Background string `json:"background,omitempty"`
+		Font       string `json:"font,omitempty"`
+		FontSize   string `json:"font_size,omitempty"`
+		ShowSwap   bool   `json:"show_swap,omitempty"`
 
 		Separator struct {
 			Left struct {
@@ -89,8 +106,11 @@ type MyConfig struct {
 	} `json:"mem,omitempty"`
 
 	Clock struct {
-		Enabled bool   `json:"enabled,omitempty"`
-		Color   string `json:"color,omitempty"`
+		Enabled    bool   `json:"enabled,omitempty"`
+		Color      string `json:"color,omitempty"`
+		Background string `json:"background,omitempty"`
+		Font       string `json:"font,omitempty"`
+		FontSize   string `json:"font_size,omitempty"`
 
 		Separator struct {
 			Left struct {
@@ -123,13 +143,21 @@ type MyConfig struct {
 	} `json:"clock,omitempty"`
 
 	Battery struct {
-		Enabled bool `json:"enabled,omitempty"`
-		Color   struct {
+		Enabled        bool   `json:"enabled,omitempty"`
+		Color          string `json:"color,omitempty"`
+		Background     string `json:"background,omitempty"`
+		Font           string `json:"font,omitempty"`
+		FontSize       string `json:"font_size,omitempty"`
+		Symbol         string `json:"symbol,omitempty"`
+		SymbolFont     string `json:"symbol_font,omitempty"`
+		SymbolFontSize string `json:"symbol_font_size,omitempty"`
+
+		ChargeColor struct {
 			Full        string `json:"full,omitempty"`
 			Empty       string `json:"empty,omitempty"`
 			AlmostFull  string `json:"almost_full,omitempty"`
 			AlmostEmpty string `json:"almost_empty,omitempty"`
-		} `json:"color,omitempty"`
+		} `json:"charge_color,omitempty"`
 
 		Separator struct {
 			Left struct {
@@ -152,7 +180,12 @@ type MyConfig struct {
 	} `json:"battery,omitempty"`
 
 	CPUTemp struct {
-		Enabled   bool `json:"enabled,omitempty"`
+		Enabled    bool   `json:"enabled,omitempty"`
+		Color      string `json:"color,omitempty"`
+		Background string `json:"background,omitempty"`
+		Font       string `json:"font,omitempty"`
+		FontSize   string `json:"font_size,omitempty"`
+
 		Separator struct {
 			Left struct {
 				Enabled    bool   `json:"enabled,omitempty"`
@@ -162,6 +195,7 @@ type MyConfig struct {
 				Font       string `json:"font,omitempty"`
 				FontSize   string `json:"font_size,omitempty"`
 			} `json:"left,omitempty"`
+
 			Right struct {
 				Enabled    bool   `json:"enabled,omitempty"`
 				Color      string `json:"color,omitempty"`
@@ -171,11 +205,16 @@ type MyConfig struct {
 				FontSize   string `json:"font_size,omitempty"`
 			} `json:"right,omitempty"`
 		} `json:"separator,omitempty"`
+
 		File []string `json:"file,omitempty"`
 	} `json:"cpu_temp,omitempty"`
 
 	Vpn struct {
 		Enabled        bool   `json:"enabled,omitempty"`
+		Color          string `json:"color,omitempty"`
+		Background     string `json:"background,omitempty"`
+		Font           string `json:"font,omitempty"`
+		FontSize       string `json:"font_size,omitempty"`
 		StatusFile     string `json:"statusFile,omitempty"`
 		MtimeThreshold int    `json:"mtime_threshold,omitempty"`
 		DownColor      string `json:"down_color,omitempty"`
@@ -209,9 +248,15 @@ type MyConfig struct {
 	} `json:"vpn,omitempty"`
 
 	SimpleVolumePa struct {
-		Enabled   bool   `json:"enabled,omitempty"`
-		Symbol    string `json:"symbol,omitempty"`
-		FontSize  string `json:"font_size,omitempty"`
+		Enabled        bool   `json:"enabled,omitempty"`
+		Color          string `json:"color,omitempty"`
+		Background     string `json:"background,omitempty"`
+		Font           string `json:"font,omitempty"`
+		FontSize       string `json:"font_size,omitempty"`
+		Symbol         string `json:"symbol,omitempty"`
+		SymbolFont     string `json:"symbol_font,omitempty"`
+		SymbolFontSize string `json:"symbol_font_size,omitempty"`
+
 		Separator struct {
 			Left struct {
 				Enabled    bool   `json:"enabled,omitempty"`
@@ -239,9 +284,13 @@ type MyConfig struct {
 	} `json:"simple-volume-pa,omitempty"`
 
 	NetIf struct {
-		Enabled   bool   `json:"enabled,omitempty"`
-		DownColor string `json:"down_color,omitempty"`
-		UpColor   string `json:"up_color,omitempty"`
+		Enabled    bool   `json:"enabled,omitempty"`
+		DownColor  string `json:"down_color,omitempty"`
+		UpColor    string `json:"up_color,omitempty"`
+		Color      string `json:"color,omitempty"`
+		Background string `json:"background,omitempty"`
+		Font       string `json:"font,omitempty"`
+		FontSize   string `json:"font_size,omitempty"`
 
 		Separator struct {
 			Left struct {
@@ -320,7 +369,7 @@ type MyConfig struct {
 // Conf global variable with application config.
 var Conf MyConfig
 
-// readConf reads and validates confg if config does not exist, it puts default config to the same dir where i3 config
+// readConf reads and validates config if config does not exist, it puts default config to the same dir where i3 config
 // is located.
 func readConf() (MyConfig, error) {
 	var (
@@ -338,7 +387,8 @@ func readConf() (MyConfig, error) {
 
 	fileInfo, err := os.Stat(path)
 
-	// Предполагаем, что файла либо нет, либо мы не можем его прочитать, второе надо бы логгировать, но пока забьём.
+	// Assume that either we unable to read file or file does not exit. We should mention second in logs but forget
+	// about it for now.
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			buf = DefaultConfig
@@ -350,7 +400,7 @@ func readConf() (MyConfig, error) {
 			return config, err
 		}
 	} else {
-		// Конфиг-файл длинноват для конфига.
+		// Config file looks too long for config...
 		if fileInfo.Size() > 65535 {
 			err := fmt.Errorf("config file %s is too long for config", path) //nolint: goerr113
 
@@ -359,7 +409,6 @@ func readConf() (MyConfig, error) {
 
 		buf, err = os.ReadFile(path)
 
-		// Не удалось прочитать
 		if err != nil {
 			err = fmt.Errorf("unable to read config file %s: %w", path, err)
 
@@ -406,6 +455,14 @@ func readConf() (MyConfig, error) {
 		sampleConfig.Background = "#edeceb"
 	}
 
+	if sampleConfig.Font == "" {
+		sampleConfig.Font = "Liberation Mono"
+	}
+
+	if sampleConfig.FontSize == "" {
+		sampleConfig.FontSize = "medium"
+	}
+
 	if sampleConfig.Separator.Left.Enabled {
 		if sampleConfig.Separator.Left.Color == "" {
 			sampleConfig.Separator.Left.Color = "#edeceb"
@@ -429,15 +486,23 @@ func readConf() (MyConfig, error) {
 		)
 
 		if err != nil {
-			log.Printf("Unable to set sampleConfig.Separator.Left.FontSize: %s, fallback to medium", err)
+			log.Printf(
+				"Unable to set sampleConfig.Separator.Left.FontSize: %s, fallback to %s",
+				err,
+				sampleConfig.FontSize,
+			)
 
-			sampleConfig.Separator.Left.FontSize = "medium"
+			sampleConfig.Separator.Left.FontSize = sampleConfig.FontSize
 		}
 
 		if !matched {
-			log.Printf("Unable to set sampleConfig.Separator.Left.FontSize: %s, fallback to medium", err)
+			log.Printf(
+				"Unable to set sampleConfig.Separator.Left.FontSize: %s, fallback to %s",
+				err,
+				sampleConfig.FontSize,
+			)
 
-			sampleConfig.Separator.Left.FontSize = "medium"
+			sampleConfig.Separator.Left.FontSize = sampleConfig.FontSize
 		}
 	}
 
@@ -464,15 +529,22 @@ func readConf() (MyConfig, error) {
 		)
 
 		if err != nil {
-			log.Printf("Unable to set sampleConfig.Separator.Right.FontSize: %s, fallback to medium", err)
+			log.Printf(
+				"Unable to set sampleConfig.Separator.Right.FontSize: %s, fallback to %s",
+				err,
+				sampleConfig.FontSize,
+			)
 
-			sampleConfig.Separator.Right.FontSize = "medium"
+			sampleConfig.Separator.Right.FontSize = sampleConfig.FontSize
 		}
 
 		if !matched {
-			log.Printf("Unable to set sampleConfig.Separator.Right.FontSize: %s, fallback to medium", err)
+			log.Printf("Unable to set sampleConfig.Separator.Right.FontSize: %s, fallback to %s",
+				err,
+				sampleConfig.FontSize,
+			)
 
-			sampleConfig.Separator.Right.FontSize = "medium"
+			sampleConfig.Separator.Right.FontSize = sampleConfig.FontSize
 		}
 	}
 
@@ -525,6 +597,22 @@ func readConf() (MyConfig, error) {
 		}
 
 		if sampleConfig.LA.Separator.Right.Enabled {
+			if sampleConfig.LA.Color == "" {
+				sampleConfig.LA.Color = sampleConfig.Color
+			}
+
+			if sampleConfig.LA.Background == "" {
+				sampleConfig.LA.Background = sampleConfig.Background
+			}
+
+			if sampleConfig.LA.Font == "" {
+				sampleConfig.LA.Font = sampleConfig.Font
+			}
+
+			if sampleConfig.LA.FontSize == "" {
+				sampleConfig.LA.FontSize = sampleConfig.FontSize
+			}
+
 			if sampleConfig.LA.Separator.Right.Color == "" {
 				sampleConfig.LA.Separator.Right.Color = sampleConfig.Separator.Right.Color
 			}
@@ -573,6 +661,22 @@ func readConf() (MyConfig, error) {
 
 	// sampleConfig.Mem will be false if not set in config
 	if sampleConfig.Mem.Enabled {
+		if sampleConfig.Mem.Color == "" {
+			sampleConfig.Mem.Color = sampleConfig.Color
+		}
+
+		if sampleConfig.Mem.Background == "" {
+			sampleConfig.Mem.Background = sampleConfig.Background
+		}
+
+		if sampleConfig.Mem.Font == "" {
+			sampleConfig.Mem.Font = sampleConfig.Font
+		}
+
+		if sampleConfig.Mem.FontSize == "" {
+			sampleConfig.Mem.FontSize = sampleConfig.FontSize
+		}
+
 		if sampleConfig.Mem.Separator.Left.Color == "" {
 			sampleConfig.Mem.Separator.Left.Color = sampleConfig.Separator.Left.Color
 		}
@@ -667,7 +771,19 @@ func readConf() (MyConfig, error) {
 	// sampleConfig.Clock.Enabled will be false if not set in config
 	if sampleConfig.Clock.Enabled {
 		if sampleConfig.Clock.Color == "" {
-			sampleConfig.Clock.Color = "#666666"
+			sampleConfig.Clock.Color = sampleConfig.Color
+		}
+
+		if sampleConfig.Clock.Background == "" {
+			sampleConfig.Clock.Background = sampleConfig.Background
+		}
+
+		if sampleConfig.Clock.Font == "" {
+			sampleConfig.Clock.Font = sampleConfig.Font
+		}
+
+		if sampleConfig.Clock.FontSize == "" {
+			sampleConfig.Clock.FontSize = sampleConfig.FontSize
 		}
 
 		if sampleConfig.Clock.Separator.Left.Enabled {
@@ -761,117 +877,146 @@ func readConf() (MyConfig, error) {
 				}
 			}
 		}
-	}
 
-	// sampleConfig.Clock.LeftClick.Enabled will be false if not set in config
+		// sampleConfig.Clock.LeftClick.Enabled will be false if not set in config
 
-	if len(sampleConfig.Clock.LeftClick.Cmd) == 0 {
-		sampleConfig.Clock.LeftClick.Cmd = append(sampleConfig.Clock.LeftClick.Cmd, "true")
-	}
+		if len(sampleConfig.Clock.LeftClick.Cmd) == 0 {
+			sampleConfig.Clock.LeftClick.Cmd = append(sampleConfig.Clock.LeftClick.Cmd, "true")
+		}
 
-	// sampleConfig.Clock.RightClick.Enabled will be false if not set in config
+		// sampleConfig.Clock.RightClick.Enabled will be false if not set in config
 
-	if len(sampleConfig.Clock.RightClick.Cmd) == 0 {
-		sampleConfig.Clock.RightClick.Cmd = append(sampleConfig.Clock.RightClick.Cmd, "true")
+		if len(sampleConfig.Clock.RightClick.Cmd) == 0 {
+			sampleConfig.Clock.RightClick.Cmd = append(sampleConfig.Clock.RightClick.Cmd, "true")
+		}
 	}
 
 	// sampleConfig.Battery.Enabled will be false if not set in config
-	// sampleConfig.Battery.Color.Full will be empty string if not set
-	// sampleConfig.Battery.Color.Empty will be empty string if not set
-	// sampleConfig.Battery.Color.AlmostFull will be empty string if not set
-	// sampleConfig.Battery.Color.AlmostEmpty will be empty string if not set
-	if sampleConfig.Battery.Separator.Left.Enabled {
-		if sampleConfig.Battery.Separator.Left.Color == "" {
-			sampleConfig.Battery.Separator.Left.Color = sampleConfig.Separator.Left.Color
+	if sampleConfig.Battery.Enabled {
+		if sampleConfig.Battery.Color == "" {
+			sampleConfig.Battery.Color = sampleConfig.Color
 		}
 
-		if sampleConfig.Battery.Separator.Left.Background == "" {
-			sampleConfig.Battery.Separator.Left.Background = sampleConfig.Separator.Left.Background
+		if sampleConfig.Battery.Background == "" {
+			sampleConfig.Battery.Background = sampleConfig.Background
 		}
 
-		if sampleConfig.Battery.Separator.Left.Symbol == "" {
-			sampleConfig.Battery.Separator.Left.Symbol = sampleConfig.Separator.Left.Symbol
+		if sampleConfig.Battery.Font == "" {
+			sampleConfig.Battery.Font = sampleConfig.Font
 		}
 
-		if sampleConfig.Battery.Separator.Left.Font == "" {
-			sampleConfig.Battery.Separator.Left.Font = sampleConfig.Separator.Left.Font
+		if sampleConfig.Battery.FontSize == "" {
+			sampleConfig.Battery.FontSize = sampleConfig.FontSize
 		}
 
-		if sampleConfig.Battery.Separator.Left.FontSize == "" {
-			sampleConfig.Battery.Separator.Left.FontSize = sampleConfig.Separator.Left.FontSize
-		} else {
-			matched, err := regexp.MatchString(
-				`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
-				sampleConfig.Battery.Separator.Left.FontSize,
-			)
+		if sampleConfig.Battery.Symbol == "" {
+			sampleConfig.Battery.Symbol = "⚡"
+		}
 
-			if err != nil {
-				log.Printf(
-					"Unable to set sampleConfig.Battery.Separator.Left.FontSize: %s, fallback to %s",
-					err,
-					sampleConfig.Separator.Left.FontSize,
-				)
+		if sampleConfig.Battery.SymbolFont == "" {
+			sampleConfig.Battery.SymbolFont = sampleConfig.Battery.Font
+		}
 
-				sampleConfig.Battery.Separator.Left.FontSize = sampleConfig.Separator.Left.FontSize
+		if sampleConfig.Battery.SymbolFontSize == "" {
+			sampleConfig.Battery.SymbolFontSize = sampleConfig.Battery.FontSize
+		}
+
+		// sampleConfig.Battery.ChargeColor.Full will be empty string if not set
+		// sampleConfig.Battery.ChargeColor.Empty will be empty string if not set
+		// sampleConfig.Battery.ChargeColor.AlmostFull will be empty string if not set
+		// sampleConfig.Battery.ChargeColor.AlmostEmpty will be empty string if not set
+		if sampleConfig.Battery.Separator.Left.Enabled {
+			if sampleConfig.Battery.Separator.Left.Color == "" {
+				sampleConfig.Battery.Separator.Left.Color = sampleConfig.Separator.Left.Color
 			}
 
-			if !matched {
-				log.Printf(
-					"Unable to set sampleConfig.Battery.Separator.Left.FontSize, fallback to %s",
-					sampleConfig.Separator.Left.FontSize,
+			if sampleConfig.Battery.Separator.Left.Background == "" {
+				sampleConfig.Battery.Separator.Left.Background = sampleConfig.Separator.Left.Background
+			}
+
+			if sampleConfig.Battery.Separator.Left.Symbol == "" {
+				sampleConfig.Battery.Separator.Left.Symbol = sampleConfig.Separator.Left.Symbol
+			}
+
+			if sampleConfig.Battery.Separator.Left.Font == "" {
+				sampleConfig.Battery.Separator.Left.Font = sampleConfig.Separator.Left.Font
+			}
+
+			if sampleConfig.Battery.Separator.Left.FontSize == "" {
+				sampleConfig.Battery.Separator.Left.FontSize = sampleConfig.Separator.Left.FontSize
+			} else {
+				matched, err := regexp.MatchString(
+					`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
+					sampleConfig.Battery.Separator.Left.FontSize,
 				)
 
-				sampleConfig.Battery.Separator.Left.FontSize = sampleConfig.Separator.Left.FontSize
+				if err != nil {
+					log.Printf(
+						"Unable to set sampleConfig.Battery.Separator.Left.FontSize: %s, fallback to %s",
+						err,
+						sampleConfig.Separator.Left.FontSize,
+					)
+
+					sampleConfig.Battery.Separator.Left.FontSize = sampleConfig.Separator.Left.FontSize
+				}
+
+				if !matched {
+					log.Printf(
+						"Unable to set sampleConfig.Battery.Separator.Left.FontSize, fallback to %s",
+						sampleConfig.Separator.Left.FontSize,
+					)
+
+					sampleConfig.Battery.Separator.Left.FontSize = sampleConfig.Separator.Left.FontSize
+				}
+			}
+		}
+
+		if sampleConfig.Battery.Separator.Right.Enabled {
+			if sampleConfig.Battery.Separator.Right.Color == "" {
+				sampleConfig.Battery.Separator.Right.Color = sampleConfig.Separator.Right.Color
+			}
+
+			if sampleConfig.Battery.Separator.Right.Background == "" {
+				sampleConfig.Battery.Separator.Right.Background = sampleConfig.Separator.Right.Background
+			}
+
+			if sampleConfig.Battery.Separator.Right.Symbol == "" {
+				sampleConfig.Battery.Separator.Right.Symbol = sampleConfig.Separator.Right.Symbol
+			}
+
+			if sampleConfig.Battery.Separator.Right.Font == "" {
+				sampleConfig.Battery.Separator.Right.Font = sampleConfig.Separator.Right.Font
+			}
+
+			if sampleConfig.Battery.Separator.Right.FontSize == "" {
+				sampleConfig.Battery.Separator.Right.FontSize = sampleConfig.Separator.Right.FontSize
+			} else {
+				matched, err := regexp.MatchString(
+					`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
+					sampleConfig.Battery.Separator.Right.FontSize,
+				)
+
+				if err != nil {
+					log.Printf(
+						"Unable to set sampleConfig.Battery.Separator.Right.FontSize: %s, fallback to %s",
+						err,
+						sampleConfig.Separator.Right.FontSize,
+					)
+
+					sampleConfig.Battery.Separator.Right.FontSize = sampleConfig.Separator.Right.FontSize
+				}
+
+				if !matched {
+					log.Printf(
+						"Unable to set sampleConfig.Battery.Separator.Right.FontSize, fallback to %s",
+						sampleConfig.Separator.Right.FontSize,
+					)
+
+					sampleConfig.Battery.Separator.Right.FontSize = sampleConfig.Separator.Right.FontSize
+				}
 			}
 		}
 	}
-
-	if sampleConfig.Battery.Separator.Right.Enabled {
-		if sampleConfig.Battery.Separator.Right.Color == "" {
-			sampleConfig.Battery.Separator.Right.Color = sampleConfig.Separator.Right.Color
-		}
-
-		if sampleConfig.Battery.Separator.Right.Background == "" {
-			sampleConfig.Battery.Separator.Right.Background = sampleConfig.Separator.Right.Background
-		}
-
-		if sampleConfig.Battery.Separator.Right.Symbol == "" {
-			sampleConfig.Battery.Separator.Right.Symbol = sampleConfig.Separator.Right.Symbol
-		}
-
-		if sampleConfig.Battery.Separator.Right.Font == "" {
-			sampleConfig.Battery.Separator.Right.Font = sampleConfig.Separator.Right.Font
-		}
-
-		if sampleConfig.Battery.Separator.Right.FontSize == "" {
-			sampleConfig.Battery.Separator.Right.FontSize = sampleConfig.Separator.Right.FontSize
-		} else {
-			matched, err := regexp.MatchString(
-				`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
-				sampleConfig.Battery.Separator.Right.FontSize,
-			)
-
-			if err != nil {
-				log.Printf(
-					"Unable to set sampleConfig.Battery.Separator.Right.FontSize: %s, fallback to %s",
-					err,
-					sampleConfig.Separator.Right.FontSize,
-				)
-
-				sampleConfig.Battery.Separator.Right.FontSize = sampleConfig.Separator.Right.FontSize
-			}
-
-			if !matched {
-				log.Printf(
-					"Unable to set sampleConfig.Battery.Separator.Right.FontSize, fallback to %s",
-					sampleConfig.Separator.Right.FontSize,
-				)
-
-				sampleConfig.Battery.Separator.Right.FontSize = sampleConfig.Separator.Right.FontSize
-			}
-		}
-	}
-
 	// sampleConfig.CpuTemp.Enabled will be false if not set in config
 
 	// No files configured - disable plugin
@@ -880,6 +1025,22 @@ func readConf() (MyConfig, error) {
 	}
 
 	if sampleConfig.CPUTemp.Enabled {
+		if sampleConfig.CPUTemp.Color == "" {
+			sampleConfig.CPUTemp.Color = sampleConfig.Color
+		}
+
+		if sampleConfig.CPUTemp.Background == "" {
+			sampleConfig.CPUTemp.Background = sampleConfig.Background
+		}
+
+		if sampleConfig.CPUTemp.Font == "" {
+			sampleConfig.CPUTemp.Font = sampleConfig.Font
+		}
+
+		if sampleConfig.CPUTemp.FontSize == "" {
+			sampleConfig.CPUTemp.FontSize = sampleConfig.FontSize
+		}
+
 		if sampleConfig.CPUTemp.Separator.Left.Enabled {
 			if sampleConfig.CPUTemp.Separator.Left.Color == "" {
 				sampleConfig.CPUTemp.Separator.Left.Color = sampleConfig.Separator.Left.Color
@@ -979,11 +1140,27 @@ func readConf() (MyConfig, error) {
 	}
 
 	if sampleConfig.Vpn.Enabled {
+		if sampleConfig.Vpn.Color == "" {
+			sampleConfig.Vpn.Color = sampleConfig.Color
+		}
+
+		if sampleConfig.Vpn.Background == "" {
+			sampleConfig.Vpn.Background = sampleConfig.Background
+		}
+
+		if sampleConfig.Vpn.Font == "" {
+			sampleConfig.Vpn.FontSize = sampleConfig.Font
+		}
+
+		if sampleConfig.Vpn.FontSize == "" {
+			sampleConfig.Vpn.FontSize = sampleConfig.FontSize
+		}
+
 		// Check status file at least once per 3 seconds
 		if sampleConfig.Vpn.MtimeThreshold < 3 {
 			log.Printf("vpn.mtime_threshold not set, using 3")
 
-			sampleConfig.Vpn.MtimeThreshold = 3 //nocritic: wsl
+			sampleConfig.Vpn.MtimeThreshold = 3
 		}
 
 		// sampleConfig.Vpn.DownColor will be empty string if no value set in config
@@ -1109,16 +1286,34 @@ func readConf() (MyConfig, error) {
 		}
 	}
 
-	// TODO: appbuttons, etc..
 	// sampleConfig.SimpleVolumePa.Enabled will false if not set in config
-
 	if sampleConfig.SimpleVolumePa.Enabled {
+		if sampleConfig.SimpleVolumePa.Color == "" {
+			sampleConfig.SimpleVolumePa.Color = sampleConfig.Color
+		}
+
+		if sampleConfig.SimpleVolumePa.Background == "" {
+			sampleConfig.SimpleVolumePa.Background = sampleConfig.Background
+		}
+
+		if sampleConfig.SimpleVolumePa.Font == "" {
+			sampleConfig.SimpleVolumePa.Font = sampleConfig.Font
+		}
+
+		if sampleConfig.SimpleVolumePa.FontSize == "" {
+			sampleConfig.SimpleVolumePa.FontSize = sampleConfig.FontSize
+		}
+
 		if sampleConfig.SimpleVolumePa.Symbol == "" {
 			sampleConfig.SimpleVolumePa.Symbol = `🔊`
 		}
 
-		if sampleConfig.SimpleVolumePa.FontSize == "" {
-			sampleConfig.SimpleVolumePa.FontSize = "medium"
+		if sampleConfig.SimpleVolumePa.SymbolFont == "" {
+			sampleConfig.SimpleVolumePa.SymbolFont = sampleConfig.SimpleVolumePa.Font
+		}
+
+		if sampleConfig.SimpleVolumePa.SymbolFontSize == "" {
+			sampleConfig.SimpleVolumePa.SymbolFontSize = sampleConfig.SimpleVolumePa.FontSize
 		}
 
 		if sampleConfig.SimpleVolumePa.Step == 0 {
@@ -1262,6 +1457,22 @@ func readConf() (MyConfig, error) {
 
 		if sampleConfig.NetIf.UpColor == "" {
 			sampleConfig.NetIf.UpColor = "green"
+		}
+
+		if sampleConfig.NetIf.Color == "" {
+			sampleConfig.NetIf.Color = sampleConfig.Color
+		}
+
+		if sampleConfig.NetIf.Background == "" {
+			sampleConfig.NetIf.Background = sampleConfig.Background
+		}
+
+		if sampleConfig.NetIf.Font == "" {
+			sampleConfig.NetIf.Font = sampleConfig.Font
+		}
+
+		if sampleConfig.NetIf.FontSize == "" {
+			sampleConfig.NetIf.FontSize = sampleConfig.FontSize
 		}
 
 		if sampleConfig.NetIf.Separator.Left.Enabled {

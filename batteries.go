@@ -23,7 +23,14 @@ func UpdateBatteryInfo() {
 		batteries, err := battery.GetAll()
 
 		if err != nil {
-			Batts = "<big>⚡</big> no batt"
+			Batts = fmt.Sprintf(
+				"<span font='%s' size='%s'>%s</span><span font='%s' size='%s'> no batt</span>",
+				Conf.Battery.SymbolFont,
+				Conf.Battery.SymbolFontSize,
+				Conf.Battery.Symbol,
+				Conf.Battery.Font,
+				Conf.Battery.FontSize,
+			)
 		} else {
 			var (
 				battsInfo string
@@ -42,57 +49,97 @@ func UpdateBatteryInfo() {
 					status = `•`
 				}
 
-				// N.B. there can be case when battery is overcharged and shows >100%. It alse can indicate that
+				// N.B. there can be case when battery is overcharged and shows >100%. It also can indicate that
 				//      calibration data is out of date and battery should be re-calibrated.
 				ch = int(math.Round((b.Full - b.Current) * (100 / b.Full)))
 
 				switch {
 				case ch > 85:
-					if Conf.Battery.Color.Full == "" {
-						chStr = fmt.Sprintf("% 3d%%", ch)
+					if Conf.Battery.ChargeColor.Full == "" {
+						chStr = fmt.Sprintf(
+							"<span font='%s' size='%s'>% 3d%%</span>",
+							Conf.Battery.FontSize,
+							Conf.Battery.ChargeColor.Full,
+							ch,
+						)
 					} else {
 						chStr = fmt.Sprintf(
-							`<span foreground="%s">% 3d%%</span>`,
-							Conf.Battery.Color.Full,
+							`<span font='%s' size='%s' foreground='%s'>% 3d%%</span>`,
+							Conf.Battery.Font,
+							Conf.Battery.FontSize,
+							Conf.Battery.ChargeColor.Full,
 							ch,
 						)
 					}
 
 				case ch < 85 && ch > 40:
-					if Conf.Battery.Color.AlmostFull == "" {
-						chStr = fmt.Sprintf("% 3d%%", ch)
+					if Conf.Battery.ChargeColor.AlmostFull == "" {
+						chStr = fmt.Sprintf(
+							"<span font='%s' size='%s'>% 3d%%</span>",
+							Conf.Battery.FontSize,
+							Conf.Battery.ChargeColor.Full,
+							ch,
+						)
 					} else {
 						chStr = fmt.Sprintf(
-							`<span foreground="%s">% 3d%%</span>`,
-							Conf.Battery.Color.AlmostFull,
+							`<span font='%s' size='%s' foreground='%s'>% 3d%%</span>`,
+							Conf.Battery.Font,
+							Conf.Battery.FontSize,
+							Conf.Battery.ChargeColor.AlmostFull,
 							ch,
 						)
 					}
 
 				case ch <= 40 && ch >= 10:
-					if Conf.Battery.Color.AlmostEmpty == "" {
-						chStr = fmt.Sprintf("% 3d%%", ch)
+					if Conf.Battery.ChargeColor.AlmostEmpty == "" {
+						chStr = fmt.Sprintf(
+							"<span font='%s' size='%s'>% 3d%%</span>",
+							Conf.Battery.FontSize,
+							Conf.Battery.ChargeColor.Full,
+							ch,
+						)
 					} else {
 						chStr = fmt.Sprintf(
-							`<span foreground="%s">% 3d%%</span>`,
-							Conf.Battery.Color.AlmostEmpty,
+							`<span font='%s' size='%s' foreground='%s'>% 3d%%</span>`,
+							Conf.Battery.Font,
+							Conf.Battery.FontSize,
+							Conf.Battery.ChargeColor.AlmostEmpty,
 							ch,
 						)
 					}
 
 				case ch < 10:
-					if Conf.Battery.Color.Empty == "" {
-						chStr = fmt.Sprintf("% 3d%%", ch)
+					if Conf.Battery.ChargeColor.Empty == "" {
+						chStr = fmt.Sprintf(
+							"<span font='%s' size='%s'>% 3d%%</span>",
+							Conf.Battery.FontSize,
+							Conf.Battery.ChargeColor.Full,
+							ch,
+						)
 					} else {
 						chStr = fmt.Sprintf(
-							`<span foreground="%s">% 3d%%</span>`,
-							Conf.Battery.Color.Empty,
+							`<span font='%s' size='%s' foreground='%s'>% 3d%%</span>`,
+							Conf.Battery.Font,
+							Conf.Battery.FontSize,
+							Conf.Battery.ChargeColor.Empty,
 							ch,
 						)
 					}
 				}
 
-				battsInfo += fmt.Sprintf("<big>⚡</big>B%d %s %s", i, chStr, status)
+				battsInfo += fmt.Sprintf(
+					"<span font='%s' size='%s'>%s</span><span font='%s' size='%s'>B%d </span>%s<span font='%s' size='%s'> %s</span>",
+					Conf.Battery.SymbolFont,
+					Conf.Battery.SymbolFontSize,
+					Conf.Battery.Symbol,
+					Conf.Battery.Font,
+					Conf.Battery.FontSize,
+					i,
+					chStr,
+					Conf.Battery.Font,
+					Conf.Battery.FontSize,
+					status,
+				)
 			}
 
 			if battsInfo != "" {

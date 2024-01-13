@@ -53,6 +53,7 @@ func CleanZombies() {
 
 	for {
 		_, _ = syscall.Wait4(-1, nil, 0, &r)
+
 		time.Sleep(1 * time.Minute)
 	}
 }

@@ -179,6 +179,9 @@ func main() {
 			if Conf.CPUTemp.Enabled {
 				var b I3BarOutBlock
 
+				b.Color = Conf.CPUTemp.Color
+				b.Background = Conf.CPUTemp.Background
+
 				if Conf.CPUTemp.Separator.Left.Enabled {
 					b.FullText = fmt.Sprintf(
 						"<span color='%s' background='%s' size='%s'>%s</span>",
@@ -189,7 +192,12 @@ func main() {
 					)
 				}
 
-				b.FullText += fmt.Sprintf("CPU: %d°", CPUTemperature)
+				b.FullText += fmt.Sprintf(
+					"<span font='%s' size='%s'>CPU: %d°</span>",
+					Conf.CPUTemp.Font,
+					Conf.CPUTemp.FontSize,
+					CPUTemperature,
+				)
 
 				if Conf.CPUTemp.Separator.Right.Enabled {
 					b.FullText += fmt.Sprintf(
@@ -210,6 +218,9 @@ func main() {
 			if Conf.Mem.Enabled {
 				var b I3BarOutBlock
 
+				b.Color = Conf.Mem.Color
+				b.Background = Conf.Mem.Background
+
 				if Conf.Mem.Separator.Left.Enabled {
 					b.FullText = fmt.Sprintf(
 						"<span color='%s' background='%s' size='%s'>%s</span>",
@@ -221,9 +232,22 @@ func main() {
 				}
 
 				if Conf.Mem.ShowSwap {
-					b.FullText += fmt.Sprintf("M:%d%% SHM:%dM SW:%dM", Memory.Usedpct, Memory.Shared, Memory.Swap)
+					b.FullText += fmt.Sprintf(
+						"<span font='%s' size='%s'>M:%d%% SHM:%dM SW:%dM</span>",
+						Conf.Mem.Font,
+						Conf.Mem.FontSize,
+						Memory.Usedpct,
+						Memory.Shared,
+						Memory.Swap,
+					)
 				} else {
-					b.FullText += fmt.Sprintf("M:%d%% SHM:%dM", Memory.Usedpct, Memory.Shared)
+					b.FullText += fmt.Sprintf(
+						"<span font='%s' size='%s'>M:%d%% SHM:%dM</span>",
+						Conf.Mem.Font,
+						Conf.Mem.FontSize,
+						Memory.Usedpct,
+						Memory.Shared,
+					)
 				}
 
 				if Conf.Mem.Separator.Right.Enabled {
@@ -245,6 +269,9 @@ func main() {
 			if Conf.LA.Enabled {
 				var b I3BarOutBlock
 
+				b.Color = Conf.LA.Color
+				b.Background = Conf.LA.Background
+
 				if Conf.LA.Separator.Left.Enabled {
 					b.FullText = fmt.Sprintf(
 						"<span color='%s' background='%s' size='%s'>%s</span>",
@@ -255,7 +282,12 @@ func main() {
 					)
 				}
 
-				b.FullText += fmt.Sprintf("LA: %s", La)
+				b.FullText += fmt.Sprintf(
+					"<span font='%s' size='%s'>LA:%s</span>",
+					Conf.LA.Font,
+					Conf.LA.FontSize,
+					La,
+				)
 
 				if Conf.LA.Separator.Right.Enabled {
 					b.FullText += fmt.Sprintf(
@@ -276,6 +308,9 @@ func main() {
 			if Conf.NetIf.Enabled {
 				var b I3BarOutBlock
 
+				b.Color = Conf.NetIf.Color
+				b.Background = Conf.NetIf.Background
+
 				if Conf.NetIf.Separator.Left.Enabled {
 					b.FullText = fmt.Sprintf(
 						"<span color='%s' background='%s' size='%s'>%s</span>",
@@ -286,7 +321,12 @@ func main() {
 					)
 				}
 
-				b.FullText += IfStatus
+				b.FullText += fmt.Sprintf(
+					"<span font='%s' size= '%s'>%s</span>",
+					Conf.NetIf.Font,
+					Conf.NetIf.FontSize,
+					IfStatus,
+				)
 
 				if Conf.NetIf.Separator.Right.Enabled {
 					b.FullText += fmt.Sprintf(
@@ -307,6 +347,9 @@ func main() {
 			if Conf.Vpn.Enabled {
 				var b I3BarOutBlock
 
+				b.Color = Conf.Vpn.Color
+				b.Background = Conf.Vpn.Background
+
 				if Conf.Vpn.Separator.Left.Enabled {
 					b.FullText = fmt.Sprintf(
 						"<span color='%s' background='%s' size='%s'>%s</span>",
@@ -317,7 +360,12 @@ func main() {
 					)
 				}
 
-				b.FullText += VPNStatus
+				b.FullText += fmt.Sprintf(
+					"<span font='%s' size='%s'>%s</span>",
+					Conf.Vpn.Font,
+					Conf.Vpn.FontSize,
+					VPNStatus,
+				)
 
 				if Conf.Vpn.Separator.Right.Enabled {
 					b.FullText += fmt.Sprintf(
@@ -337,6 +385,9 @@ func main() {
 
 			if Conf.Battery.Enabled {
 				var b I3BarOutBlock
+
+				b.Color = Conf.Battery.Color
+				b.Background = Conf.Battery.Background
 
 				if Conf.Battery.Separator.Left.Enabled {
 					b.FullText = fmt.Sprintf(
@@ -368,7 +419,10 @@ func main() {
 
 			if Conf.SimpleVolumePa.Enabled {
 				var b I3BarOutBlock
+
 				b.Name = "simple-volume-pa"
+				b.Color = Conf.SimpleVolumePa.Color
+				b.Background = Conf.SimpleVolumePa.Background
 
 				if Conf.SimpleVolumePa.Separator.Left.Enabled {
 					b.FullText = fmt.Sprintf(
@@ -380,6 +434,7 @@ func main() {
 					)
 				}
 
+				// Pango format is already applied in plugin src.
 				b.FullText += SoundVolume
 
 				if Conf.SimpleVolumePa.Separator.Right.Enabled {
@@ -400,7 +455,10 @@ func main() {
 
 			if Conf.Clock.Enabled {
 				var b I3BarOutBlock
+
 				b.Name = `wallclock`
+				b.Color = Conf.Clock.Color
+				b.Background = Conf.Clock.Background
 
 				if Conf.Clock.Separator.Left.Enabled {
 					b.FullText = fmt.Sprintf(
@@ -412,7 +470,12 @@ func main() {
 					)
 				}
 
-				b.FullText += Clock
+				b.FullText += fmt.Sprintf(
+					"<span font='%s' size='%s'>%s</span>",
+					Conf.Clock.Font,
+					Conf.Clock.FontSize,
+					Clock,
+				)
 
 				if Conf.Clock.Separator.Right.Enabled {
 					b.FullText += fmt.Sprintf(
@@ -425,7 +488,6 @@ func main() {
 				}
 
 				b.Markup = "pango"
-				b.Color = Conf.Clock.Color
 				b.Separator = false
 
 				j = append(j, b)

@@ -5,30 +5,53 @@
 // Default backbround color. If not set value of #edeceb is used.
 "background" : "#000000",
 
+// Can be omitted, then Liberation Mono will be used.
+"font": "Liberation Mono",
+
+// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+// ‘smaller’ or ‘larger’
+"font_size": "medium",
+
 "separator"	: {
 	"left": {
+		// Set to false if omitted.
 		"enabled": true,
+
+		// If omitted set to #edeceb color defined for separator up here.
 		"color": "#3e78fd",
+
+		// If omitted set to #3e78fd background color defined for separator up here.
 		"background": "#000000",
+
+		// If omitted set to "|" (no quotes) symbol defined for separator up here.
 		"symbol": "▶",
+
+		// If omitted set to "Noto Sans" font defined for separator up here.
 		"font": "Noto Sans",
+
 		// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-		// ‘smaller’ or ‘larger’
+		// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 		"font_size": "medium"
 	},
 
 	"right": {
-		// False if value omitted
+		// Set to false if omitted.
 		"enabled": true,
-		// Used #edeceb as default if value omitted
+
+		// If omitted set to #edeceb color defined for separator up here.
 		"color": "#3e78fd",
-		// If not set #3e78fd is used.
+
+		// If omitted set to #3e78fd background color defined for separator up here.
 		"background": "#000000",
-		// If omitted, used "|" (no quotes) as default
+
+		// If omitted set to "|" (no quotes) symbol defined for separator up here.
 		"symbol": "◀",
+
+		// If omitted set to "Noto Sans" font defined for separator up here.
 		"font": "Noto Sans",
+
 		// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-		// ‘smaller’ or ‘larger’
+		// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 		"font_size": "medium"
 	}
 },
@@ -36,28 +59,64 @@
 // Memory stats
 "mem" : {
 	"enabled": true,
+
+	// If omitted set to default color defined up here.
+	"color": "#3e78fd",
+
+	// If omitted set to default background color defined up here.
+	"background": "#000000",
+
+	// If omitted set to default font defined up here.
+	"font": "Noto Sans",
+
+	// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+	// ‘smaller’ or ‘larger’. If omitted set to default font size defined up here.
+	"font_size": "medium",
+
+	// Do we show used swap megs?
 	"show_swap": false,
 
+	// Re-define separator parameters for net-if block here.
 	"separator"	: {
 		"left": {
+			// Set to false if omitted.
 			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
 			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
 			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
 			"symbol": "▶",
+
+			// If omitted set to default font defined for separator up here.
 			"font": "Noto Sans",
+
 			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-			// ‘smaller’ or ‘larger’
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		},
 
 		"right": {
+			// Set to false if omitted.
 			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
 			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
 			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
 			"symbol": "◀",
+
+			// If omitted set to default font defined for separator up here.
 			"font": "Noto Sans",
+
 			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-			// ‘smaller’ or ‘larger’
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		}
 	}
@@ -67,26 +126,60 @@
 "la" : {
 	"enabled": true,
 
+	// If omitted set to default color defined up here.
+	"color": "#3e78fd",
+
+	// If omitted set to default background color defined up here.
+	"background": "#000000",
+
+	// If omitted set to default font defined up here.
+	"font": "Noto Sans",
+
+	// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+	// ‘smaller’ or ‘larger’. If omitted set to default font size defined up here.
+	"font_size": "medium",
+
+	// Re-define separator parameters for net-if block here.
 	"separator"	: {
 		"left": {
+			// Set to false if omitted.
 			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
 			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
 			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
 			"symbol": "▶",
+
+			// If omitted set to default font defined for separator up here.
 			"font": "Noto Sans",
+
 			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-			// ‘smaller’ or ‘larger’
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		},
 
 		"right": {
+			// Set to false if omitted.
 			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
 			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
 			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
 			"symbol": "◀",
+
+			// If omitted set to default font defined for separator up here.
 			"font": "Noto Sans",
+
 			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-			// ‘smaller’ or ‘larger’
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		}
 	}
@@ -94,29 +187,67 @@
 
 "net-if" : {
 	"enabled" : false,
-	// In html notation
+
+	// If omitted set to default color defined up here.
+	"color": "#3e78fd",
+
+	// If omitted set to default background color defined up here.
+	"background": "#000000",
+
+	// If omitted set to default font defined up here.
+	"font": "Noto Sans",
+
+	// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+	// ‘smaller’ or ‘larger’. If omitted set to default font size defined up here.
+	"font_size": "medium",
+
+	// Net interface down symbol color, in html notation.
 	"down_color" : "red",
+
+	// Net interface up symbol color, in html notation.
 	"up_color" : "green",
 
-	"separator"	: {
+	// Re-define separator parameters for net-if block here.
+	"separator": {
 		"left": {
+			// Set to false if omitted.
 			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
 			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
+			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
 			"symbol": "▶",
+
+			// If omitted set to default font defined for separator up here.
 			"font": "Noto Sans",
+
 			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-			// ‘smaller’ or ‘larger’
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		},
 
 		"right": {
+			// Set to false if omitted.
 			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
 			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
 			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
 			"symbol": "◀",
+
+			// If omitted set to default font defined for separator up here.
 			"font": "Noto Sans",
+
 			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-			// ‘smaller’ or ‘larger’
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		}
 	},
@@ -125,47 +256,89 @@
 		{
 			// Name as it displayed on i3bar
 			"name" : "eth0",
+
 			// Directory containing net if status files
 			"dir" : "/sys/class/net/eth0"
 		}
 	]
 },
 
-// OpenVPN status. Note that directive status in openvpn.conf should point to
-// state file and *update* its timestamp at least as frequent as mtime_threshold in seconds
+// OpenVPN status. Note that directive status in openvpn.conf should point to state file and *update* its timestamp at
+// least as frequent as mtime_threshold in seconds.
 "vpn": {
 	"enabled": false,
+
+	// If omitted set to default color defined up here.
+	"color": "#3e78fd",
+
+	// If omitted set to default background color defined up here.
+	"background": "#000000",
+
+	// If omitted set to default font defined up here.
+	"font": "Noto Sans",
+
+	// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+	// ‘smaller’ or ‘larger’. If omitted set to default font size defined up here.
+	"font_size": "medium",
+
+	// Status file location. Plugin will be disabled if this value omitted.
 	"statusfile" : "/tmp/openvpn-status.stat",
+
+	// mtime check period.
 	"mtime_threshold": 10,
-	// Color in html notation
+
+	// Vpn down symbol color, in html notation.
 	"down_color" : "red",
+
+	// Vpn up symbol color, in html notation.
 	"up_color" : "green",
 
-	"separator"	: {
+	// Re-define separator parameters for net-if block here.
+	"separator": {
 		"left": {
+			// Set to false if omitted.
 			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
 			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
 			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
 			"symbol": "▶",
+
+			// If omitted set to default font defined for separator up here.
 			"font": "Noto Sans",
+
 			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-			// ‘smaller’ or ‘larger’
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		},
 
 		"right": {
+			// Set to false if omitted.
 			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
 			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
 			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
 			"symbol": "◀",
+
+			// If omitted set to default font defined for separator up here.
 			"font": "Noto Sans",
+
 			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-			// ‘smaller’ or ‘larger’
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		}
 	},
 
-	// Also we can tcp-ping some service inside vpn network to ensure that connection is not stoned
+	// Also we can tcp-ping some service inside vpn network to ensure that connection is not stoned.
 	"tcp_check" : {
 		"enabled": false,
 		"host": "somehost.tld",
@@ -177,11 +350,25 @@
 // Simple sound volume indicator
 "simple-volume-pa": {
 	"enabled": false,
+
+	// If omitted set to default color defined up here.
+	"color": "#3e78fd",
+
+	// If omitted set to default background color defined up here.
+	"background": "#000000",
+
+	// If omitted set to default font defined up here.
+	"font": "Noto Sans",
+
+	// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+	// ‘smaller’ or ‘larger’. If omitted set to default font size defined up here.
+	"font_size": "medium",
+
 	"symbol": "🔊",
 
 	// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or one of the relative sizes
-	// ‘smaller’ or ‘larger’. If omitted set to medium by default.
-	"font_size": "medium",
+	// ‘smaller’ or ‘larger’. If omitted set to value of simple-volume-pa.font_size by default.
+	"symbol_font_size": "medium",
 
 	// If not defined - will be "true"
 	"right_click_cmd": ["pavucontrol"],
@@ -199,26 +386,47 @@
 	// Maximum sound volume, can be over 100%, but sould not be :) Default value 100 if not set.
 	"max_volume_limit": 120,
 
-	"separator"	: {
+	// Re-define separator parameters for net-if block here.
+	"separator": {
 		"left": {
+			// Set to false if omitted.
 			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
 			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
 			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
 			"symbol": "▶",
+
+			// If omitted set to default font defined for separator up here.
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,, or one of the relative sizes
-			// ‘smaller’ or ‘larger’
+
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		},
 
 		"right": {
+			// Set to false if omitted.
 			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
 			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
 			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
 			"symbol": "◀",
+
+			// If omitted set to default font defined for separator up here.
 			"font": "Noto Sans",
-			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or one of the relative sizes
-			// ‘smaller’ or ‘larger’
+
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		}
 	}
@@ -227,29 +435,61 @@
 // Just clock
 "clock": {
 	"enabled" : true,
-	// Text color in html (actually, pango) notation
-	"color" : "#666666",
 
-	"separator"	: {
+	// If omitted set to default color defined up here.
+	"color": "#3e78fd",
+
+	// If omitted set to default background color defined up here.
+	"background": "#000000",
+
+	// If omitted set to default font defined up here.
+	"font": "Noto Sans",
+
+	// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+	// ‘smaller’ or ‘larger’. If omitted set to default font size defined up here.
+	"font_size": "medium",
+
+	// Re-define separator parameters for net-if block here.
+	"separator": {
 		"left": {
+			// Set to false if omitted.
 			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
 			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
 			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
 			"symbol": "▶",
+
+			// If omitted set to default font defined for separator up here.
 			"font": "Noto Sans",
+
 			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-			// ‘smaller’ or ‘larger’
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		},
 
 		"right": {
+			// Set to false if omitted.
 			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
 			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
 			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
 			"symbol": "◀",
+
+			// If omitted set to default font defined for separator up here.
 			"font": "Noto Sans",
+
 			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-			// ‘smaller’ or ‘larger’
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		}
 	},
@@ -270,7 +510,30 @@
 "battery": {
 	"enabled": false,
 
-	"color": {
+	// If omitted set to default color defined up here.
+	"color": "#3e78fd",
+
+	// If omitted set to default background color defined up here.
+	"background": "#000000",
+
+	// If omitted set to default font defined up here.
+	"font": "Noto Sans",
+
+	// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+	// ‘smaller’ or ‘larger’. If omitted set to default font size defined up here.
+	"font_size": "medium",
+
+	// If omitted "⚡" (no quotes) is used.
+	"symbol": "⚡",
+
+	// If omitted battery.font is used.
+	"symbol_font" : "Noto Sans",
+
+	// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or one of the relative sizes
+	// ‘smaller’ or ‘larger’. If omitted set to value of simple-volume-pa.font_size by default.
+	"symbol_font_size": "large",
+
+	"charge_color": {
 		// colors in html notation
 		"full": "green",
 		"empty": "red",
@@ -278,26 +541,47 @@
 		"almost_empty": "orange"
 	},
 
-	"separator"	: {
+	// Re-define separator parameters for net-if block here.
+	"separator": {
 		"left": {
+			// Set to false if omitted.
 			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
 			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
 			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
 			"symbol": "▶",
+
+			// If omitted set to default font defined for separator up here.
 			"font": "Noto Sans",
+
 			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-			// ‘smaller’ or ‘larger’
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		},
 
 		"right": {
+			// Set to false if omitted.
 			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
 			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
 			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
 			"symbol": "◀",
+
+			// If omitted set to default font defined for separator up here.
 			"font": "Noto Sans",
+
 			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-			// ‘smaller’ or ‘larger’
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		}
 	}
@@ -307,26 +591,60 @@
 "cpu_temp": {
 	"enabled": false,
 
-	"separator"	: {
+	// If omitted set to default color defined up here.
+	"color": "#3e78fd",
+
+	// If omitted set to default background color defined up here.
+	"background": "#000000",
+
+	// If omitted set to default font defined up here.
+	"font": "Noto Sans",
+
+	// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+	// ‘smaller’ or ‘larger’. If omitted set to default font size defined up here.
+	"font_size": "medium",
+
+	// Re-define separator parameters for net-if block here.
+	"separator": {
 		"left": {
+			// Set to false if omitted.
 			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
 			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
 			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
 			"symbol": "▶",
+
+			// If omitted set to default font defined for separator up here.
 			"font": "Noto Sans",
+
 			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-			// ‘smaller’ or ‘larger’
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		},
 
 		"right": {
+			// Set to false if omitted.
 			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
 			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
 			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
 			"symbol": "◀",
+
+			// If omitted set to default font defined for separator up here.
 			"font": "Noto Sans",
+
 			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-			// ‘smaller’ or ‘larger’
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		}
 	},
@@ -367,31 +685,54 @@
 	]
 },
 
-// Weather to display Application Buttons
+// Whether to display Application Buttons.
 "app_buttons": {
 	"enabled": true,
 
-	"separator"	: {
+	// Re-define separator parameters for net-if block here.
+	"separator": {
 		"left": {
+			// Set to false if omitted.
 			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
 			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
+			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
 			"symbol": "▶",
+
+			// If omitted set to default font defined for separator up here.
 			"font": "Noto Sans",
+
 			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-			// ‘smaller’ or ‘larger’
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		},
 
 		"right": {
+			// Set to false if omitted.
 			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
 			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
+			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
 			"symbol": "◀",
+
+			// If omitted set to default font defined for separator up here.
 			"font": "Noto Sans",
+
 			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-			// ‘smaller’ or ‘larger’
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		}
-	}
+	},
 },
 
 // Buttons - application launch "buttons"
