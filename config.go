@@ -743,14 +743,14 @@ func readConf() (MyConfig, error) {
 			} else {
 				matched, err := regexp.MatchString(
 					`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
-					sampleConfig.Clock.Separator.Right.FontSize,
+					sampleConfig.Mem.Separator.Right.FontSize,
 				)
 
 				if err != nil {
 					log.Printf(
 						"Unable to set sampleConfig.Mem.Separator.Right.FontSize: %s, fallback to %s",
 						err,
-						sampleConfig.Clock.Separator.Right.FontSize,
+						sampleConfig.Mem.Separator.Right.FontSize,
 					)
 
 					sampleConfig.Mem.Separator.Right.FontSize = sampleConfig.Separator.Right.FontSize
