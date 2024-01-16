@@ -30,7 +30,7 @@ type I3BarOutBlock struct {
 	Instance            string `json:"instance,omitempty"`
 	Urgent              bool   `json:"urgent,omitempty"`
 	Separator           bool   `json:"separator"`
-	SeparatorBlockWidth int    `json:"separator_block_width,omitempty"`
+	SeparatorBlockWidth int    `json:"separator_block_width"`
 	Markup              string `json:"markup,omitempty"`
 }
 
