@@ -19,10 +19,10 @@ type I3BarOutBlock struct {
 	Color        string `json:"color,omitempty"`
 	Background   string `json:"background,omitempty"`
 	Border       string `json:"border,omitempty"`
-	BorderTop    int    `json:"border_top,omitempty"`
-	BorderRight  int    `json:"border_right,omitempty"`
-	BorderBottom int    `json:"border_bottom,omitempty"`
-	BorderLeft   int    `json:"border_left,omitempty"`
+	BorderTop    int    `json:"border_top"`
+	BorderRight  int    `json:"border_right"`
+	BorderBottom int    `json:"border_bottom"`
+	BorderLeft   int    `json:"border_left"`
 	// measured either in pixels or in characters, so either int or string, let's make it string :)
 	MinWidth            string `json:"min_width,omitempty"`
 	Align               string `json:"align,omitempty"`
@@ -171,6 +171,11 @@ func main() {
 					} else {
 						b.Border = app.Border
 					}
+
+					b.BorderTop = 1
+					b.BorderRight = 1
+					b.BorderBottom = 1
+					b.BorderLeft = 1
 
 					j = append(j, b)
 				}
