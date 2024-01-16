@@ -68,10 +68,18 @@ func UpdateVolumeInfo() {
 			}
 
 			SoundVolume = fmt.Sprintf(
-				"<span font='%s' size='%s'>%s</span><span font='%s' size='%s'>:%d%%</span>",
+				"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
+				Conf.SimpleVolumePa.Color,
+				Conf.SimpleVolumePa.Background,
 				Conf.SimpleVolumePa.SymbolFont,
 				Conf.SimpleVolumePa.SymbolFontSize,
 				Conf.SimpleVolumePa.Symbol,
+			)
+
+			SoundVolume += fmt.Sprintf(
+				"<span color='%s' background='%s' font='%s' size='%s'>:%d%%</span>",
+				Conf.SimpleVolumePa.Color,
+				Conf.SimpleVolumePa.Background,
 				Conf.SimpleVolumePa.Font,
 				Conf.SimpleVolumePa.FontSize,
 				int64(vol*100),

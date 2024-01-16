@@ -198,7 +198,9 @@ func main() {
 				}
 
 				b.FullText += fmt.Sprintf(
-					"<span font='%s' size='%s'>CPU: %d°</span>",
+					"<span color='%s' background='%s' font='%s' size='%s'>CPU: %d°</span>",
+					Conf.CPUTemp.Color,
+					Conf.CPUTemp.Background,
 					Conf.CPUTemp.Font,
 					Conf.CPUTemp.FontSize,
 					CPUTemperature,
@@ -238,7 +240,9 @@ func main() {
 
 				if Conf.Mem.ShowSwap {
 					b.FullText += fmt.Sprintf(
-						"<span font='%s' size='%s'>M:%d%% SHM:%dM SW:%dM</span>",
+						"<span color='%s' background='%s' font='%s' size='%s'>M:%d%% SHM:%dM SW:%dM</span>",
+						Conf.Mem.Color,
+						Conf.Mem.Background,
 						Conf.Mem.Font,
 						Conf.Mem.FontSize,
 						Memory.Usedpct,
@@ -247,7 +251,9 @@ func main() {
 					)
 				} else {
 					b.FullText += fmt.Sprintf(
-						"<span font='%s' size='%s'>M:%d%% SHM:%dM</span>",
+						"<span color='%s' background='%s' font='%s' size='%s'>M:%d%% SHM:%dM</span>",
+						Conf.Mem.Color,
+						Conf.Mem.Background,
 						Conf.Mem.Font,
 						Conf.Mem.FontSize,
 						Memory.Usedpct,
@@ -288,7 +294,9 @@ func main() {
 				}
 
 				b.FullText += fmt.Sprintf(
-					"<span font='%s' size='%s'>LA:%s</span>",
+					"<span color='%s' background='%s' font='%s' size='%s'>LA:%s</span>",
+					Conf.LA.Color,
+					Conf.LA.Background,
 					Conf.LA.Font,
 					Conf.LA.FontSize,
 					La,
@@ -327,7 +335,9 @@ func main() {
 				}
 
 				b.FullText += fmt.Sprintf(
-					"<span font='%s' size= '%s'>%s</span>",
+					"<span color='%s' background='%s' font='%s' size= '%s'>%s</span>",
+					Conf.NetIf.Color,
+					Conf.NetIf.Background,
 					Conf.NetIf.Font,
 					Conf.NetIf.FontSize,
 					IfStatus,
@@ -366,7 +376,9 @@ func main() {
 				}
 
 				b.FullText += fmt.Sprintf(
-					"<span font='%s' size='%s'>%s</span>",
+					"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
+					Conf.Vpn.Color,
+					Conf.Vpn.Background,
 					Conf.Vpn.Font,
 					Conf.Vpn.FontSize,
 					VPNStatus,
@@ -476,7 +488,9 @@ func main() {
 				}
 
 				b.FullText += fmt.Sprintf(
-					"<span font='%s' size='%s'>%s</span>",
+					"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
+					Conf.Clock.Color,
+					Conf.Clock.Background,
 					Conf.Clock.Font,
 					Conf.Clock.FontSize,
 					Clock,

@@ -57,17 +57,20 @@ func UpdateBatteryInfo() {
 				case ch > 85:
 					if Conf.Battery.ChargeColor.Full == "" {
 						chStr = fmt.Sprintf(
-							"<span font='%s' size='%s'>% 3d%%</span>",
+							"<span color='%s' background='%s' font='%s' size='%s'>% 3d%%</span>",
+							Conf.Battery.Color,
+							Conf.Battery.Background,
+							Conf.Battery.Font,
 							Conf.Battery.FontSize,
-							Conf.Battery.ChargeColor.Full,
 							ch,
 						)
 					} else {
 						chStr = fmt.Sprintf(
-							`<span font='%s' size='%s' foreground='%s'>% 3d%%</span>`,
+							`<span color='%s' background='%s' font='%s' size='%s'>% 3d%%</span>`,
+							Conf.Battery.ChargeColor.Full,
+							Conf.Battery.Background,
 							Conf.Battery.Font,
 							Conf.Battery.FontSize,
-							Conf.Battery.ChargeColor.Full,
 							ch,
 						)
 					}
@@ -75,17 +78,20 @@ func UpdateBatteryInfo() {
 				case ch < 85 && ch > 40:
 					if Conf.Battery.ChargeColor.AlmostFull == "" {
 						chStr = fmt.Sprintf(
-							"<span font='%s' size='%s'>% 3d%%</span>",
+							"<span color='%s' background='%s' font='%s' size='%s'>% 3d%%</span>",
+							Conf.Battery.Color,
+							Conf.Battery.Background,
+							Conf.Battery.Font,
 							Conf.Battery.FontSize,
-							Conf.Battery.ChargeColor.Full,
 							ch,
 						)
 					} else {
 						chStr = fmt.Sprintf(
-							`<span font='%s' size='%s' foreground='%s'>% 3d%%</span>`,
+							`<span color='%s' background='%s' font='%s' size='%s'>% 3d%%</span>`,
+							Conf.Battery.ChargeColor.AlmostFull,
+							Conf.Battery.Background,
 							Conf.Battery.Font,
 							Conf.Battery.FontSize,
-							Conf.Battery.ChargeColor.AlmostFull,
 							ch,
 						)
 					}
@@ -93,17 +99,20 @@ func UpdateBatteryInfo() {
 				case ch <= 40 && ch >= 10:
 					if Conf.Battery.ChargeColor.AlmostEmpty == "" {
 						chStr = fmt.Sprintf(
-							"<span font='%s' size='%s'>% 3d%%</span>",
+							"<span color='%s' background='%s' font='%s' size='%s'>% 3d%%</span>",
+							Conf.Battery.Color,
+							Conf.Battery.Background,
+							Conf.Battery.Font,
 							Conf.Battery.FontSize,
-							Conf.Battery.ChargeColor.Full,
 							ch,
 						)
 					} else {
 						chStr = fmt.Sprintf(
-							`<span font='%s' size='%s' foreground='%s'>% 3d%%</span>`,
+							`<span color='%s' background='%s' font='%s' size='%s'>% 3d%%</span>`,
+							Conf.Battery.ChargeColor.AlmostEmpty,
+							Conf.Battery.Background,
 							Conf.Battery.Font,
 							Conf.Battery.FontSize,
-							Conf.Battery.ChargeColor.AlmostEmpty,
 							ch,
 						)
 					}
@@ -111,31 +120,40 @@ func UpdateBatteryInfo() {
 				case ch < 10:
 					if Conf.Battery.ChargeColor.Empty == "" {
 						chStr = fmt.Sprintf(
-							"<span font='%s' size='%s'>% 3d%%</span>",
+							"<span color='%s' background='%s' font='%s' size='%s'>% 3d%%</span>",
+							Conf.Battery.Color,
+							Conf.Battery.Background,
+							Conf.Battery.Font,
 							Conf.Battery.FontSize,
-							Conf.Battery.ChargeColor.Full,
 							ch,
 						)
 					} else {
 						chStr = fmt.Sprintf(
-							`<span font='%s' size='%s' foreground='%s'>% 3d%%</span>`,
+							`<span color='%s' background='%s' font='%s' size='%s'>% 3d%%</span>`,
+							Conf.Battery.ChargeColor.Empty,
+							Conf.Battery.Background,
 							Conf.Battery.Font,
 							Conf.Battery.FontSize,
-							Conf.Battery.ChargeColor.Empty,
 							ch,
 						)
 					}
 				}
 
 				battsInfo += fmt.Sprintf(
-					"<span font='%s' size='%s'>%s</span><span font='%s' size='%s'>B%d </span>%s<span font='%s' size='%s'> %s</span>",
+					"<span color='%s' background='%s' font='%s' size='%s'>%s</span><span color='%s' background='%s' font='%s' size='%s'>B%d </span>%s<span color='%s' background='%s' font='%s' size='%s'> %s</span>",
+					Conf.Battery.Color,
+					Conf.Battery.Background,
 					Conf.Battery.SymbolFont,
 					Conf.Battery.SymbolFontSize,
 					Conf.Battery.Symbol,
+					Conf.Battery.Color,
+					Conf.Battery.Background,
 					Conf.Battery.Font,
 					Conf.Battery.FontSize,
 					i,
 					chStr,
+					Conf.Battery.Color,
+					Conf.Battery.Background,
 					Conf.Battery.Font,
 					Conf.Battery.FontSize,
 					status,
