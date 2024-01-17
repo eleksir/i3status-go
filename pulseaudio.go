@@ -1,15 +1,19 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os/exec"
+	"time"
 
 	p "github.com/mafik/pulseaudio"
 )
 
 var SoundVolume = "🔊:0%"
 var pa *p.Client
+
+// TODO: https://twin.sh/articles/44/add-a-timeout-to-any-function-in-go timeout pulseaudio calls
 
 // UpdateVolumeInfo updates info about current Sound Volume.
 func UpdateVolumeInfo() {
@@ -107,7 +111,34 @@ func PaReinit() error {
 	cmd := exec.Command("pulseaudio", "--check")
 
 	if err := cmd.Run(); err == nil {
-		return fmt.Errorf("pulseaudio is already running, but we have troubles contacting it: %w", err)
+		log.Printf("pulseaudio already running, but seems not responding, try gracefully kill it")
+
+		cmd = exec.Command("pulseaudio", "--kill")
+
+		if err := cmd.Run(); err != nil {
+			return fmt.Errorf("unable to kill pulseaudio: %w", err)
+		}
+
+		cnt := 0
+
+		for {
+			cmd := exec.Command("pulseaudio", "--check")
+
+			// PA not running. Breakout of loop.
+			if err := cmd.Run(); err != nil {
+				break
+			}
+
+			if cnt >= 5 {
+				return errors.New("timeout waiting pulseaudio to exit") //nolint: goerr113
+			}
+
+			log.Print("Waiting for pulseaudio to exit")
+
+			cnt++
+
+			time.Sleep(300 * time.Millisecond)
+		}
 	}
 
 	cmd = exec.Command("pulseaudio", "--start")
