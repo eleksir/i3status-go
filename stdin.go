@@ -95,49 +95,7 @@ func ParseStdin() {
 
 		if e.Name == "simple-volume-pa" {
 			if Conf.SimpleVolumePa.Enabled {
-				if e.Button == 3 {
-					RunChan <- Conf.SimpleVolumePa.RightClickCmd
-
-					continue
-				}
-
-				vol, err := pa.Volume()
-
-				if err != nil {
-					if err := PaReinit(); err != nil {
-						log.Printf("Unable to get pulseaudio volume: %s", err)
-					} else {
-						vol, err = pa.Volume()
-
-						if err != nil {
-							log.Printf("Unable to get volume pulseaudio server behaves weirdly: %s", err)
-						}
-					}
-				}
-
-				switch e.Button {
-				case Conf.SimpleVolumePa.WheelUp:
-					vol += float32(Conf.SimpleVolumePa.Step) / 100
-
-					if vol > (float32(Conf.SimpleVolumePa.MaxVolumeLimit) / 100) {
-						vol = float32(Conf.SimpleVolumePa.MaxVolumeLimit) / 100
-					}
-
-					if err := pa.SetVolume(vol); err != nil {
-						log.Printf("Unable to set pulseaudio volume: %s", err)
-					}
-
-				case Conf.SimpleVolumePa.WheelDown:
-					vol -= float32(Conf.SimpleVolumePa.Step) / 100
-
-					if vol < 0 {
-						vol = 0
-					}
-
-					if err := pa.SetVolume(vol); err != nil {
-						log.Printf("Unable to set pulseaudio volume: %s", err)
-					}
-				}
+				SVPAHandlerChan <- e
 			}
 
 			continue

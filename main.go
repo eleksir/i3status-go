@@ -59,6 +59,7 @@ func main() {
 	go Spawner()
 	go ParseStdin()
 	go CleanZombies()
+	go SVPAHandler()
 	go PrintToI3bar()
 
 	if Conf.AppButtons.Enabled {
