@@ -36,6 +36,7 @@ type I3BarOutBlock struct {
 
 // UpdateReady channel that "refreshes" i3bar (generates stdout json line).
 var UpdateReady = make(chan bool)
+var MsgChan = make(chan []I3BarOutBlock, 64)
 
 //go:embed i3status-go-example.json
 var EmbeddedDefaultConfig embed.FS
@@ -58,6 +59,7 @@ func main() {
 	go Spawner()
 	go ParseStdin()
 	go CleanZombies()
+	go PrintToI3bar()
 
 	if Conf.AppButtons.Enabled {
 		go UpdateI3WinList()
@@ -513,23 +515,25 @@ func main() {
 			}
 
 			if PrintOutput && len(j) > 0 {
-				PrintToI3bar(j)
+				MsgChan <- j
 			}
 		}
 	}
 }
 
 // PrintToI3bar prints info to stdout according to ipc docs (https://i3wm.org/docs/i3bar-protocol.html)
-func PrintToI3bar(message []I3BarOutBlock) {
-	// we do not need to html-encode output, json.Marshal does this forcefully, so invent our own Marshal
-	buf := new(bytes.Buffer)
-	encoder := json.NewEncoder(buf)
-	encoder.SetEscapeHTML(false)
-	err := encoder.Encode(message)
+func PrintToI3bar() {
+	for message := range MsgChan {
+		// we do not need to html-encode output, json.Marshal does this forcefully, so invent our own Marshal
+		buf := new(bytes.Buffer)
+		encoder := json.NewEncoder(buf)
+		encoder.SetEscapeHTML(false)
+		err := encoder.Encode(message)
 
-	if err != nil {
-		log.Printf("Unable to json-encode message, %s\n", err)
+		if err != nil {
+			log.Printf("Unable to json-encode message, %s\n", err)
+		}
+
+		fmt.Println(strings.TrimSuffix(buf.String(), "\n") + ",")
 	}
-
-	fmt.Println(strings.TrimSuffix(buf.String(), "\n") + ",")
 }
