@@ -52,6 +52,48 @@ func main() {
 
 	Conf, err = readConf()
 
+	// TODO: Проставить дефолтные значения для глобальных переменных модулей.
+	Batt = fmt.Sprintf(
+		"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
+		Conf.Battery.Color,
+		Conf.Battery.Background,
+		Conf.Battery.SymbolFont,
+		Conf.Battery.SymbolFontSize,
+		Conf.Battery.Symbol,
+	)
+
+	Batt += fmt.Sprintf(
+		"<span color='%s' background='%s' font='%s' size='%s'> ??%% •</span>",
+		Conf.Battery.Color,
+		Conf.Battery.Background,
+		Conf.Battery.Font,
+		Conf.Battery.FontSize,
+	)
+
+	SoundVolume = fmt.Sprintf(
+		"<span color='%s' background='%s' font='%s' size='%s'>🔊</span>",
+		Conf.SimpleVolumePa.Color,
+		Conf.SimpleVolumePa.Background,
+		Conf.SimpleVolumePa.SymbolFont,
+		Conf.SimpleVolumePa.SymbolFontSize,
+	)
+
+	SoundVolume += fmt.Sprintf(
+		"<span color='%s' background='%s' font='%s' size='%s'>:0%%</span>",
+		Conf.SimpleVolumePa.Color,
+		Conf.SimpleVolumePa.Background,
+		Conf.SimpleVolumePa.Font,
+		Conf.SimpleVolumePa.FontSize,
+	)
+
+	Clock = fmt.Sprintf(
+		"<span color='%s' background='%s' font='%s' size='%s'>Thu, 1 Jan 1970   1:00</span>",
+		Conf.Clock.Color,
+		Conf.Clock.Background,
+		Conf.Clock.Font,
+		Conf.Clock.FontSize,
+	)
+
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -141,9 +183,10 @@ func main() {
 
 					if num == 0 {
 						b.FullText = fmt.Sprintf(
-							"<span color='%s' background='%s' size='%s'>%s</span>",
+							"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 							Conf.AppButtons.Separator.Left.Color,
 							Conf.AppButtons.Separator.Left.Background,
+							Conf.AppButtons.Separator.Left.Font,
 							Conf.AppButtons.Separator.Left.FontSize,
 							Conf.AppButtons.Separator.Left.Symbol,
 						)
@@ -153,9 +196,10 @@ func main() {
 
 					if num == len(Conf.Apps) {
 						b.FullText = fmt.Sprintf(
-							"<span color='%s' background='%s' size='%s'>%s</span>",
+							"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 							Conf.AppButtons.Separator.Right.Color,
 							Conf.AppButtons.Separator.Right.Background,
+							Conf.AppButtons.Separator.Right.Font,
 							Conf.AppButtons.Separator.Right.FontSize,
 							Conf.AppButtons.Separator.Right.Symbol,
 						)
@@ -192,9 +236,10 @@ func main() {
 
 				if Conf.CPUTemp.Separator.Left.Enabled {
 					b.FullText = fmt.Sprintf(
-						"<span color='%s' background='%s' size='%s'>%s</span>",
+						"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 						Conf.CPUTemp.Separator.Left.Color,
 						Conf.CPUTemp.Separator.Left.Background,
+						Conf.CPUTemp.Separator.Left.Font,
 						Conf.CPUTemp.Separator.Left.FontSize,
 						Conf.CPUTemp.Separator.Left.Symbol,
 					)
@@ -211,9 +256,10 @@ func main() {
 
 				if Conf.CPUTemp.Separator.Right.Enabled {
 					b.FullText += fmt.Sprintf(
-						"<span color='%s' background='%s' size='%s'>%s</span>",
+						"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 						Conf.CPUTemp.Separator.Right.Color,
 						Conf.CPUTemp.Separator.Right.Background,
+						Conf.CPUTemp.Separator.Right.Font,
 						Conf.CPUTemp.Separator.Right.FontSize,
 						Conf.CPUTemp.Separator.Right.Symbol,
 					)
@@ -233,9 +279,10 @@ func main() {
 
 				if Conf.Mem.Separator.Left.Enabled {
 					b.FullText = fmt.Sprintf(
-						"<span color='%s' background='%s' size='%s'>%s</span>",
+						"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 						Conf.Mem.Separator.Left.Color,
 						Conf.Mem.Separator.Left.Background,
+						Conf.Mem.Separator.Left.Font,
 						Conf.Mem.Separator.Left.FontSize,
 						Conf.Mem.Separator.Left.Symbol,
 					)
@@ -266,9 +313,10 @@ func main() {
 
 				if Conf.Mem.Separator.Right.Enabled {
 					b.FullText += fmt.Sprintf(
-						"<span color='%s' background='%s' size='%s'>%s</span>",
+						"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 						Conf.Mem.Separator.Right.Color,
 						Conf.Mem.Separator.Right.Background,
+						Conf.Mem.Separator.Right.Font,
 						Conf.Mem.Separator.Right.FontSize,
 						Conf.Mem.Separator.Right.Symbol,
 					)
@@ -288,9 +336,10 @@ func main() {
 
 				if Conf.LA.Separator.Left.Enabled {
 					b.FullText = fmt.Sprintf(
-						"<span color='%s' background='%s' size='%s'>%s</span>",
+						"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 						Conf.LA.Separator.Left.Color,
 						Conf.LA.Separator.Left.Background,
+						Conf.LA.Separator.Left.Font,
 						Conf.LA.Separator.Left.FontSize,
 						Conf.LA.Separator.Left.Symbol,
 					)
@@ -307,9 +356,10 @@ func main() {
 
 				if Conf.LA.Separator.Right.Enabled {
 					b.FullText += fmt.Sprintf(
-						"<span color='%s' background='%s' size='%s'>%s</span>",
+						"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 						Conf.LA.Separator.Right.Color,
 						Conf.LA.Separator.Right.Background,
+						Conf.LA.Separator.Right.Font,
 						Conf.LA.Separator.Right.FontSize,
 						Conf.LA.Separator.Right.Symbol,
 					)
@@ -329,9 +379,10 @@ func main() {
 
 				if Conf.NetIf.Separator.Left.Enabled {
 					b.FullText = fmt.Sprintf(
-						"<span color='%s' background='%s' size='%s'>%s</span>",
+						"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 						Conf.NetIf.Separator.Left.Color,
 						Conf.NetIf.Separator.Left.Background,
+						Conf.NetIf.Separator.Left.Font,
 						Conf.NetIf.Separator.Left.FontSize,
 						Conf.NetIf.Separator.Left.Symbol,
 					)
@@ -348,9 +399,10 @@ func main() {
 
 				if Conf.NetIf.Separator.Right.Enabled {
 					b.FullText += fmt.Sprintf(
-						"<span color='%s' background='%s' size='%s'>%s</span>",
+						"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 						Conf.NetIf.Separator.Right.Color,
 						Conf.NetIf.Separator.Right.Background,
+						Conf.NetIf.Separator.Right.Font,
 						Conf.NetIf.Separator.Right.FontSize,
 						Conf.NetIf.Separator.Right.Symbol,
 					)
@@ -370,9 +422,10 @@ func main() {
 
 				if Conf.Vpn.Separator.Left.Enabled {
 					b.FullText = fmt.Sprintf(
-						"<span color='%s' background='%s' size='%s'>%s</span>",
+						"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 						Conf.Vpn.Separator.Left.Color,
 						Conf.Vpn.Separator.Left.Background,
+						Conf.Vpn.Separator.Left.Font,
 						Conf.Vpn.Separator.Left.FontSize,
 						Conf.Vpn.Separator.Left.Symbol,
 					)
@@ -389,9 +442,10 @@ func main() {
 
 				if Conf.Vpn.Separator.Right.Enabled {
 					b.FullText += fmt.Sprintf(
-						"<span color='%s' background='%s' size='%s'>%s</span>",
+						"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 						Conf.Vpn.Separator.Right.Color,
 						Conf.Vpn.Separator.Right.Background,
+						Conf.Vpn.Separator.Right.Font,
 						Conf.Vpn.Separator.Right.FontSize,
 						Conf.Vpn.Separator.Right.Symbol,
 					)
@@ -411,9 +465,10 @@ func main() {
 
 				if Conf.Battery.Separator.Left.Enabled {
 					b.FullText = fmt.Sprintf(
-						"<span color='%s' background='%s' size='%s'>%s</span>",
+						"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 						Conf.Battery.Separator.Left.Color,
 						Conf.Battery.Separator.Left.Background,
+						Conf.Battery.Separator.Left.Font,
 						Conf.Battery.Separator.Left.FontSize,
 						Conf.Battery.Separator.Left.Symbol,
 					)
@@ -423,9 +478,10 @@ func main() {
 
 				if Conf.Battery.Separator.Right.Enabled {
 					b.FullText += fmt.Sprintf(
-						"<span color='%s' background='%s' size='%s'>%s</span>",
+						"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 						Conf.Battery.Separator.Right.Color,
 						Conf.Battery.Separator.Right.Background,
+						Conf.Battery.Separator.Right.Font,
 						Conf.Battery.Separator.Right.FontSize,
 						Conf.Battery.Separator.Right.Symbol,
 					)
@@ -446,9 +502,10 @@ func main() {
 
 				if Conf.SimpleVolumePa.Separator.Left.Enabled {
 					b.FullText = fmt.Sprintf(
-						"<span color='%s' background='%s' size='%s'>%s</span>",
+						"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 						Conf.SimpleVolumePa.Separator.Left.Color,
 						Conf.SimpleVolumePa.Separator.Left.Background,
+						Conf.SimpleVolumePa.Separator.Left.Font,
 						Conf.SimpleVolumePa.Separator.Left.FontSize,
 						Conf.SimpleVolumePa.Separator.Left.Symbol,
 					)
@@ -459,9 +516,10 @@ func main() {
 
 				if Conf.SimpleVolumePa.Separator.Right.Enabled {
 					b.FullText += fmt.Sprintf(
-						"<span color='%s' background='%s' size='%s'>%s</span>",
+						"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 						Conf.SimpleVolumePa.Separator.Right.Color,
 						Conf.SimpleVolumePa.Separator.Right.Background,
+						Conf.SimpleVolumePa.Separator.Right.Font,
 						Conf.SimpleVolumePa.Separator.Right.FontSize,
 						Conf.SimpleVolumePa.Separator.Right.Symbol,
 					)
@@ -482,9 +540,10 @@ func main() {
 
 				if Conf.Clock.Separator.Left.Enabled {
 					b.FullText = fmt.Sprintf(
-						"<span color='%s' background='%s' size='%s'>%s</span>",
+						"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 						Conf.Clock.Separator.Left.Color,
 						Conf.Clock.Separator.Left.Background,
+						Conf.Clock.Separator.Left.Font,
 						Conf.Clock.Separator.Left.FontSize,
 						Conf.Clock.Separator.Left.Symbol,
 					)
@@ -501,9 +560,10 @@ func main() {
 
 				if Conf.Clock.Separator.Right.Enabled {
 					b.FullText += fmt.Sprintf(
-						"<span color='%s' background='%s' size='%s'>%s</span>",
+						"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 						Conf.Clock.Separator.Right.Color,
 						Conf.Clock.Separator.Right.Background,
+						Conf.Clock.Separator.Right.Font,
 						Conf.Clock.Separator.Right.FontSize,
 						Conf.Clock.Separator.Right.Symbol,
 					)
