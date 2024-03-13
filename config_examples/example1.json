@@ -1,0 +1,438 @@
+{
+// Default text and *block* border colors. If not set #3e78fd is used.
+"color" : "#3e78fd",
+
+// Default backbround color. If not set value of #edeceb is used.
+"background" : "#000000",
+
+"separator": {
+	"left": {
+		"enabled": false,
+		"color": "#3e78fd",
+		"background": "#000000",
+		"symbol": "|",
+		"font": "Noto Sans",
+		// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+		// ‘smaller’ or ‘larger’
+		"font_size": "medium"
+	},
+
+	"right": {
+		// False if value omitted
+		"enabled": false,
+		// Used #edeceb as default if value omitted
+		"color": "#3e78fd",
+		// If not set #3e78fd is used.
+		"background": "#000000",
+		// If omitted, used "|" (no quotes) as default
+		"symbol": "|",
+		"font": "Noto Sans",
+		// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+		// ‘smaller’ or ‘larger’
+		"font_size": "medium"
+	}
+},
+
+// Memory stats
+"mem" : {
+	"enabled": true,
+	"show_swap": false,
+
+	"separator"	: {
+		"left": {
+			"enabled": true,
+			"symbol": " |"
+		}
+
+		"right": {
+			"enabled": true
+		}
+	}
+},
+
+// Load Average
+"la" : {
+	"enabled": true,
+
+	"separator"	: {
+		"right": {
+			"enabled": true,
+		}
+	}
+},
+
+"net-if" : {
+	"enabled" : false,
+	// In html notation
+	"down_color" : "red",
+	"up_color" : "green",
+
+	"separator"	: {
+		"right": {
+			"enabled": true,
+		}
+	},
+
+	"if" : [
+		{
+			// Name as it displayed on i3bar
+			"name" : "eth0",
+			// Directory containing net if status files
+			"dir" : "/sys/class/net/eth0"
+		}
+	]
+},
+
+// OpenVPN status. Note that directive status in openvpn.conf should point to
+// state file and *update* its timestamp at least as frequent as mtime_threshold in seconds
+"vpn": {
+	"enabled": false,
+	"statusfile" : "/tmp/openvpn-status.stat",
+	"mtime_threshold": 10,
+	// Color in html notation
+	"down_color" : "red",
+	"up_color" : "green",
+
+	"separator"	: {
+		"right": {
+			"enabled": true,
+		}
+	},
+
+	// Also we can tcp-ping some service inside vpn network to ensure that connection is not stoned
+	"tcp_check" : {
+		"enabled": false,
+		"host": "somehost.tld",
+		"port": 443,
+		"timeout" : 3
+	}
+},
+
+// Simple sound volume indicator
+"simple-volume-pa": {
+	"enabled": true,
+	"symbol": "VOL",
+
+	// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’, or one of the relative sizes
+	// ‘smaller’ or ‘larger’. If omitted set to medium by default.
+	"font_size": "medium",
+
+	// If not defined - will be "true"
+	"right_click_cmd": ["pavucontrol"],
+
+	// Change volume step in %, if not configured it is 5
+	"step": 3,
+
+	// We'll change volume level with mouse wheel. Under X11 it is mapped to some buttons, typically 4 and 5 (z-axis).
+	// If omited, default value is 4
+	"wheel_up": 4,
+
+	// If omited, default value is 5
+	"wheel_down": 5,
+
+	// Maximum sound volume, can be over 100%, but sould not be :) Default value 100 if not set.
+	"max_volume_limit": 120,
+
+	"separator"	: {
+		"right": {
+			"enabled": true,
+		}
+	}
+},
+
+// Just clock
+"clock": {
+	"enabled" : true,
+	// Text color in html (actually, pango) notation
+	"color" : "#666666",
+	"font_size": "large",
+
+	"separator"	: {
+		"right": {
+			"enabled": false,
+		}
+	},
+
+	"left_click" : {
+		"enabled" : false,
+		// cmd is array of command itself and its arguments
+		"cmd" : [ "orage" ]
+	},
+
+	"right_click" : {
+		"enabled" : false,
+		"cmd" : [ "true" ]
+	}
+},
+
+// Battery, useful for laptops
+"battery": {
+	"enabled": false,
+
+	"charge_color": {
+		// colors in html notation
+		"full": "green",
+		"empty": "red",
+		"almost_full": "yellow",
+		"almost_empty": "orange"
+	},
+
+	"separator"	: {
+		"right": {
+			"enabled": true,
+		}
+	}
+},
+
+// CPU Temperature monitor, shows average value among given sources
+"cpu_temp": {
+	"enabled": false,
+
+	"separator"	: {
+		"right": {
+			"enabled": true,
+		}
+	},
+
+	// Files in sysfs that contains cpu temperatures
+	"file": [
+	  "/sys/class/hwmon/hwmon4/temp2_input",
+	  "/sys/class/hwmon/hwmon4/temp3_input",
+	  "/sys/class/hwmon/hwmon4/temp4_input",
+	  "/sys/class/hwmon/hwmon4/temp5_input",
+	  "/sys/class/hwmon/hwmon4/temp6_input",
+	  "/sys/class/hwmon/hwmon4/temp7_input"
+	]
+},
+
+// Intended mainly for use with desktop notifications
+// Because it inherits all env vars from i3, it can intercat with dbus and other
+// such user session services.
+"cron" : {
+	"enabled" : false,
+
+	"tasks" : [
+		{
+			// Time in crontab notation
+			"time" : "55 23 * * *",
+			"cmd" : [
+				"notify-send", "Sleeping Time!", "Take a nap."
+			]
+		},
+		{
+			// time in crontab format
+			"time" : "55 12 * * 2,4",
+			// commands as it should be invoked in bash script
+			"cmd" : [
+				"notify-send", "Pizza time!", "M-m-m, tasty!"
+			]
+		}
+	]
+},
+
+// Weather to display Application Buttons
+"app_buttons": {
+	"enabled": true,
+},
+
+// Buttons - application launch "buttons"
+"apps": [
+		{
+			"full_text" : "📂",
+			"name" : "thunar",
+			"cmd" : "thunar",
+			"instance": "thunar",
+			"class": "Thunar",
+			"color": "#ffa500",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 9
+		},
+		{
+			"full_text" : " ♬ ",
+			"name" : "deadbeef",
+			"cmd" : "deadbeef",
+			"instance" : "deadbeef",
+			"class" : "Deadbeef",
+			"color" : "#00aa33",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 2
+		},
+		{
+			"full_text" : " Term ",
+			"name" : "alacritty",
+			"cmd" : "alacritty",
+			"instance" : "Alacritty",
+			"class" : "Alacritty",
+			"color" : "#666666",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 9
+		},
+		{
+			"full_text" : " E ",
+			"name" : "edge",
+			"cmd" : "edge",
+			"instance" : "microsoft-edge",
+			"class" : "Microsoft-edge",
+			"color" : "#ffa500",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 2
+		},
+		{
+			"full_text" : " Ff ",
+			"name" : "firefox",
+			"cmd" : "firefox",
+			"instance" : "Navigator",
+			"class" : "Firefox",
+			"color" : "#ff5f1f",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator_block_width": 2
+		},
+		{
+			"full_text" : " V ",
+			"name" : "vivaldi",
+			"cmd" : "Vivaldi",
+			"instance" : "vivaldi-stable",
+			"class" : "Vivaldi-stable",
+			"color" : "#ffa500",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 2
+		},
+		{
+			"full_text" : " C ",
+			"name" : "chrome",
+			"cmd" : "chrome",
+			"instance" : "google-chrome",
+			"class" : "Google-chrome",
+			"color" : "#ffa500",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 9
+		},
+		{
+			"full_text" : " @ ",
+			"name" : "thunderbird",
+			"cmd" : "thunderbird",
+			"instance" : "Mail",
+			"class" : "Thunderbird",
+			"color" : "#006994",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 2
+		},
+		{
+			"full_text" : " Tg ",
+			"name" : "telegram",
+			"cmd" : "Telegram",
+			"instance" : "Telegram",
+			"class" : "TelegramDesktop",
+			"color" : "#5a8850",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 2
+		},
+		{
+			"full_text" : " D ",
+			"name" : "discord",
+			"cmd" : "Discord",
+			"instance" : "discord",
+			"class" : "discord",
+			"color" : "#5a8850",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 2
+		},
+		{
+			"full_text" : " H ",
+			"name" : "hexchat",
+			"cmd" : "hexchat",
+			"instance" : "hexchat",
+			"class" : "Hexchat",
+			"color" : "#5a8850",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 2
+		},
+		{
+			"full_text" : "Psi",
+			"name" : "psi-plus",
+			"cmd" : "psi-plus",
+			"instance" : "psi-plus",
+			"class" : "Psi-plus",
+			"color" : "#5a8850",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 9
+		},
+		{
+			"full_text" : " T ",
+			"name" : "mousepad",
+			"cmd" : "mousepad",
+			"instance" : "mousepad",
+			"class" : "Mousepad",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 2
+		},
+		{
+			"full_text" : " VSC ",
+			"name" : "code",
+			"cmd" : "code",
+			"instance" : "code",
+			"class" : "Code",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 2
+		},
+		{
+			"full_text" : " G ",
+			"name" : "goland",
+			"cmd" : "goland",
+			"instance" : "goland",
+			"class" : "Goland",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 2
+		},
+		{
+			"full_text" : " ▢ ",
+			"name" : "ToolBox",
+			"cmd" : "/home/eleksir/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox",
+			"instance" : "JetBrains Toolbox",
+			"class" : "jetbrains-toolbox",
+			"border": "#666666",
+			"border_active": "#3e78fd",
+			"separator": false,
+			"separator_block_width": 9
+		},
+		{
+			"full_text" : " 🔑 ",
+			"name" : "keepassxc",
+			"cmd" : "kee",
+			"instance" : "keepassxc",
+			"class" : "KeePassXC",
+			"color" : "#7ec850",
+			"border" : "#666666",
+			"border_active" : "#3e78fd"
+		}
+	]
+}
