@@ -151,7 +151,19 @@ func PaReinit() error {
 		}
 	}
 
-	cmd = exec.Command("pulseaudio", "--start")
+	// PA has annoying feature: socket activation. Sound system must be persistent and available to all users regardless
+	// of init or other things. They just fail to understand that. Or they fucked up pulseaudio just because they scary
+	// of security something responsibility. Anyway this is grand design flaw, but we still have to bear with it.
+	// This setting defines if pulseaudio will be run in manner that allows it to exit is other login detected (how
+	// they guess it - I do not know). In general case we do not want to allow pa to exit and leave our session without
+	// audio.
+	if Conf.SimpleVolumePa.DontExitOnLogin {
+		// Do not exit on any kind of login/logout events.
+		cmd = exec.Command("pulseaudio", "--exit-idle-time=-1", "--start")
+	} else {
+		// Exit immediately on logout(?).
+		cmd = exec.Command("pulseaudio", "--exit-idle-time=0", "--start")
+	}
 
 	if err := cmd.Run(); err != nil {
 		return fmt.Errorf("unable to initialize pulseaudio server instance: %w", err)

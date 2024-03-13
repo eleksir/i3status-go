@@ -248,14 +248,15 @@ type MyConfig struct {
 	} `json:"vpn,omitempty"`
 
 	SimpleVolumePa struct {
-		Enabled        bool   `json:"enabled,omitempty"`
-		Color          string `json:"color,omitempty"`
-		Background     string `json:"background,omitempty"`
-		Font           string `json:"font,omitempty"`
-		FontSize       string `json:"font_size,omitempty"`
-		Symbol         string `json:"symbol,omitempty"`
-		SymbolFont     string `json:"symbol_font,omitempty"`
-		SymbolFontSize string `json:"symbol_font_size,omitempty"`
+		Enabled         bool   `json:"enabled,omitempty"`
+		Color           string `json:"color,omitempty"`
+		Background      string `json:"background,omitempty"`
+		Font            string `json:"font,omitempty"`
+		FontSize        string `json:"font_size,omitempty"`
+		Symbol          string `json:"symbol,omitempty"`
+		SymbolFont      string `json:"symbol_font,omitempty"`
+		SymbolFontSize  string `json:"symbol_font_size,omitempty"`
+		DontExitOnLogin bool   `json:"dont_exit_on_login,omitempty"`
 
 		Separator struct {
 			Left struct {
