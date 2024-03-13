@@ -386,6 +386,14 @@
 	// Maximum sound volume, can be over 100%, but sould not be :) Default value 100 if not set.
 	"max_volume_limit": 120,
 
+	// PA has annoying feature - socket activation. Sound system must persist and be available to all users regardless
+	// of init or other things. They just fail to understand that. Or they fucked up pulseaudio just because they scary
+	// of security something of resposibility. Anyway this is grand disign flaw, but we still have to bear with it.
+	// This setting defines if pulseaudion will be run in manner that allows it to exit is other login detected (how
+	// they guess it - I do not know). In general case we do not want allow pa to exit and leave our session without
+	// audio.
+	"dont_exit_on_login": true,
+
 	// Re-define separator parameters for net-if block here.
 	"separator": {
 		"left": {
