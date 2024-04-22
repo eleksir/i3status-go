@@ -11,7 +11,7 @@ import (
 // RunChan to this channel we send command and its argv to execute as separate process.
 var RunChan = make(chan []string, 128)
 
-// Spawn forks and execs given program, and also detaches form its control tty.
+// Spawner forks and execs given program, and also detaches form its control tty.
 func Spawner() {
 	for prg := range RunChan {
 		devnullR, _ := os.Open(os.DevNull)
