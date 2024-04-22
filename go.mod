@@ -5,9 +5,9 @@ go 1.21
 require (
 	github.com/adrg/xdg v0.4.0
 	github.com/distatus/battery v0.11.0
-	github.com/go-co-op/gocron/v2 v2.1.2
+	github.com/go-co-op/gocron/v2 v2.2.9
 	github.com/hjson/hjson-go v3.3.0+incompatible
-	github.com/mafik/pulseaudio v0.0.0-20200511091429-8449222912dd
+	github.com/mafik/pulseaudio v0.0.0-20240327130323-384e01075e6e
 	github.com/shirou/gopsutil v3.21.11+incompatible
 	go.i3wm.org/i3 v0.0.0-20190720062127-36e6ec85cc5a
 )
@@ -16,11 +16,11 @@ require (
 	github.com/BurntSushi/xgb v0.0.0-20210121224620-deaf085860bc // indirect
 	github.com/BurntSushi/xgbutil v0.0.0-20190907113008-ad855c713046 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
-	github.com/google/uuid v1.5.0 // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/jonboulle/clockwork v0.4.0 // indirect
 	github.com/robfig/cron/v3 v3.0.1 // indirect
-	github.com/yusufpapurcu/wmi v1.2.3 // indirect
-	golang.org/x/exp v0.0.0-20240103183307-be819d1f06fc // indirect
-	golang.org/x/sys v0.16.0 // indirect
+	github.com/yusufpapurcu/wmi v1.2.4 // indirect
+	golang.org/x/exp v0.0.0-20240416160154-fe59bbe5cc7f // indirect
+	golang.org/x/sys v0.19.0 // indirect
 	howett.net/plist v1.0.1 // indirect
 )

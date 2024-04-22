@@ -70,9 +70,15 @@ type scheduler struct {
 	allJobsOutRequest  chan allJobsOutRequest
 	jobOutRequestCh    chan jobOutRequest
 	runJobRequestCh    chan runJobRequest
-	newJobCh           chan internalJob
+	newJobCh           chan newJobIn
 	removeJobCh        chan uuid.UUID
 	removeJobsByTagsCh chan []string
+}
+
+type newJobIn struct {
+	ctx    context.Context
+	cancel context.CancelFunc
+	job    internalJob
 }
 
 type jobOutRequest struct {
@@ -100,13 +106,14 @@ func NewScheduler(options ...SchedulerOption) (Scheduler, error) {
 	exec := executor{
 		stopCh:           make(chan struct{}),
 		stopTimeout:      time.Second * 10,
-		singletonRunners: make(map[uuid.UUID]singletonRunner),
+		singletonRunners: nil,
 		logger:           &noOpLogger{},
 
-		jobsIn:        make(chan jobIn),
-		jobIDsOut:     make(chan uuid.UUID),
-		jobOutRequest: make(chan jobOutRequest, 1000),
-		done:          make(chan error),
+		jobsIn:                 make(chan jobIn),
+		jobsOutForRescheduling: make(chan uuid.UUID),
+		jobsOutCompleted:       make(chan uuid.UUID),
+		jobOutRequest:          make(chan jobOutRequest, 1000),
+		done:                   make(chan error),
 	}
 
 	s := &scheduler{
@@ -118,7 +125,7 @@ func NewScheduler(options ...SchedulerOption) (Scheduler, error) {
 		clock:          clockwork.NewRealClock(),
 		logger:         &noOpLogger{},
 
-		newJobCh:           make(chan internalJob),
+		newJobCh:           make(chan newJobIn),
 		removeJobCh:        make(chan uuid.UUID),
 		removeJobsByTagsCh: make(chan []string),
 		startCh:            make(chan struct{}),
@@ -141,11 +148,14 @@ func NewScheduler(options ...SchedulerOption) (Scheduler, error) {
 		s.logger.Info("gocron: new scheduler created")
 		for {
 			select {
-			case id := <-s.exec.jobIDsOut:
-				s.selectExecJobIDsOut(id)
+			case id := <-s.exec.jobsOutForRescheduling:
+				s.selectExecJobsOutForRescheduling(id)
 
-			case j := <-s.newJobCh:
-				s.selectNewJob(j)
+			case id := <-s.exec.jobsOutCompleted:
+				s.selectExecJobsOutCompleted(id)
+
+			case in := <-s.newJobCh:
+				s.selectNewJob(in)
 
 			case id := <-s.removeJobCh:
 				s.selectRemoveJob(id)
@@ -281,9 +291,54 @@ func (s *scheduler) selectRemoveJob(id uuid.UUID) {
 
 // Jobs coming back from the executor to the scheduler that
 // need to evaluated for rescheduling.
-func (s *scheduler) selectExecJobIDsOut(id uuid.UUID) {
-	j := s.jobs[id]
-	j.lastRun = j.nextRun
+func (s *scheduler) selectExecJobsOutForRescheduling(id uuid.UUID) {
+	j, ok := s.jobs[id]
+	if !ok {
+		// the job was removed while it was running, and
+		// so we don't need to reschedule it.
+		return
+	}
+	j.lastScheduledRun = j.nextScheduled
+
+	next := j.next(j.lastScheduledRun)
+	if next.IsZero() {
+		// the job's next function will return zero for OneTime jobs.
+		// since they are one time only, they do not need rescheduling.
+		return
+	}
+	if next.Before(s.now()) {
+		// in some cases the next run time can be in the past, for example:
+		// - the time on the machine was incorrect and has been synced with ntp
+		// - the machine went to sleep, and woke up some time later
+		// in those cases, we want to increment to the next run in the future
+		// and schedule the job for that time.
+		for next.Before(s.now()) {
+			next = j.next(next)
+		}
+	}
+	j.nextScheduled = next
+	j.timer = s.clock.AfterFunc(next.Sub(s.now()), func() {
+		// set the actual timer on the job here and listen for
+		// shut down events so that the job doesn't attempt to
+		// run if the scheduler has been shutdown.
+		select {
+		case <-s.shutdownCtx.Done():
+			return
+		case s.exec.jobsIn <- jobIn{
+			id:            j.id,
+			shouldSendOut: true,
+		}:
+		}
+	})
+	// update the job with its new next and last run times and timer.
+	s.jobs[id] = j
+}
+
+func (s *scheduler) selectExecJobsOutCompleted(id uuid.UUID) {
+	j, ok := s.jobs[id]
+	if !ok {
+		return
+	}
 
 	// if the job has a limited number of runs set, we need to
 	// check how many runs have occurred and stop running this
@@ -302,37 +357,7 @@ func (s *scheduler) selectExecJobIDsOut(id uuid.UUID) {
 		}
 	}
 
-	next := j.next(j.lastRun)
-	if next.IsZero() {
-		// the job's next function will return zero for OneTime jobs.
-		// since they are one time only, they do not need rescheduling.
-		return
-	}
-	if next.Before(s.now()) {
-		// in some cases the next run time can be in the past, for example:
-		// - the time on the machine was incorrect and has been synced with ntp
-		// - the machine went to sleep, and woke up some time later
-		// in those cases, we want to increment to the next run in the future
-		// and schedule the job for that time.
-		for next.Before(s.now()) {
-			next = j.next(next)
-		}
-	}
-	j.nextRun = next
-	j.timer = s.clock.AfterFunc(next.Sub(s.now()), func() {
-		// set the actual timer on the job here and listen for
-		// shut down events so that the job doesn't attempt to
-		// run if the scheduler has been shutdown.
-		select {
-		case <-s.shutdownCtx.Done():
-			return
-		case s.exec.jobsIn <- jobIn{
-			id:            j.id,
-			shouldSendOut: true,
-		}:
-		}
-	})
-	// update the job with its new next and last run times and timer.
+	j.lastRun = s.now()
 	s.jobs[id] = j
 }
 
@@ -346,7 +371,8 @@ func (s *scheduler) selectJobOutRequest(out jobOutRequest) {
 	close(out.outChan)
 }
 
-func (s *scheduler) selectNewJob(j internalJob) {
+func (s *scheduler) selectNewJob(in newJobIn) {
+	j := in.job
 	if s.started {
 		next := j.startTime
 		if j.startImmediately {
@@ -374,10 +400,11 @@ func (s *scheduler) selectNewJob(j internalJob) {
 				}
 			})
 		}
-		j.nextRun = next
+		j.nextScheduled = next
 	}
 
 	s.jobs[j.id] = j
+	in.cancel()
 }
 
 func (s *scheduler) selectRemoveJobsByTags(tags []string) {
@@ -424,7 +451,7 @@ func (s *scheduler) selectStart() {
 				}
 			})
 		}
-		j.nextRun = next
+		j.nextScheduled = next
 		s.jobs[id] = j
 	}
 	select {
@@ -446,10 +473,11 @@ func (s *scheduler) now() time.Time {
 
 func (s *scheduler) jobFromInternalJob(in internalJob) job {
 	return job{
-		id:            in.id,
-		name:          in.name,
-		tags:          slices.Clone(in.tags),
-		jobOutRequest: s.jobOutRequestCh,
+		in.id,
+		in.name,
+		slices.Clone(in.tags),
+		s.jobOutRequestCh,
+		s.runJobRequestCh,
 	}
 }
 
@@ -548,9 +576,19 @@ func (s *scheduler) addOrUpdateJob(id uuid.UUID, definition JobDefinition, taskW
 		return nil, err
 	}
 
+	newJobCtx, newJobCancel := context.WithCancel(context.Background())
 	select {
 	case <-s.shutdownCtx.Done():
-	case s.newJobCh <- j:
+	case s.newJobCh <- newJobIn{
+		ctx:    newJobCtx,
+		cancel: newJobCancel,
+		job:    j,
+	}:
+	}
+
+	select {
+	case <-newJobCtx.Done():
+	case <-s.shutdownCtx.Done():
 	}
 
 	return &job{
@@ -771,6 +809,17 @@ func WithStopTimeout(timeout time.Duration) SchedulerOption {
 			return ErrWithStopTimeoutZeroOrNegative
 		}
 		s.exec.stopTimeout = timeout
+		return nil
+	}
+}
+
+// WithMonitor sets the metrics provider to be used by the Scheduler.
+func WithMonitor(monitor Monitor) SchedulerOption {
+	return func(s *scheduler) error {
+		if monitor == nil {
+			return ErrWithMonitorNil
+		}
+		s.exec.monitor = monitor
 		return nil
 	}
 }

@@ -24,7 +24,9 @@ type internalJob struct {
 	name   string
 	tags   []string
 	jobSchedule
-	lastRun, nextRun   time.Time
+	lastScheduledRun   time.Time
+	nextScheduled      time.Time
+	lastRun            time.Time
 	function           any
 	parameters         []any
 	timer              clockwork.Timer
@@ -148,6 +150,9 @@ type durationJobDefinition struct {
 }
 
 func (d durationJobDefinition) setup(j *internalJob, _ *time.Location) error {
+	if d.duration == 0 {
+		return ErrDurationJobIntervalZero
+	}
 	j.jobSchedule = &durationJob{duration: d.duration}
 	return nil
 }
@@ -579,8 +584,8 @@ func WithTags(tags ...string) JobOption {
 // listeners that can be used to listen for job events.
 type EventListener func(*internalJob) error
 
-// AfterJobRuns is used to listen for when a job has run regardless
-// of any returned error value, and run the provided function.
+// AfterJobRuns is used to listen for when a job has run
+// without an error, and then run the provided function.
 func AfterJobRuns(eventListenerFunc func(jobID uuid.UUID, jobName string)) EventListener {
 	return func(j *internalJob) error {
 		if eventListenerFunc == nil {
@@ -678,18 +683,18 @@ func (d dailyJob) next(lastRun time.Time) time.Time {
 
 func (d dailyJob) nextDay(lastRun time.Time, firstPass bool) time.Time {
 	for _, at := range d.atTimes {
-		// sub the at time hour/min/sec onto the lastRun's values
+		// sub the at time hour/min/sec onto the lastScheduledRun's values
 		// to use in checks to see if we've got our next run time
 		atDate := time.Date(lastRun.Year(), lastRun.Month(), lastRun.Day(), at.Hour(), at.Minute(), at.Second(), lastRun.Nanosecond(), lastRun.Location())
 
 		if firstPass && atDate.After(lastRun) {
 			// checking to see if it is after i.e. greater than,
-			// and not greater or equal as our lastRun day/time
+			// and not greater or equal as our lastScheduledRun day/time
 			// will be in the loop, and we don't want to select it again
 			return atDate
 		} else if !firstPass && !atDate.Before(lastRun) {
 			// now that we're looking at the next day, it's ok to consider
-			// the same at time that was last run (as lastRun has been incremented)
+			// the same at time that was last run (as lastScheduledRun has been incremented)
 			return atDate
 		}
 	}
@@ -724,18 +729,18 @@ func (w weeklyJob) nextWeekDayAtTime(lastRun time.Time, firstPass bool) time.Tim
 			// weekDayDiff is used to add the correct amount to the atDate day below
 			weekDayDiff := wd - lastRun.Weekday()
 			for _, at := range w.atTimes {
-				// sub the at time hour/min/sec onto the lastRun's values
+				// sub the at time hour/min/sec onto the lastScheduledRun's values
 				// to use in checks to see if we've got our next run time
 				atDate := time.Date(lastRun.Year(), lastRun.Month(), lastRun.Day()+int(weekDayDiff), at.Hour(), at.Minute(), at.Second(), lastRun.Nanosecond(), lastRun.Location())
 
 				if firstPass && atDate.After(lastRun) {
 					// checking to see if it is after i.e. greater than,
-					// and not greater or equal as our lastRun day/time
+					// and not greater or equal as our lastScheduledRun day/time
 					// will be in the loop, and we don't want to select it again
 					return atDate
 				} else if !firstPass && !atDate.Before(lastRun) {
 					// now that we're looking at the next week, it's ok to consider
-					// the same at time that was last run (as lastRun has been incremented)
+					// the same at time that was last run (as lastScheduledRun has been incremented)
 					return atDate
 				}
 			}
@@ -756,30 +761,35 @@ type monthlyJob struct {
 func (m monthlyJob) next(lastRun time.Time) time.Time {
 	daysList := make([]int, len(m.days))
 	copy(daysList, m.days)
-	firstDayNextMonth := time.Date(lastRun.Year(), lastRun.Month()+1, 1, 0, 0, 0, 0, lastRun.Location())
-	for _, daySub := range m.daysFromEnd {
-		// getting a combined list of all the daysList and the negative daysList
-		// which count backwards from the first day of the next month
-		// -1 == the last day of the month
-		day := firstDayNextMonth.AddDate(0, 0, daySub).Day()
-		daysList = append(daysList, day)
-	}
-	slices.Sort(daysList)
 
-	firstPass := true
-	next := m.nextMonthDayAtTime(lastRun, daysList, firstPass)
+	daysFromEnd := m.handleNegativeDays(lastRun, daysList, m.daysFromEnd)
+	next := m.nextMonthDayAtTime(lastRun, daysFromEnd, true)
 	if !next.IsZero() {
 		return next
 	}
-	firstPass = false
 
 	from := time.Date(lastRun.Year(), lastRun.Month()+time.Month(m.interval), 1, 0, 0, 0, 0, lastRun.Location())
 	for next.IsZero() {
-		next = m.nextMonthDayAtTime(from, daysList, firstPass)
+		daysFromEnd = m.handleNegativeDays(from, daysList, m.daysFromEnd)
+		next = m.nextMonthDayAtTime(from, daysFromEnd, false)
 		from = from.AddDate(0, int(m.interval), 0)
 	}
 
 	return next
+}
+
+func (m monthlyJob) handleNegativeDays(from time.Time, days, negativeDays []int) []int {
+	var out []int
+	// getting a list of the days from the end of the following month
+	// -1 == the last day of the month
+	firstDayNextMonth := time.Date(from.Year(), from.Month()+1, 1, 0, 0, 0, 0, from.Location())
+	for _, daySub := range negativeDays {
+		day := firstDayNextMonth.AddDate(0, 0, daySub).Day()
+		out = append(out, day)
+	}
+	out = append(out, days...)
+	slices.Sort(out)
+	return out
 }
 
 func (m monthlyJob) nextMonthDayAtTime(lastRun time.Time, days []int, firstPass bool) time.Time {
@@ -787,7 +797,7 @@ func (m monthlyJob) nextMonthDayAtTime(lastRun time.Time, days []int, firstPass 
 	for _, day := range days {
 		if day >= lastRun.Day() {
 			for _, at := range m.atTimes {
-				// sub the day, and the at time hour/min/sec onto the lastRun's values
+				// sub the day, and the at time hour/min/sec onto the lastScheduledRun's values
 				// to use in checks to see if we've got our next run time
 				atDate := time.Date(lastRun.Year(), lastRun.Month(), day, at.Hour(), at.Minute(), at.Second(), lastRun.Nanosecond(), lastRun.Location())
 
@@ -799,12 +809,12 @@ func (m monthlyJob) nextMonthDayAtTime(lastRun time.Time, days []int, firstPass 
 
 				if firstPass && atDate.After(lastRun) {
 					// checking to see if it is after i.e. greater than,
-					// and not greater or equal as our lastRun day/time
+					// and not greater or equal as our lastScheduledRun day/time
 					// will be in the loop, and we don't want to select it again
 					return atDate
 				} else if !firstPass && !atDate.Before(lastRun) {
 					// now that we're looking at the next month, it's ok to consider
-					// the same at time that was  lastRun (as lastRun has been incremented)
+					// the same at time that was  lastScheduledRun (as lastScheduledRun has been incremented)
 					return atDate
 				}
 			}
@@ -841,7 +851,9 @@ type Job interface {
 	NextRun() (time.Time, error)
 	// RunNow runs the job once, now. This does not alter
 	// the existing run schedule, and will respect all job
-	// and scheduler limits.
+	// and scheduler limits. This means that running a job now may
+	// cause the job's regular interval to be rescheduled due to
+	// the instance being run by RunNow blocking your run limit.
 	RunNow() error
 	// Tags returns the job's string tags.
 	Tags() []string
@@ -882,7 +894,7 @@ func (j job) NextRun() (time.Time, error) {
 	if ij == nil || ij.id == uuid.Nil {
 		return time.Time{}, ErrJobNotFound
 	}
-	return ij.nextRun, nil
+	return ij.nextScheduled, nil
 }
 
 func (j job) Tags() []string {
