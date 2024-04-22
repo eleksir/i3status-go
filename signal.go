@@ -25,6 +25,9 @@ func sigHandler() {
 
 			UpdateReady <- true
 
+		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
+			os.Exit(0)
+
 		// We have signal that we're not interested in, so make a new loop iteration.
 		default:
 			continue

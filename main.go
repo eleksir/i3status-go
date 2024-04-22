@@ -112,7 +112,10 @@ func main() {
 	go sigHandler()
 	signal.Notify(sigChan,
 		syscall.SIGUSR1,
-		syscall.SIGUSR2)
+		syscall.SIGUSR2,
+		syscall.SIGQUIT,
+		syscall.SIGTERM,
+		syscall.SIGINT)
 
 	// Populate memory stats
 	if Conf.Mem.Enabled {
