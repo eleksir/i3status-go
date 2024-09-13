@@ -64,8 +64,6 @@ func UpdateVPNStatus() {
 
 // VPNTCPCheck intended to check arbitrary service inside vpn segment, to indicate that openvpn sevice not stoned.
 func VPNTCPCheck() bool {
-	var status bool
-
 	conn, err := net.DialTimeout(
 		"tcp",
 		fmt.Sprintf("%s:%d", Conf.Vpn.TCPCheck.Host, Conf.Vpn.TCPCheck.Port),
@@ -73,14 +71,11 @@ func VPNTCPCheck() bool {
 	)
 
 	if err == nil {
-		status = true
-	} else {
-		status = false
+		_ = conn.Close()
+		return true
 	}
 
-	_ = conn.Close()
-
-	return status
+	return false
 }
 
 // VPNFileCheck checks modification time of openvpn-status file.
