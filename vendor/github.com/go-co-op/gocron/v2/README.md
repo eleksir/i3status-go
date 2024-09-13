@@ -98,7 +98,7 @@ Jobs can be run every x weeks on specific days of the week and at specific times
 - [**Monthly**](https://pkg.go.dev/github.com/go-co-op/gocron/v2#MonthlyJob):
 Jobs can be run every x months on specific days of the month and at specific times.
 - [**One time**](https://pkg.go.dev/github.com/go-co-op/gocron/v2#OneTimeJob):
-Jobs can be run once at a specific time. These are non-recurring jobs.
+Jobs can be run at specific time(s) (either once or many times).
 
 ### Concurrency Limits
 Jobs can be limited individually or across the entire scheduler.
@@ -120,6 +120,7 @@ other instances checking to see if a new leader needs to be elected.
     (don't see what you need? request on slack to get a repo created to contribute it!)
 - [**Locker**](https://pkg.go.dev/github.com/go-co-op/gocron/v2#WithDistributedLocker):
 A locker can be used to lock each run of a job to a single instance of gocron.
+Locker can be at job or scheduler, if it is defined both at job and scheduler then locker of job will take precedence.
   - Implementations: [go-co-op lockers](https://github.com/go-co-op?q=-lock&type=all&language=&sort=)
     (don't see what you need? request on slack to get a repo created to contribute it!)
 

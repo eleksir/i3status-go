@@ -2,29 +2,53 @@ package gocron
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 	"sync"
 	"time"
+
+	"github.com/jonboulle/clockwork"
 
 	"github.com/google/uuid"
 )
 
 type executor struct {
-	ctx                    context.Context
-	cancel                 context.CancelFunc
-	logger                 Logger
-	stopCh                 chan struct{}
-	jobsIn                 chan jobIn
+	// context used for shutting down
+	ctx context.Context
+	// cancel used by the executor to signal a stop of it's functions
+	cancel context.CancelFunc
+	// clock used for regular time or mocking time
+	clock clockwork.Clock
+	// the executor's logger
+	logger Logger
+
+	// receives jobs scheduled to execute
+	jobsIn chan jobIn
+	// sends out jobs for rescheduling
 	jobsOutForRescheduling chan uuid.UUID
-	jobsOutCompleted       chan uuid.UUID
-	jobOutRequest          chan jobOutRequest
-	stopTimeout            time.Duration
-	done                   chan error
-	singletonRunners       *sync.Map // map[uuid.UUID]singletonRunner
-	limitMode              *limitModeConfig
-	elector                Elector
-	locker                 Locker
-	monitor                Monitor
+	// sends out jobs once completed
+	jobsOutCompleted chan uuid.UUID
+	// used to request jobs from the scheduler
+	jobOutRequest chan jobOutRequest
+
+	// used by the executor to receive a stop signal from the scheduler
+	stopCh chan struct{}
+	// the timeout value when stopping
+	stopTimeout time.Duration
+	// used to signal that the executor has completed shutdown
+	done chan error
+
+	// runners for any singleton type jobs
+	// map[uuid.UUID]singletonRunner
+	singletonRunners *sync.Map
+	// config for limit mode
+	limitMode *limitModeConfig
+	// the elector when running distributed instances
+	elector Elector
+	// the locker when running distributed instances
+	locker Locker
+	// monitor for reporting metrics
+	monitor Monitor
 }
 
 type jobIn struct {
@@ -131,8 +155,8 @@ func (e *executor) start() {
 						// to work through the channel backlog. A hard limit of 1000 is in place
 						// at which point this call would block.
 						// TODO when metrics are added, this should increment a wait metric
-						e.limitMode.in <- jIn
 						e.sendOutForRescheduling(&jIn)
+						e.limitMode.in <- jIn
 					}
 				} else {
 					// no limit mode, so we're either running a regular job or
@@ -303,6 +327,10 @@ func (e *executor) singletonModeRunner(name string, in chan jobIn, wg *waitGroup
 			j := requestJobCtx(ctx, jIn.id, e.jobOutRequest)
 			cancel()
 			if j != nil {
+				// need to set shouldSendOut = false here, as there is a duplicative call to sendOutForRescheduling
+				// inside the runJob function that needs to be skipped. sendOutForRescheduling is previously called
+				// when the job is sent to the singleton mode runner.
+				jIn.shouldSendOut = false
 				e.runJob(*j, jIn)
 			}
 
@@ -330,15 +358,31 @@ func (e *executor) runJob(j internalJob, jIn jobIn) {
 	default:
 	}
 
+	if j.stopTimeReached(e.clock.Now()) {
+		return
+	}
+
 	if e.elector != nil {
 		if err := e.elector.IsLeader(j.ctx); err != nil {
 			e.sendOutForRescheduling(&jIn)
+			e.incrementJobCounter(j, Skip)
 			return
 		}
+	} else if j.locker != nil {
+		lock, err := j.locker.Lock(j.ctx, j.name)
+		if err != nil {
+			_ = callJobFuncWithParams(j.afterLockError, j.id, j.name, err)
+			e.sendOutForRescheduling(&jIn)
+			e.incrementJobCounter(j, Skip)
+			return
+		}
+		defer func() { _ = lock.Unlock(j.ctx) }()
 	} else if e.locker != nil {
 		lock, err := e.locker.Lock(j.ctx, j.name)
 		if err != nil {
+			_ = callJobFuncWithParams(j.afterLockError, j.id, j.name, err)
 			e.sendOutForRescheduling(&jIn)
+			e.incrementJobCounter(j, Skip)
 			return
 		}
 		defer func() { _ = lock.Unlock(j.ctx) }()
@@ -352,20 +396,35 @@ func (e *executor) runJob(j internalJob, jIn jobIn) {
 	}
 
 	startTime := time.Now()
-	err := callJobFuncWithParams(j.function, j.parameters...)
+	err := e.callJobWithRecover(j)
 	if e.monitor != nil {
 		e.monitor.RecordJobTiming(startTime, time.Now(), j.id, j.name, j.tags)
 	}
 	if err != nil {
 		_ = callJobFuncWithParams(j.afterJobRunsWithError, j.id, j.name, err)
-		if e.monitor != nil {
-			e.monitor.IncrementJob(j.id, j.name, j.tags, Fail)
-		}
+		e.incrementJobCounter(j, Fail)
 	} else {
 		_ = callJobFuncWithParams(j.afterJobRuns, j.id, j.name)
-		if e.monitor != nil {
-			e.monitor.IncrementJob(j.id, j.name, j.tags, Success)
+		e.incrementJobCounter(j, Success)
+	}
+}
+
+func (e *executor) callJobWithRecover(j internalJob) (err error) {
+	defer func() {
+		if recoverData := recover(); recoverData != nil {
+			_ = callJobFuncWithParams(j.afterJobRunsWithPanic, j.id, j.name, recoverData)
+
+			// if panic is occurred, we should return an error
+			err = fmt.Errorf("%w from %v", ErrPanicRecovered, recoverData)
 		}
+	}()
+
+	return callJobFuncWithParams(j.function, j.parameters...)
+}
+
+func (e *executor) incrementJobCounter(j internalJob, status JobStatus) {
+	if e.monitor != nil {
+		e.monitor.IncrementJob(j.id, j.name, j.tags, status)
 	}
 }
 
@@ -448,4 +507,8 @@ func (e *executor) stop(standardJobsWg, singletonJobsWg, limitModeJobsWg *waitGr
 		e.logger.Debug("gocron: executor stopped")
 	}
 	waiterCancel()
+
+	if e.limitMode != nil {
+		e.limitMode.started = false
+	}
 }

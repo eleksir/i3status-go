@@ -7,14 +7,15 @@ github.com/BurntSushi/xgb/xproto
 ## explicit
 github.com/BurntSushi/xgbutil
 github.com/BurntSushi/xgbutil/xprop
-# github.com/adrg/xdg v0.4.0
-## explicit; go 1.14
+# github.com/adrg/xdg v0.5.0
+## explicit; go 1.19
 github.com/adrg/xdg
 github.com/adrg/xdg/internal/pathutil
+github.com/adrg/xdg/internal/userdirs
 # github.com/distatus/battery v0.11.0
 ## explicit; go 1.18
 github.com/distatus/battery
-# github.com/go-co-op/gocron/v2 v2.2.9
+# github.com/go-co-op/gocron/v2 v2.11.0
 ## explicit; go 1.20
 github.com/go-co-op/gocron/v2
 # github.com/go-ole/go-ole v1.3.0
@@ -47,12 +48,12 @@ github.com/yusufpapurcu/wmi
 # go.i3wm.org/i3 v0.0.0-20190720062127-36e6ec85cc5a
 ## explicit
 go.i3wm.org/i3
-# golang.org/x/exp v0.0.0-20240416160154-fe59bbe5cc7f
-## explicit; go 1.20
+# golang.org/x/exp v0.0.0-20240909161429-701f63a606c0
+## explicit; go 1.22.0
 golang.org/x/exp/constraints
 golang.org/x/exp/maps
 golang.org/x/exp/slices
-# golang.org/x/sys v0.19.0
+# golang.org/x/sys v0.25.0
 ## explicit; go 1.18
 golang.org/x/sys/unix
 golang.org/x/sys/windows
