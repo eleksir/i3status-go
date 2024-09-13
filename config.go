@@ -56,7 +56,7 @@ type MyConfig struct {
 		Background string    `json:"background,omitempty"`
 		Font       string    `json:"font,omitempty"`
 		FontSize   string    `json:"font_size,omitempty"`
-		Separator  Separator `json:"la,omitempty"`
+		Separator  Separator `json:"separator,omitempty"`
 	} `json:"la,omitempty"`
 
 	// Mem plugin
@@ -384,6 +384,22 @@ func readConf() (MyConfig, error) {
 		)
 
 		sampleConfig.Separator.Right.FontSize = sampleConfig.FontSize
+	}
+
+	if sampleConfig.LA.Color == "" {
+		sampleConfig.LA.Color = sampleConfig.Color
+	}
+
+	if sampleConfig.LA.Background == "" {
+		sampleConfig.LA.Background = sampleConfig.Background
+	}
+
+	if sampleConfig.LA.Font == "" {
+		sampleConfig.LA.Font = sampleConfig.Font
+	}
+
+	if sampleConfig.LA.FontSize == "" {
+		sampleConfig.LA.FontSize = sampleConfig.FontSize
 	}
 
 	if sampleConfig.LA.Separator.Left.Color == "" {
