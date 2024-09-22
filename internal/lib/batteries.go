@@ -1,4 +1,4 @@
-package main
+package lib
 
 import (
 	"fmt"
@@ -8,11 +8,8 @@ import (
 	"github.com/distatus/battery"
 )
 
-// Batt shows battery charge on i3bar.
-var Batt = "<big>⚡</big> ??% •"
-
 // UpdateBatteryInfo updates info about battery charge.
-func UpdateBatteryInfo() {
+func (c MyConfig) UpdateBatteryInfo() {
 	var (
 		ch     int
 		status string
@@ -165,9 +162,9 @@ func UpdateBatteryInfo() {
 			}
 		}
 
-		if Batt == Batts {
-			Batt = Batts
-			UpdateReady <- true
+		if c.BatteryString == Batts {
+			c.BatteryString = Batts
+			c.UpdateReady <- true
 		}
 
 		time.Sleep(5 * time.Second)

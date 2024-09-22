@@ -1,4 +1,4 @@
-package main
+package lib
 
 import (
 	"fmt"
@@ -13,7 +13,7 @@ import (
 var IfStatus string
 
 // UpdateIfStatus updates network interfaces status for i3bar.
-func UpdateIfStatus() {
+func (c MyConfig) UpdateIfStatus() {
 	for {
 		var statusSum string
 
@@ -52,9 +52,9 @@ func UpdateIfStatus() {
 			statusSum += fmt.Sprintf("%s:%s", name, operstate)
 		}
 
-		if IfStatus != statusSum {
-			IfStatus = statusSum
-			UpdateReady <- true
+		if c.IfStatus != statusSum {
+			c.IfStatus = statusSum
+			c.UpdateReady <- true
 		}
 
 		time.Sleep(3 * time.Second)

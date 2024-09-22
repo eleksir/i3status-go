@@ -1,4 +1,4 @@
-package main
+package lib
 
 import (
 	"fmt"
@@ -7,11 +7,8 @@ import (
 	"time"
 )
 
-// VPNStatus status string for i3bar, related to vpn.
-var VPNStatus string
-
 // UpdateVPNStatus periodically update status of openvpn daemon.
-func UpdateVPNStatus() {
+func (c MyConfig) UpdateVPNStatus() {
 	var (
 		vpnCStatus string
 		tcpCheck   string
@@ -19,32 +16,32 @@ func UpdateVPNStatus() {
 	)
 
 	for {
-		if VPNFileCheck() {
+		if c.VPNFileCheck() {
 			if Conf.Vpn.UpColor == "" {
 				vpnCheck = `⍋`
 			} else {
-				vpnCheck = fmt.Sprintf(`<span foreground="%s">⍋</span>`, Conf.Vpn.UpColor)
+				vpnCheck = fmt.Sprintf(`<span foreground="%s">⍋</span>`, c.Vpn.UpColor)
 			}
 		} else {
 			if Conf.Vpn.DownColor == "" {
 				vpnCheck = `⍒`
 			} else {
-				vpnCheck = fmt.Sprintf(`<span foreground="%s">⍒</span>`, Conf.Vpn.DownColor)
+				vpnCheck = fmt.Sprintf(`<span foreground="%s">⍒</span>`, c.Vpn.DownColor)
 			}
 		}
 
 		if Conf.Vpn.TCPCheck.Enabled {
-			if VPNTCPCheck() {
+			if c.VPNTCPCheck() {
 				if Conf.Vpn.UpColor == "" {
 					tcpCheck = `✔`
 				} else {
-					tcpCheck = fmt.Sprintf(`<span foreground="%s">✔</span>`, Conf.Vpn.UpColor)
+					tcpCheck = fmt.Sprintf(`<span foreground="%s">✔</span>`, c.Vpn.UpColor)
 				}
 			} else {
 				if Conf.Vpn.DownColor == "" {
 					tcpCheck = `✘`
 				} else {
-					tcpCheck = fmt.Sprintf(`<span foreground="%s">✘</span>`, Conf.Vpn.DownColor)
+					tcpCheck = fmt.Sprintf(`<span foreground="%s">✘</span>`, c.Vpn.DownColor)
 				}
 			}
 
@@ -53,9 +50,9 @@ func UpdateVPNStatus() {
 			vpnCStatus = fmt.Sprintf("VPN:%s", vpnCheck)
 		}
 
-		if VPNStatus != vpnCStatus {
-			VPNStatus = vpnCStatus
-			UpdateReady <- true
+		if c.VPNStatus != vpnCStatus {
+			c.VPNStatus = vpnCStatus
+			c.UpdateReady <- true
 		}
 
 		time.Sleep(3 * time.Second)
@@ -63,11 +60,11 @@ func UpdateVPNStatus() {
 }
 
 // VPNTCPCheck intended to check arbitrary service inside vpn segment, to indicate that openvpn sevice not stoned.
-func VPNTCPCheck() bool {
+func (c MyConfig) VPNTCPCheck() bool {
 	conn, err := net.DialTimeout(
 		"tcp",
-		fmt.Sprintf("%s:%d", Conf.Vpn.TCPCheck.Host, Conf.Vpn.TCPCheck.Port),
-		time.Second*time.Duration(Conf.Vpn.TCPCheck.Timeout),
+		fmt.Sprintf("%s:%d", c.Vpn.TCPCheck.Host, c.Vpn.TCPCheck.Port),
+		time.Second*time.Duration(c.Vpn.TCPCheck.Timeout),
 	)
 
 	if err == nil {
@@ -79,17 +76,17 @@ func VPNTCPCheck() bool {
 }
 
 // VPNFileCheck checks modification time of openvpn-status file.
-func VPNFileCheck() bool {
+func (c MyConfig) VPNFileCheck() bool {
 	var (
 		fi  os.FileInfo
 		err error
 	)
 
-	if fi, err = os.Stat(Conf.Vpn.StatusFile); err != nil {
+	if fi, err = os.Stat(c.Vpn.StatusFile); err != nil {
 		return false
 	}
 
-	if time.Since(fi.ModTime()).Seconds() > float64(Conf.Vpn.MtimeThreshold) {
+	if time.Since(fi.ModTime()).Seconds() > float64(c.Vpn.MtimeThreshold) {
 		return false
 	}
 

@@ -1,4 +1,4 @@
-package main
+package lib
 
 import (
 	"log"
@@ -7,11 +7,10 @@ import (
 )
 
 var PrintOutput = true
-var sigChan = make(chan os.Signal, 1)
 
-// sigHandler OS signal handler.
-func sigHandler() {
-	for s := range sigChan {
+// SigHandler OS signal handler.
+func (c MyConfig) SigHandler() {
+	for s := range c.SigChan {
 		switch s {
 		case syscall.SIGUSR1:
 			log.Print("Got SIGUSR1, stopping output")
@@ -23,7 +22,7 @@ func sigHandler() {
 
 			PrintOutput = true
 
-			UpdateReady <- true
+			c.UpdateReady <- true
 
 		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
 			os.Exit(0)

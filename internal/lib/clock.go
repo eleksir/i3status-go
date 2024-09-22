@@ -1,15 +1,12 @@
-package main
+package lib
 
 import (
 	"fmt"
 	"time"
 )
 
-// Clock shows current date and time on i3bar.
-var Clock = "Thu, 1 Jan 1970   1:00"
-
 // UpdateClock get and updates (on i3bar) info about system clock.
-func UpdateClock() {
+func (c MyConfig) UpdateClock() {
 	for {
 		currentTime := time.Now()
 		hours, minutes, _ := currentTime.Clock()
@@ -20,9 +17,9 @@ func UpdateClock() {
 
 		myclock := fmt.Sprintf("     %s, %d %s %d  % 2d:%02d  ", rdow[dow], day, rmonth[month-1], year, hours, minutes)
 
-		if myclock != Clock {
-			Clock = myclock
-			UpdateReady <- true
+		if myclock != c.ClockTime {
+			c.ClockTime = myclock
+			c.UpdateReady <- true
 		}
 
 		time.Sleep(1 * time.Second)

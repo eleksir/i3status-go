@@ -1,4 +1,4 @@
-package main
+package lib
 
 import (
 	"fmt"
@@ -7,19 +7,16 @@ import (
 	"github.com/shirou/gopsutil/load"
 )
 
-// La переменная, хранящая значение LA за последнюю минуту.
-var La = "-1"
-
 // UpdateLaStats вытаскивает показание LA за последнюю минуту.
-func UpdateLaStats() {
+func (c MyConfig) UpdateLaStats() {
 	for {
 		l, _ := load.Avg()
 
 		lav := fmt.Sprintf("%.2f", l.Load1)
 
-		if La != lav {
-			La = lav
-			UpdateReady <- true
+		if c.La != lav {
+			c.La = lav
+			c.UpdateReady <- true
 		}
 
 		time.Sleep(3 * time.Second)

@@ -1,4 +1,4 @@
-package main
+package lib
 
 import (
 	"bufio"
@@ -8,11 +8,8 @@ import (
 	"time"
 )
 
-// CPUTemperature stores average temperature among all cores.
-var CPUTemperature int64
-
 // UpdateCPUTemperature gets and updates average CPU cores temperature.
-func UpdateCPUTemperature() {
+func (c MyConfig) UpdateCPUTemperature() {
 	n := len(Conf.CPUTemp.File)
 
 	for {
@@ -70,9 +67,9 @@ func UpdateCPUTemperature() {
 			tAvg = tSum / int64(len(temperature))
 		}
 
-		if CPUTemperature != tAvg {
-			CPUTemperature = tAvg
-			UpdateReady <- true
+		if c.CPUTemperature != tAvg {
+			c.CPUTemperature = tAvg
+			c.UpdateReady <- true
 		}
 
 		time.Sleep(3 * time.Second)

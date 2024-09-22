@@ -1,8 +1,6 @@
 #!/usr/bin/env gmake -f
 
 BUILDOPTS=-ldflags="-s -w" -a -gcflags=all=-l -trimpath
-FILELIST=batteries.go clock.go collection.go config.go cputemp.go cron.go i3.go ifmon.go la.go main.go memory.go \
-         pulseaudio.go signal.go spawn.go stdin.go vpn.go
 
 BINARY=i3status-go
 
@@ -11,12 +9,12 @@ all: clean build
 
 ## This target compiles binary
 build:
-	go build ${BUILDOPTS} -o ${BINARY} ${FILELIST}
+	go build ${BUILDOPTS} -o ${BINARY} ./cmd/${BINARY}
 
 
 ## Remove binary with golang compiler' means
 clean:
-	go clean
+	rm -rf ${BINARY}
 
 
 ## Misc target, for development purposes. Updates vendored libs, brutal way.

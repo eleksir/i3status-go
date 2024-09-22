@@ -1,4 +1,4 @@
-package main
+package lib
 
 import (
 	"encoding/json"
@@ -12,6 +12,29 @@ import (
 	"github.com/adrg/xdg"
 	"github.com/hjson/hjson-go"
 )
+
+// I3BarOutBlock is structure element for I3BarOut, it represents i3bar output json block format.
+type I3BarOutBlock struct {
+	FullText string `json:"full_text"`
+	// ShortText will be shown if not enough room for FullText, threshold width defined in MinWidth
+	ShortText    string `json:"short_text,omitempty"`
+	Color        string `json:"color,omitempty"`
+	Background   string `json:"background,omitempty"`
+	Border       string `json:"border,omitempty"`
+	BorderTop    int    `json:"border_top"`
+	BorderRight  int    `json:"border_right"`
+	BorderBottom int    `json:"border_bottom"`
+	BorderLeft   int    `json:"border_left"`
+	// measured either in pixels or in characters, so either int or string, let's make it string :)
+	MinWidth            string `json:"min_width,omitempty"`
+	Align               string `json:"align,omitempty"`
+	Name                string `json:"name,omitempty"`
+	Instance            string `json:"instance,omitempty"`
+	Urgent              bool   `json:"urgent,omitempty"`
+	Separator           bool   `json:"separator"`
+	SeparatorBlockWidth int    `json:"separator_block_width"`
+	Markup              string `json:"markup,omitempty"`
+}
 
 type Separator struct {
 	Left struct {
@@ -34,6 +57,17 @@ type Separator struct {
 }
 
 type MyConfig struct {
+	UpdateReady    chan bool
+	PrintOutput    bool
+	MsgChan        chan []I3BarOutBlock
+	SigChan        chan os.Signal
+	CPUTemperature int64
+	BatteryString  string
+	ClockTime      string
+	IfStatus       string
+	VPNStatus      string
+	Memory         Mem
+	La             string
 
 	// Default text color
 	Color string `json:"color,omitempty"`
@@ -211,7 +245,7 @@ var Conf MyConfig
 
 // readConf reads and validates config if config does not exist, it puts default config to the same dir where i3 config
 // is located.
-func readConf() (MyConfig, error) {
+func ReadConf(DefaultConfig []byte) (MyConfig, error) {
 	var (
 		path   string
 		config MyConfig

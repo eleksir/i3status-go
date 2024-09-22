@@ -1,4 +1,4 @@
-package main
+package lib
 
 import (
 	"log"
@@ -18,7 +18,7 @@ type Mem struct {
 var Memory Mem
 
 // UpdateMemStats parses mem info stats.
-func UpdateMemStats() {
+func (c MyConfig) UpdateMemStats() {
 	for {
 		v, err := mem.VirtualMemory()
 
@@ -44,13 +44,13 @@ func UpdateMemStats() {
 				Memory.Usedpct = uint64(v.UsedPercent)
 				Memory.Shared = v.Shared / 1024 / 1024
 				Memory.Swap = sw.Used
-				UpdateReady <- true
+				c.UpdateReady <- true
 			}
 		} else {
 			if Memory.Usedpct != uint64(v.UsedPercent) || Memory.Shared != v.Shared/1024/1024 {
 				Memory.Usedpct = uint64(v.UsedPercent)
 				Memory.Shared = v.Shared / 1024 / 1024
-				UpdateReady <- true
+				c.UpdateReady <- true
 			}
 		}
 

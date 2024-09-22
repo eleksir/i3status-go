@@ -1,4 +1,4 @@
-package main
+package lib
 
 import (
 	"log"
@@ -12,7 +12,7 @@ import (
 var RunChan = make(chan []string, 128)
 
 // Spawner forks and execs given program, and also detaches form its control tty.
-func Spawner() {
+func (c MyConfig) Spawner() {
 	for prg := range RunChan {
 		devnullR, _ := os.Open(os.DevNull)
 		devnullW, _ := os.OpenFile(os.DevNull, os.O_WRONLY|os.O_APPEND, 0644)
@@ -48,7 +48,7 @@ func Spawner() {
 }
 
 // CleanZombies reaps processes spawned by Spawner() and already exited.
-func CleanZombies() {
+func (c MyConfig) CleanZombies() {
 	r := syscall.Rusage{}
 
 	for {

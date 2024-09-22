@@ -1,4 +1,4 @@
-package main
+package lib
 
 import (
 	"errors"
@@ -18,7 +18,7 @@ var SVPAHandlerChan = make(chan ClickEvent, 256)
 // TODO: https://twin.sh/articles/44/add-a-timeout-to-any-function-in-go timeout pulseaudio calls
 
 // UpdateVolumeInfo updates info about current Sound Volume.
-func UpdateVolumeInfo() {
+func (c MyConfig) UpdateVolumeInfo() {
 	var err error
 
 	pa, err = p.NewClient()
@@ -43,23 +43,23 @@ func UpdateVolumeInfo() {
 
 	SoundVolume = fmt.Sprintf(
 		"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
-		Conf.SimpleVolumePa.Color,
-		Conf.SimpleVolumePa.Background,
-		Conf.SimpleVolumePa.SymbolFont,
-		Conf.SimpleVolumePa.SymbolFontSize,
-		Conf.SimpleVolumePa.Symbol,
+		c.SimpleVolumePa.Color,
+		c.SimpleVolumePa.Background,
+		c.SimpleVolumePa.SymbolFont,
+		c.SimpleVolumePa.SymbolFontSize,
+		c.SimpleVolumePa.Symbol,
 	)
 
 	SoundVolume += fmt.Sprintf(
 		"<span color='%s' background='%s' font='%s' size='%s'>:%d%%</span>",
-		Conf.SimpleVolumePa.Color,
-		Conf.SimpleVolumePa.Background,
-		Conf.SimpleVolumePa.Font,
-		Conf.SimpleVolumePa.FontSize,
+		c.SimpleVolumePa.Color,
+		c.SimpleVolumePa.Background,
+		c.SimpleVolumePa.Font,
+		c.SimpleVolumePa.FontSize,
 		int64(vol*100),
 	)
 
-	UpdateReady <- true
+	c.UpdateReady <- true
 
 	for {
 		// Subscribe to update notification channel, to get info that volume changed.
@@ -83,23 +83,23 @@ func UpdateVolumeInfo() {
 
 			SoundVolume = fmt.Sprintf(
 				"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
-				Conf.SimpleVolumePa.Color,
-				Conf.SimpleVolumePa.Background,
-				Conf.SimpleVolumePa.SymbolFont,
-				Conf.SimpleVolumePa.SymbolFontSize,
-				Conf.SimpleVolumePa.Symbol,
+				c.SimpleVolumePa.Color,
+				c.SimpleVolumePa.Background,
+				c.SimpleVolumePa.SymbolFont,
+				c.SimpleVolumePa.SymbolFontSize,
+				c.SimpleVolumePa.Symbol,
 			)
 
 			SoundVolume += fmt.Sprintf(
 				"<span color='%s' background='%s' font='%s' size='%s'>:%d%%</span>",
-				Conf.SimpleVolumePa.Color,
-				Conf.SimpleVolumePa.Background,
-				Conf.SimpleVolumePa.Font,
-				Conf.SimpleVolumePa.FontSize,
+				c.SimpleVolumePa.Color,
+				c.SimpleVolumePa.Background,
+				c.SimpleVolumePa.Font,
+				c.SimpleVolumePa.FontSize,
 				int64(vol*100),
 			)
 
-			UpdateReady <- true
+			c.UpdateReady <- true
 		}
 
 		if err := PaReinit(); err != nil {
@@ -178,7 +178,7 @@ func PaReinit() error {
 	return err
 }
 
-func SVPAHandler() {
+func (c MyConfig) SVPAHandler() {
 	for e := range SVPAHandlerChan {
 		if e.Button == 3 {
 			RunChan <- Conf.SimpleVolumePa.RightClickCmd

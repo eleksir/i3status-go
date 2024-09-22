@@ -1,4 +1,4 @@
-package main
+package lib
 
 import (
 	"bufio"
@@ -26,7 +26,7 @@ type ClickEvent struct {
 
 // ParseStdin tries to parse text that i3bar prints to our stdin. Currently - it is mouse click events on different
 // area names of i3bar.
-func ParseStdin() {
+func (c MyConfig) ParseStdin() {
 	reader := bufio.NewReader(os.Stdin)
 
 	// De-facto it is jsonl, except first line is garbage. Also, first symbol in each strint garbage too.
