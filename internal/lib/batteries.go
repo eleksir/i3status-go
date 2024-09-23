@@ -162,7 +162,7 @@ func (c *MyConfig) UpdateBatteryInfo() {
 			}
 		}
 
-		if c.Values.BatteryString == Batts {
+		if c.Values.BatteryString != Batts {
 			c.Values.BatteryString = Batts
 			c.Channels.UpdateReady <- true
 		}
