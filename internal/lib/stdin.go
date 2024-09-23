@@ -26,7 +26,7 @@ type ClickEvent struct {
 
 // ParseStdin tries to parse text that i3bar prints to our stdin. Currently - it is mouse click events on different
 // area names of i3bar.
-func (c MyConfig) ParseStdin() {
+func (c *MyConfig) ParseStdin() {
 	reader := bufio.NewReader(os.Stdin)
 
 	// De-facto it is jsonl, except first line is garbage. Also, first symbol in each strint garbage too.
@@ -84,35 +84,35 @@ func (c MyConfig) ParseStdin() {
 
 		// Clock clicks parse.
 		if e.Name == "wallclock" {
-			if Conf.Clock.LeftClick.Enabled && e.Button == 1 {
-				RunChan <- Conf.Clock.LeftClick.Cmd
-			} else if Conf.Clock.RightClick.Enabled && e.Button == 3 {
-				RunChan <- Conf.Clock.RightClick.Cmd
+			if c.Clock.LeftClick.Enabled && e.Button == 1 {
+				c.Channels.RunChan <- c.Clock.LeftClick.Cmd
+			} else if c.Clock.RightClick.Enabled && e.Button == 3 {
+				c.Channels.RunChan <- c.Clock.RightClick.Cmd
 			}
 
 			continue
 		}
 
 		if e.Name == "simple-volume-pa" {
-			if Conf.SimpleVolumePa.Enabled {
-				SVPAHandlerChan <- e
+			if c.SimpleVolumePa.Enabled {
+				c.Channels.SVPAHandlerChan <- e
 			}
 
 			continue
 		}
 
-		if !Conf.AppButtons.Enabled {
+		if !c.AppButtons.Enabled {
 			continue
 		}
 
-		for _, app := range Conf.Apps {
+		for _, app := range c.Apps {
 			switch {
 			case app.Name != "" && app.Instance != "":
 				if app.Name == e.Name && app.Instance == e.Instance {
 					prg := append([]string{}, app.Cmd)
 					prg = append(prg, app.Args...)
 
-					RunChan <- prg
+					c.Channels.RunChan <- prg
 
 					break
 				}
@@ -120,13 +120,13 @@ func (c MyConfig) ParseStdin() {
 				prg := append([]string{}, app.Cmd)
 				prg = append(prg, app.Args...)
 
-				RunChan <- prg
+				c.Channels.RunChan <- prg
 
 			case app.Instance != "" && e.Instance == app.Instance:
 				prg := append([]string{}, app.Cmd)
 				prg = append(prg, app.Args...)
 
-				RunChan <- prg
+				c.Channels.RunChan <- prg
 			}
 		}
 	}

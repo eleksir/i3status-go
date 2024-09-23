@@ -8,12 +8,9 @@ import (
 	"time"
 )
 
-// RunChan to this channel we send command and its argv to execute as separate process.
-var RunChan = make(chan []string, 128)
-
 // Spawner forks and execs given program, and also detaches form its control tty.
-func (c MyConfig) Spawner() {
-	for prg := range RunChan {
+func (c *MyConfig) Spawner() {
+	for prg := range c.Channels.RunChan {
 		devnullR, _ := os.Open(os.DevNull)
 		devnullW, _ := os.OpenFile(os.DevNull, os.O_WRONLY|os.O_APPEND, 0644)
 
@@ -48,7 +45,7 @@ func (c MyConfig) Spawner() {
 }
 
 // CleanZombies reaps processes spawned by Spawner() and already exited.
-func (c MyConfig) CleanZombies() {
+func (c *MyConfig) CleanZombies() {
 	r := syscall.Rusage{}
 
 	for {

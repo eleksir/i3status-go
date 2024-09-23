@@ -10,7 +10,7 @@ import (
 var myCron gocron.Scheduler
 
 // RunCron parses config part, related to cron tasks and kicks cron to run.
-func RunCron() {
+func (c MyConfig) RunCron() {
 	var err error
 
 	myCron, err = gocron.NewScheduler()
@@ -21,14 +21,14 @@ func RunCron() {
 		return
 	}
 
-	for _, job := range Conf.Cron.Tasks {
+	for _, job := range c.Cron.Tasks {
 		_, err := myCron.NewJob(
 			gocron.CronJob(job.Time, false),
 			gocron.NewTask(
 				// Сука, просто заспавнить бинарь, ну почему это надо делать через жопу-то?
 				any(
 					func() bool {
-						RunChan <- job.Cmd
+						c.Channels.RunChan <- job.Cmd
 
 						return true
 					},

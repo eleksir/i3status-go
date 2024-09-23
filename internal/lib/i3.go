@@ -18,7 +18,7 @@ type WinList struct {
 var WL WinList
 
 // UpdateI3WinList subsribes to all window-related events and send them to I3EventParser() for more detailed parsing.
-func (c MyConfig) UpdateI3WinList() {
+func (c *MyConfig) UpdateI3WinList() {
 	// TODO: Здесь получить начальный список окон, управляемых i3wm (через GetTree()) и сложить их атрибутику в переменную WL
 	Tree, err := i3.GetTree()
 
@@ -39,7 +39,7 @@ func (c MyConfig) UpdateI3WinList() {
 }
 
 // I3EventParser parses i3wm events and updates WL (aka Windows List).
-func (c MyConfig) I3EventParser(e *i3.WindowEvent) {
+func (c *MyConfig) I3EventParser(e *i3.WindowEvent) {
 	switch e.Change {
 	case "new":
 		var (
@@ -68,7 +68,7 @@ func (c MyConfig) I3EventParser(e *i3.WindowEvent) {
 		count++
 		WL.Instance.Set(e.Container.WindowProperties.Instance, count)
 
-		c.UpdateReady <- true
+		c.Channels.UpdateReady <- true
 
 	case "close":
 		countI, exist := WL.Class.Get(e.Container.WindowProperties.Class)
@@ -99,7 +99,7 @@ func (c MyConfig) I3EventParser(e *i3.WindowEvent) {
 			}
 		}
 
-		c.UpdateReady <- true
+		c.Channels.UpdateReady <- true
 	}
 }
 
@@ -210,7 +210,7 @@ func FindWindowClass(regexpStr string) bool {
 }
 
 // ExtractProps fills WL stricture collections with instance name and class name of given node (x11, that is).
-func (c MyConfig) ExtractProps(n *i3.Node) {
+func (c *MyConfig) ExtractProps(n *i3.Node) {
 	var e i3.WindowEvent
 	e.Change = "new"
 	e.Container = *n

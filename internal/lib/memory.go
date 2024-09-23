@@ -14,11 +14,8 @@ type Mem struct {
 	Swap    uint64
 }
 
-// Memory stores string with mem stats for i3bar.
-var Memory Mem
-
 // UpdateMemStats parses mem info stats.
-func (c MyConfig) UpdateMemStats() {
+func (c *MyConfig) UpdateMemStats() {
 	for {
 		v, err := mem.VirtualMemory()
 
@@ -38,19 +35,18 @@ func (c MyConfig) UpdateMemStats() {
 			continue
 		}
 
-		if Conf.Mem.ShowSwap {
-			if Memory.Usedpct != uint64(v.UsedPercent) || Memory.Shared != v.Shared/1024/1024 ||
-				Memory.Swap != v.SwapTotal-v.SwapFree {
-				Memory.Usedpct = uint64(v.UsedPercent)
-				Memory.Shared = v.Shared / 1024 / 1024
-				Memory.Swap = sw.Used
-				c.UpdateReady <- true
+		if c.Mem.ShowSwap {
+			if c.Values.Memory.Usedpct != uint64(v.UsedPercent) || c.Values.Memory.Shared != v.Shared/1024/1024 || c.Values.Memory.Swap != v.SwapTotal-v.SwapFree {
+				c.Values.Memory.Usedpct = uint64(v.UsedPercent)
+				c.Values.Memory.Shared = v.Shared / 1024 / 1024
+				c.Values.Memory.Swap = sw.Used
+				c.Channels.UpdateReady <- true
 			}
 		} else {
-			if Memory.Usedpct != uint64(v.UsedPercent) || Memory.Shared != v.Shared/1024/1024 {
-				Memory.Usedpct = uint64(v.UsedPercent)
-				Memory.Shared = v.Shared / 1024 / 1024
-				c.UpdateReady <- true
+			if c.Values.Memory.Usedpct != uint64(v.UsedPercent) || c.Values.Memory.Shared != v.Shared/1024/1024 {
+				c.Values.Memory.Usedpct = uint64(v.UsedPercent)
+				c.Values.Memory.Shared = v.Shared / 1024 / 1024
+				c.Channels.UpdateReady <- true
 			}
 		}
 

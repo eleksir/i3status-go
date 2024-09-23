@@ -8,7 +8,7 @@ import (
 )
 
 // UpdateVPNStatus periodically update status of openvpn daemon.
-func (c MyConfig) UpdateVPNStatus() {
+func (c *MyConfig) UpdateVPNStatus() {
 	var (
 		vpnCStatus string
 		tcpCheck   string
@@ -17,28 +17,28 @@ func (c MyConfig) UpdateVPNStatus() {
 
 	for {
 		if c.VPNFileCheck() {
-			if Conf.Vpn.UpColor == "" {
+			if c.Vpn.UpColor == "" {
 				vpnCheck = `⍋`
 			} else {
 				vpnCheck = fmt.Sprintf(`<span foreground="%s">⍋</span>`, c.Vpn.UpColor)
 			}
 		} else {
-			if Conf.Vpn.DownColor == "" {
+			if c.Vpn.DownColor == "" {
 				vpnCheck = `⍒`
 			} else {
 				vpnCheck = fmt.Sprintf(`<span foreground="%s">⍒</span>`, c.Vpn.DownColor)
 			}
 		}
 
-		if Conf.Vpn.TCPCheck.Enabled {
+		if c.Vpn.TCPCheck.Enabled {
 			if c.VPNTCPCheck() {
-				if Conf.Vpn.UpColor == "" {
+				if c.Vpn.UpColor == "" {
 					tcpCheck = `✔`
 				} else {
 					tcpCheck = fmt.Sprintf(`<span foreground="%s">✔</span>`, c.Vpn.UpColor)
 				}
 			} else {
-				if Conf.Vpn.DownColor == "" {
+				if c.Vpn.DownColor == "" {
 					tcpCheck = `✘`
 				} else {
 					tcpCheck = fmt.Sprintf(`<span foreground="%s">✘</span>`, c.Vpn.DownColor)
@@ -50,9 +50,9 @@ func (c MyConfig) UpdateVPNStatus() {
 			vpnCStatus = fmt.Sprintf("VPN:%s", vpnCheck)
 		}
 
-		if c.VPNStatus != vpnCStatus {
-			c.VPNStatus = vpnCStatus
-			c.UpdateReady <- true
+		if c.Values.VPNStatus != vpnCStatus {
+			c.Values.VPNStatus = vpnCStatus
+			c.Channels.UpdateReady <- true
 		}
 
 		time.Sleep(3 * time.Second)
@@ -60,7 +60,7 @@ func (c MyConfig) UpdateVPNStatus() {
 }
 
 // VPNTCPCheck intended to check arbitrary service inside vpn segment, to indicate that openvpn sevice not stoned.
-func (c MyConfig) VPNTCPCheck() bool {
+func (c *MyConfig) VPNTCPCheck() bool {
 	conn, err := net.DialTimeout(
 		"tcp",
 		fmt.Sprintf("%s:%d", c.Vpn.TCPCheck.Host, c.Vpn.TCPCheck.Port),
@@ -76,7 +76,7 @@ func (c MyConfig) VPNTCPCheck() bool {
 }
 
 // VPNFileCheck checks modification time of openvpn-status file.
-func (c MyConfig) VPNFileCheck() bool {
+func (c *MyConfig) VPNFileCheck() bool {
 	var (
 		fi  os.FileInfo
 		err error

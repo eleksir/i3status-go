@@ -9,15 +9,12 @@ import (
 	"time"
 )
 
-// IfStatus global var conaining cumulative status of all monitored net intefaces.
-var IfStatus string
-
 // UpdateIfStatus updates network interfaces status for i3bar.
-func (c MyConfig) UpdateIfStatus() {
+func (c *MyConfig) UpdateIfStatus() {
 	for {
 		var statusSum string
 
-		for _, item := range Conf.NetIf.If {
+		for _, item := range c.NetIf.If {
 			var (
 				name = item.Name
 			)
@@ -35,10 +32,10 @@ func (c MyConfig) UpdateIfStatus() {
 			} else {
 				switch strings.TrimSpace(string(operstate)) {
 				case "up":
-					StatusStr := fmt.Sprintf("<span foreground=\"%s\">⍋</span>", Conf.NetIf.UpColor)
+					StatusStr := fmt.Sprintf("<span foreground=\"%s\">⍋</span>", c.NetIf.UpColor)
 					operstate = []byte(StatusStr)
 				case "down":
-					statusStr := fmt.Sprintf("<span foreground=\"%s\">⍒</span>", Conf.NetIf.DownColor)
+					statusStr := fmt.Sprintf("<span foreground=\"%s\">⍒</span>", c.NetIf.DownColor)
 					operstate = []byte(statusStr)
 				default:
 					operstate = []byte(`?`)
@@ -52,9 +49,9 @@ func (c MyConfig) UpdateIfStatus() {
 			statusSum += fmt.Sprintf("%s:%s", name, operstate)
 		}
 
-		if c.IfStatus != statusSum {
-			c.IfStatus = statusSum
-			c.UpdateReady <- true
+		if c.Values.IfStatus != statusSum {
+			c.Values.IfStatus = statusSum
+			c.Channels.UpdateReady <- true
 		}
 
 		time.Sleep(3 * time.Second)

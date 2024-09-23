@@ -25,20 +25,25 @@ func main() {
 		log.Panicf("Unable to read config: %s", err)
 	}
 
-	Conf.UpdateReady = make(chan bool)
-	Conf.MsgChan = make(chan []lib.I3BarOutBlock, 64)
-	Conf.SigChan = make(chan os.Signal, 1)
-	Conf.BatteryString = "<big>⚡</big> ??% •"
-	Conf.ClockTime = "Thu, 1 Jan 1970   1:00"
-	Conf.IfStatus = ""
-	Conf.VPNStatus = ""
-	Conf.Memory.Shared = 0
-	Conf.Memory.Usedpct = 0
-	Conf.Memory.Swap = 0
-	Conf.La = "-1"
+	Conf.Channels.UpdateReady = make(chan bool)
+	Conf.Channels.SVPAHandlerChan = make(chan lib.ClickEvent, 256)
+	Conf.Channels.MsgChan = make(chan []lib.I3BarOutBlock, 64)
+	Conf.Channels.SigChan = make(chan os.Signal, 1)
+	Conf.Channels.RunChan = make(chan []string, 128)
+	Conf.Values.PrintOutput = true
+	Conf.Values.BatteryString = "<big>⚡</big> ??% •"
+	Conf.Values.ClockTime = "Thu, 1 Jan 1970   1:00"
+	Conf.Values.IfStatus = ""
+	Conf.Values.VPNStatus = ""
+	Conf.Values.Memory.Shared = 0
+	Conf.Values.Memory.Usedpct = 0
+	Conf.Values.Memory.Swap = 0
+	Conf.Values.La = "-1"
+	// Conf.Values.PA
+	Conf.Values.SoundVolume = "🔊:0%"
 
 	// TODO: Проставить дефолтные значения для глобальных переменных модулей.
-	Batt := fmt.Sprintf(
+	Conf.Values.BatteryString = fmt.Sprintf(
 		"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
 		Conf.Battery.Color,
 		Conf.Battery.Background,
@@ -47,7 +52,7 @@ func main() {
 		Conf.Battery.Symbol,
 	)
 
-	Batt += fmt.Sprintf(
+	Conf.Values.BatteryString += fmt.Sprintf(
 		"<span color='%s' background='%s' font='%s' size='%s'> ??%% •</span>",
 		Conf.Battery.Color,
 		Conf.Battery.Background,
@@ -55,7 +60,7 @@ func main() {
 		Conf.Battery.FontSize,
 	)
 
-	SoundVolume := fmt.Sprintf(
+	Conf.Values.SoundVolume = fmt.Sprintf(
 		"<span color='%s' background='%s' font='%s' size='%s'>🔊</span>",
 		Conf.SimpleVolumePa.Color,
 		Conf.SimpleVolumePa.Background,
@@ -63,7 +68,7 @@ func main() {
 		Conf.SimpleVolumePa.SymbolFontSize,
 	)
 
-	SoundVolume += fmt.Sprintf(
+	Conf.Values.SoundVolume += fmt.Sprintf(
 		"<span color='%s' background='%s' font='%s' size='%s'>:0%%</span>",
 		Conf.SimpleVolumePa.Color,
 		Conf.SimpleVolumePa.Background,
@@ -71,7 +76,7 @@ func main() {
 		Conf.SimpleVolumePa.FontSize,
 	)
 
-	Clock := fmt.Sprintf(
+	Conf.Values.ClockTime = fmt.Sprintf(
 		"<span color='%s' background='%s' font='%s' size='%s'>Thu, 1 Jan 1970   1:00</span>",
 		Conf.Clock.Color,
 		Conf.Clock.Background,
@@ -91,7 +96,7 @@ func main() {
 
 	// Kick signal handler
 	go Conf.SigHandler()
-	signal.Notify(Conf.SigChan,
+	signal.Notify(Conf.Channels.SigChan,
 		syscall.SIGUSR1,
 		syscall.SIGUSR2,
 		syscall.SIGQUIT,
@@ -131,7 +136,7 @@ func main() {
 	}
 
 	if Conf.Cron.Enabled {
-		go lib.RunCron()
+		go Conf.RunCron()
 	}
 
 	if Conf.Vpn.Enabled {
@@ -156,7 +161,7 @@ func main() {
 	fmt.Println("[ [],")
 
 	for {
-		if <-Conf.UpdateReady {
+		if <-Conf.Channels.UpdateReady {
 			// Actually build json struct, marshal it and print result
 			var j []lib.I3BarOutBlock
 
@@ -235,7 +240,7 @@ func main() {
 					Conf.CPUTemp.Background,
 					Conf.CPUTemp.Font,
 					Conf.CPUTemp.FontSize,
-					Conf.CPUTemperature,
+					Conf.Values.CPUTemperature,
 				)
 
 				if Conf.CPUTemp.Separator.Right.Enabled {
@@ -279,9 +284,9 @@ func main() {
 						Conf.Mem.Background,
 						Conf.Mem.Font,
 						Conf.Mem.FontSize,
-						Conf.Memory.Usedpct,
-						Conf.Memory.Shared,
-						Conf.Memory.Swap,
+						Conf.Values.Memory.Usedpct,
+						Conf.Values.Memory.Shared,
+						Conf.Values.Memory.Swap,
 					)
 				} else {
 					b.FullText += fmt.Sprintf(
@@ -290,8 +295,8 @@ func main() {
 						Conf.Mem.Background,
 						Conf.Mem.Font,
 						Conf.Mem.FontSize,
-						Conf.Memory.Usedpct,
-						Conf.Memory.Shared,
+						Conf.Values.Memory.Usedpct,
+						Conf.Values.Memory.Shared,
 					)
 				}
 
@@ -335,7 +340,7 @@ func main() {
 					Conf.LA.Background,
 					Conf.LA.Font,
 					Conf.LA.FontSize,
-					Conf.La,
+					Conf.Values.La,
 				)
 
 				if Conf.LA.Separator.Right.Enabled {
@@ -378,7 +383,7 @@ func main() {
 					Conf.NetIf.Background,
 					Conf.NetIf.Font,
 					Conf.NetIf.FontSize,
-					Conf.IfStatus,
+					Conf.Values.IfStatus,
 				)
 
 				if Conf.NetIf.Separator.Right.Enabled {
@@ -421,7 +426,7 @@ func main() {
 					Conf.Vpn.Background,
 					Conf.Vpn.Font,
 					Conf.Vpn.FontSize,
-					Conf.VPNStatus,
+					Conf.Values.VPNStatus,
 				)
 
 				if Conf.Vpn.Separator.Right.Enabled {
@@ -458,7 +463,7 @@ func main() {
 					)
 				}
 
-				b.FullText += Conf.BatteryString
+				b.FullText += Conf.Values.BatteryString
 
 				if Conf.Battery.Separator.Right.Enabled {
 					b.FullText += fmt.Sprintf(
@@ -496,7 +501,7 @@ func main() {
 				}
 
 				// Pango format is already applied in plugin src.
-				b.FullText += SoundVolume
+				b.FullText += Conf.Values.SoundVolume
 
 				if Conf.SimpleVolumePa.Separator.Right.Enabled {
 					b.FullText += fmt.Sprintf(
@@ -539,7 +544,7 @@ func main() {
 					Conf.Clock.Background,
 					Conf.Clock.Font,
 					Conf.Clock.FontSize,
-					Clock,
+					Conf.Values.ClockTime,
 				)
 
 				if Conf.Clock.Separator.Right.Enabled {
@@ -559,16 +564,16 @@ func main() {
 				j = append(j, b)
 			}
 
-			if Conf.PrintOutput && len(j) > 0 {
-				Conf.MsgChan <- j
+			if Conf.Values.PrintOutput && len(j) > 0 {
+				Conf.Channels.MsgChan <- j
 			}
 		}
 	}
 }
 
 // PrintToI3bar prints info to stdout according to ipc docs (https://i3wm.org/docs/i3bar-protocol.html)
-func PrintToI3bar(c lib.MyConfig) {
-	for message := range c.MsgChan {
+func PrintToI3bar(c *lib.MyConfig) {
+	for message := range c.Channels.MsgChan {
 		// we do not need to html-encode output, json.Marshal does this forcefully, so invent our own Marshal
 		buf := new(bytes.Buffer)
 		encoder := json.NewEncoder(buf)

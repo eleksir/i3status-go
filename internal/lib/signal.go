@@ -9,20 +9,20 @@ import (
 var PrintOutput = true
 
 // SigHandler OS signal handler.
-func (c MyConfig) SigHandler() {
-	for s := range c.SigChan {
+func (c *MyConfig) SigHandler() {
+	for s := range c.Channels.SigChan {
 		switch s {
 		case syscall.SIGUSR1:
 			log.Print("Got SIGUSR1, stopping output")
 
-			PrintOutput = false
+			c.Values.PrintOutput = false
 
 		case syscall.SIGUSR2:
 			log.Print("Got SIGUSR2, resuming output")
 
-			PrintOutput = true
+			c.Values.PrintOutput = true
 
-			c.UpdateReady <- true
+			c.Channels.UpdateReady <- true
 
 		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
 			os.Exit(0)

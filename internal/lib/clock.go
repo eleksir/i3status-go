@@ -6,7 +6,7 @@ import (
 )
 
 // UpdateClock get and updates (on i3bar) info about system clock.
-func (c MyConfig) UpdateClock() {
+func (c *MyConfig) UpdateClock() {
 	for {
 		currentTime := time.Now()
 		hours, minutes, _ := currentTime.Clock()
@@ -17,9 +17,9 @@ func (c MyConfig) UpdateClock() {
 
 		myclock := fmt.Sprintf("     %s, %d %s %d  % 2d:%02d  ", rdow[dow], day, rmonth[month-1], year, hours, minutes)
 
-		if myclock != c.ClockTime {
-			c.ClockTime = myclock
-			c.UpdateReady <- true
+		if myclock != c.Values.ClockTime {
+			c.Values.ClockTime = myclock
+			c.Channels.UpdateReady <- true
 		}
 
 		time.Sleep(1 * time.Second)

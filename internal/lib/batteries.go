@@ -9,7 +9,7 @@ import (
 )
 
 // UpdateBatteryInfo updates info about battery charge.
-func (c MyConfig) UpdateBatteryInfo() {
+func (c *MyConfig) UpdateBatteryInfo() {
 	var (
 		ch     int
 		status string
@@ -22,11 +22,11 @@ func (c MyConfig) UpdateBatteryInfo() {
 		if err != nil {
 			Batts = fmt.Sprintf(
 				"<span font='%s' size='%s'>%s</span><span font='%s' size='%s'> no batt</span>",
-				Conf.Battery.SymbolFont,
-				Conf.Battery.SymbolFontSize,
-				Conf.Battery.Symbol,
-				Conf.Battery.Font,
-				Conf.Battery.FontSize,
+				c.Battery.SymbolFont,
+				c.Battery.SymbolFontSize,
+				c.Battery.Symbol,
+				c.Battery.Font,
+				c.Battery.FontSize,
 			)
 		} else {
 			var (
@@ -52,85 +52,85 @@ func (c MyConfig) UpdateBatteryInfo() {
 
 				switch {
 				case ch > 85:
-					if Conf.Battery.ChargeColor.Full == "" {
+					if c.Battery.ChargeColor.Full == "" {
 						chStr = fmt.Sprintf(
 							"<span color='%s' background='%s' font='%s' size='%s'>% 3d%%</span>",
-							Conf.Battery.Color,
-							Conf.Battery.Background,
-							Conf.Battery.Font,
-							Conf.Battery.FontSize,
+							c.Battery.Color,
+							c.Battery.Background,
+							c.Battery.Font,
+							c.Battery.FontSize,
 							ch,
 						)
 					} else {
 						chStr = fmt.Sprintf(
 							`<span color='%s' background='%s' font='%s' size='%s'>% 3d%%</span>`,
-							Conf.Battery.ChargeColor.Full,
-							Conf.Battery.Background,
-							Conf.Battery.Font,
-							Conf.Battery.FontSize,
+							c.Battery.ChargeColor.Full,
+							c.Battery.Background,
+							c.Battery.Font,
+							c.Battery.FontSize,
 							ch,
 						)
 					}
 
 				case ch < 85 && ch > 40:
-					if Conf.Battery.ChargeColor.AlmostFull == "" {
+					if c.Battery.ChargeColor.AlmostFull == "" {
 						chStr = fmt.Sprintf(
 							"<span color='%s' background='%s' font='%s' size='%s'>% 3d%%</span>",
-							Conf.Battery.Color,
-							Conf.Battery.Background,
-							Conf.Battery.Font,
-							Conf.Battery.FontSize,
+							c.Battery.Color,
+							c.Battery.Background,
+							c.Battery.Font,
+							c.Battery.FontSize,
 							ch,
 						)
 					} else {
 						chStr = fmt.Sprintf(
 							`<span color='%s' background='%s' font='%s' size='%s'>% 3d%%</span>`,
-							Conf.Battery.ChargeColor.AlmostFull,
-							Conf.Battery.Background,
-							Conf.Battery.Font,
-							Conf.Battery.FontSize,
+							c.Battery.ChargeColor.AlmostFull,
+							c.Battery.Background,
+							c.Battery.Font,
+							c.Battery.FontSize,
 							ch,
 						)
 					}
 
 				case ch <= 40 && ch >= 10:
-					if Conf.Battery.ChargeColor.AlmostEmpty == "" {
+					if c.Battery.ChargeColor.AlmostEmpty == "" {
 						chStr = fmt.Sprintf(
 							"<span color='%s' background='%s' font='%s' size='%s'>% 3d%%</span>",
-							Conf.Battery.Color,
-							Conf.Battery.Background,
-							Conf.Battery.Font,
-							Conf.Battery.FontSize,
+							c.Battery.Color,
+							c.Battery.Background,
+							c.Battery.Font,
+							c.Battery.FontSize,
 							ch,
 						)
 					} else {
 						chStr = fmt.Sprintf(
 							`<span color='%s' background='%s' font='%s' size='%s'>% 3d%%</span>`,
-							Conf.Battery.ChargeColor.AlmostEmpty,
-							Conf.Battery.Background,
-							Conf.Battery.Font,
-							Conf.Battery.FontSize,
+							c.Battery.ChargeColor.AlmostEmpty,
+							c.Battery.Background,
+							c.Battery.Font,
+							c.Battery.FontSize,
 							ch,
 						)
 					}
 
 				case ch < 10:
-					if Conf.Battery.ChargeColor.Empty == "" {
+					if c.Battery.ChargeColor.Empty == "" {
 						chStr = fmt.Sprintf(
 							"<span color='%s' background='%s' font='%s' size='%s'>% 3d%%</span>",
-							Conf.Battery.Color,
-							Conf.Battery.Background,
-							Conf.Battery.Font,
-							Conf.Battery.FontSize,
+							c.Battery.Color,
+							c.Battery.Background,
+							c.Battery.Font,
+							c.Battery.FontSize,
 							ch,
 						)
 					} else {
 						chStr = fmt.Sprintf(
 							`<span color='%s' background='%s' font='%s' size='%s'>% 3d%%</span>`,
-							Conf.Battery.ChargeColor.Empty,
-							Conf.Battery.Background,
-							Conf.Battery.Font,
-							Conf.Battery.FontSize,
+							c.Battery.ChargeColor.Empty,
+							c.Battery.Background,
+							c.Battery.Font,
+							c.Battery.FontSize,
 							ch,
 						)
 					}
@@ -138,21 +138,21 @@ func (c MyConfig) UpdateBatteryInfo() {
 
 				battsInfo += fmt.Sprintf(
 					"<span color='%s' background='%s' font='%s' size='%s'>%s</span><span color='%s' background='%s' font='%s' size='%s'>B%d </span>%s<span color='%s' background='%s' font='%s' size='%s'> %s</span>",
-					Conf.Battery.Color,
-					Conf.Battery.Background,
-					Conf.Battery.SymbolFont,
-					Conf.Battery.SymbolFontSize,
-					Conf.Battery.Symbol,
-					Conf.Battery.Color,
-					Conf.Battery.Background,
-					Conf.Battery.Font,
-					Conf.Battery.FontSize,
+					c.Battery.Color,
+					c.Battery.Background,
+					c.Battery.SymbolFont,
+					c.Battery.SymbolFontSize,
+					c.Battery.Symbol,
+					c.Battery.Color,
+					c.Battery.Background,
+					c.Battery.Font,
+					c.Battery.FontSize,
 					i,
 					chStr,
-					Conf.Battery.Color,
-					Conf.Battery.Background,
-					Conf.Battery.Font,
-					Conf.Battery.FontSize,
+					c.Battery.Color,
+					c.Battery.Background,
+					c.Battery.Font,
+					c.Battery.FontSize,
 					status,
 				)
 			}
@@ -162,9 +162,9 @@ func (c MyConfig) UpdateBatteryInfo() {
 			}
 		}
 
-		if c.BatteryString == Batts {
-			c.BatteryString = Batts
-			c.UpdateReady <- true
+		if c.Values.BatteryString == Batts {
+			c.Values.BatteryString = Batts
+			c.Channels.UpdateReady <- true
 		}
 
 		time.Sleep(5 * time.Second)

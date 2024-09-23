@@ -11,6 +11,7 @@ import (
 
 	"github.com/adrg/xdg"
 	"github.com/hjson/hjson-go"
+	p "github.com/mafik/pulseaudio"
 )
 
 // I3BarOutBlock is structure element for I3BarOut, it represents i3bar output json block format.
@@ -57,17 +58,26 @@ type Separator struct {
 }
 
 type MyConfig struct {
-	UpdateReady    chan bool
-	PrintOutput    bool
-	MsgChan        chan []I3BarOutBlock
-	SigChan        chan os.Signal
-	CPUTemperature int64
-	BatteryString  string
-	ClockTime      string
-	IfStatus       string
-	VPNStatus      string
-	Memory         Mem
-	La             string
+	Values struct {
+		PrintOutput    bool
+		CPUTemperature int64
+		BatteryString  string
+		ClockTime      string
+		IfStatus       string
+		VPNStatus      string
+		Memory         Mem
+		La             string
+		PA             *p.Client
+		SoundVolume    string
+	}
+
+	Channels struct {
+		UpdateReady     chan bool
+		MsgChan         chan []I3BarOutBlock
+		SigChan         chan os.Signal
+		SVPAHandlerChan chan ClickEvent
+		RunChan         chan []string
+	}
 
 	// Default text color
 	Color string `json:"color,omitempty"`
@@ -240,15 +250,12 @@ type MyConfig struct {
 	} `json:"apps,omitempty"`
 }
 
-// Conf global variable with application config.
-var Conf MyConfig
-
 // readConf reads and validates config if config does not exist, it puts default config to the same dir where i3 config
 // is located.
-func ReadConf(DefaultConfig []byte) (MyConfig, error) {
+func ReadConf(DefaultConfig []byte) (*MyConfig, error) {
 	var (
 		path   string
-		config MyConfig
+		config *MyConfig
 		err    error
 		buf    []byte
 	)
@@ -294,7 +301,7 @@ func ReadConf(DefaultConfig []byte) (MyConfig, error) {
 	// We interested in struct as output product: so we parse config to intermediate map then marshal it to json and
 	// then produced json unmarshal to struct. Not very effective way, but in app lifetime it happens only once.
 	var (
-		sampleConfig MyConfig
+		sampleConfig *MyConfig
 		tmp          map[string]interface{}
 	)
 
@@ -1527,19 +1534,19 @@ func ReadConf(DefaultConfig []byte) (MyConfig, error) {
 			}
 
 			if app.Color == "" {
-				app.Color = Conf.Color
+				app.Color = sampleConfig.Color
 			}
 
 			if app.Background == "" {
-				app.Background = Conf.Background
+				app.Background = sampleConfig.Background
 			}
 
 			if app.Border == "" {
-				app.Border = Conf.Color
+				app.Border = sampleConfig.Color
 			}
 
 			if app.BorderActive == "" {
-				app.BorderActive = Conf.Color
+				app.BorderActive = sampleConfig.Color
 			}
 
 			if app.FullText == "" {
