@@ -48,7 +48,7 @@ func (c *MyConfig) UpdateBatteryInfo() {
 
 				// N.B. there can be case when battery is overcharged and shows >100%. It also can indicate that
 				//      calibration data is out of date and battery should be re-calibrated.
-				ch = int(math.Round((b.Full - b.Current) * (100 / b.Full)))
+				ch = int(math.Round((b.Full - (b.Full - b.Current)) * (100 / b.Full)))
 
 				switch {
 				case ch > 85:
