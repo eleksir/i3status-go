@@ -361,6 +361,10 @@ func ReadConf(DefaultConfig []byte) (*MyConfig, error) {
 		sampleConfig.Separator.Left.Font = sampleConfig.Font
 	}
 
+	if sampleConfig.Separator.Left.FontSize == "" {
+		sampleConfig.Separator.Left.FontSize = sampleConfig.FontSize
+	}
+
 	matched, err := regexp.MatchString(
 		`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
 		sampleConfig.Separator.Left.FontSize,
@@ -401,6 +405,10 @@ func ReadConf(DefaultConfig []byte) (*MyConfig, error) {
 
 	if sampleConfig.Separator.Right.Font == "" {
 		sampleConfig.Separator.Right.Font = sampleConfig.Font
+	}
+
+	if sampleConfig.Separator.Right.FontSize == "" {
+		sampleConfig.Separator.Right.FontSize = sampleConfig.FontSize
 	}
 
 	matched, err = regexp.MatchString(
