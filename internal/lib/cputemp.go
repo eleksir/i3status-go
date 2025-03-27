@@ -12,7 +12,9 @@ import (
 func (c *MyConfig) UpdateCPUTemperature() {
 	n := len(c.CPUTemp.File)
 
-	for {
+	ticker := time.NewTicker(time.Second * 3)
+
+	for range ticker.C {
 		var (
 			temperature = make([]int64, n)
 			tSum        int64
@@ -71,7 +73,5 @@ func (c *MyConfig) UpdateCPUTemperature() {
 			c.Values.CPUTemperature = tAvg
 			c.Channels.UpdateReady <- true
 		}
-
-		time.Sleep(3 * time.Second)
 	}
 }

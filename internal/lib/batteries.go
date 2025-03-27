@@ -16,7 +16,9 @@ func (c *MyConfig) UpdateBatteryInfo() {
 		Batts  string
 	)
 
-	for {
+	ticker := time.NewTicker(time.Second * 5)
+
+	for range ticker.C {
 		batteries, err := battery.GetAll()
 
 		if err != nil {
@@ -166,7 +168,5 @@ func (c *MyConfig) UpdateBatteryInfo() {
 			c.Values.BatteryString = Batts
 			c.Channels.UpdateReady <- true
 		}
-
-		time.Sleep(5 * time.Second)
 	}
 }

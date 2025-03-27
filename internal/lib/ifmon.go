@@ -11,7 +11,9 @@ import (
 
 // UpdateIfStatus updates network interfaces status for i3bar.
 func (c *MyConfig) UpdateIfStatus() {
-	for {
+	ticker := time.NewTicker(time.Second * 3)
+
+	for range ticker.C {
 		var statusSum string
 
 		for _, item := range c.NetIf.If {
@@ -53,7 +55,5 @@ func (c *MyConfig) UpdateIfStatus() {
 			c.Values.IfStatus = statusSum
 			c.Channels.UpdateReady <- true
 		}
-
-		time.Sleep(3 * time.Second)
 	}
 }

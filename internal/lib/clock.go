@@ -7,7 +7,9 @@ import (
 
 // UpdateClock get and updates (on i3bar) info about system clock.
 func (c *MyConfig) UpdateClock() {
-	for {
+	ticker := time.NewTicker(time.Second * 1)
+
+	for range ticker.C {
 		currentTime := time.Now()
 		hours, minutes, _ := currentTime.Clock()
 		year, month, day := currentTime.Date()
@@ -21,7 +23,5 @@ func (c *MyConfig) UpdateClock() {
 			c.Values.ClockTime = myclock
 			c.Channels.UpdateReady <- true
 		}
-
-		time.Sleep(1 * time.Second)
 	}
 }

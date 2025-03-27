@@ -15,7 +15,9 @@ func (c *MyConfig) UpdateVPNStatus() {
 		vpnCheck   string
 	)
 
-	for {
+	ticker := time.NewTicker(time.Second * 3)
+
+	for range ticker.C {
 		if c.VPNFileCheck() {
 			if c.Vpn.UpColor == "" {
 				vpnCheck = `⍋`
@@ -54,8 +56,6 @@ func (c *MyConfig) UpdateVPNStatus() {
 			c.Values.VPNStatus = vpnCStatus
 			c.Channels.UpdateReady <- true
 		}
-
-		time.Sleep(3 * time.Second)
 	}
 }
 

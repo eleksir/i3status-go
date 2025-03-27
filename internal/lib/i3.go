@@ -105,9 +105,9 @@ func (c *MyConfig) I3EventParser(e *i3.WindowEvent) {
 
 // interfaceToUint превращает данный интерфейс в Uint64.
 // Если может, конечно :) .
-func interfaceToUint64(iface interface{}) uint64 {
-	// А теперь мы начинаем дурдом, нам надо превратить ёбанный interface{} в []string
-	// Поскольку interface{} может быть чем угодно, перестрахуемся
+func interfaceToUint64(iface any) uint64 {
+	// А теперь мы начинаем дурдом, нам надо превратить ёбанный any в []string
+	// Поскольку any может быть чем угодно, перестрахуемся
 	if reflect.TypeOf(iface).Kind() == reflect.Uint64 {
 		return reflect.ValueOf(iface).Uint()
 	}
@@ -152,7 +152,7 @@ func HasWindows(className string, instanceName string) bool {
 func FindWindowInstance(regexpStr string) bool {
 	var found = false
 
-	f := func(key interface{}, value interface{}) bool {
+	f := func(key any, value any) bool {
 		keyStr := reflect.ValueOf(key).String()
 
 		re, err := regexp.Compile(regexpStr) //nolint:nolintlint, gocritic, we do not want shit our pants and panic on

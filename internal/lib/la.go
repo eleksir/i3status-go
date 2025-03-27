@@ -9,7 +9,9 @@ import (
 
 // UpdateLaStats вытаскивает показание LA за последнюю минуту.
 func (c *MyConfig) UpdateLaStats() {
-	for {
+	ticker := time.NewTicker(time.Second * 3)
+
+	for range ticker.C {
 		l, _ := load.Avg()
 
 		lav := fmt.Sprintf("%.2f", l.Load1)
@@ -18,7 +20,5 @@ func (c *MyConfig) UpdateLaStats() {
 			c.Values.La = lav
 			c.Channels.UpdateReady <- true
 		}
-
-		time.Sleep(3 * time.Second)
 	}
 }

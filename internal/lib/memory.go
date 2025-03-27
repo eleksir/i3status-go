@@ -16,12 +16,13 @@ type Mem struct {
 
 // UpdateMemStats parses mem info stats.
 func (c *MyConfig) UpdateMemStats() {
-	for {
+	ticker := time.NewTicker(time.Second * 3)
+
+	for range ticker.C {
 		v, err := mem.VirtualMemory()
 
 		if err != nil {
 			log.Printf("Unable to get memory statistics: %s", err)
-			time.Sleep(1 * time.Second)
 
 			continue
 		}
@@ -30,7 +31,6 @@ func (c *MyConfig) UpdateMemStats() {
 
 		if err != nil {
 			log.Printf("Unable to get swap statistics: %s", err)
-			time.Sleep(1 * time.Second)
 
 			continue
 		}
@@ -49,7 +49,5 @@ func (c *MyConfig) UpdateMemStats() {
 				c.Channels.UpdateReady <- true
 			}
 		}
-
-		time.Sleep(3 * time.Second)
 	}
 }
