@@ -24,7 +24,7 @@ clean:
 ## Misc target, for development purposes. Updates vendored libs, brutal way.
 upgrade:
 	$(RM) -r vendor
-	go get -d -u -t ./...
+	go get -u -t -tool ./...
 	go mod tidy
 	go mod vendor
 
