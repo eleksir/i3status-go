@@ -11,13 +11,12 @@ import (
 // Program entry point.
 func main() {
 	for {
-		batteries, err := battery.GetAll()
+		batteries, _ := battery.GetAll()
 
-		if err != nil {
-			fmt.Printf("Unable to get battery info: %w", err)
+		for index, battery := range batteries {
+			fmt.Printf("Battery %s: %s\n", index, spew.Sdump(battery))
 		}
 
-		spew.Dump(batteries)
 		time.Sleep(1 * time.Second)
 	}
 }

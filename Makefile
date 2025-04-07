@@ -13,6 +13,7 @@ build:
 	go build ${BUILDOPTS} -o ${BINARY} ./cmd/${BINARY}
 
 battery-test:
+	rm -rf ${TEST1}
 	go build ${BUILDOPTS} -o ${TEST1} ./cmd/${TEST1}
 
 ## Remove binary with golang compiler' means
