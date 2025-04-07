@@ -16,7 +16,19 @@ type Mem struct {
 
 // UpdateMemStats parses mem info stats.
 func (c *MyConfig) UpdateMemStats() {
-	for {
+	var (
+		InitialDelay       = 100 * time.Millisecond
+		LoopIterationDelay = 3 * time.Second
+		Delay              = InitialDelay
+		ticker             = time.NewTicker(Delay)
+	)
+
+	for range ticker.C {
+		if Delay == InitialDelay {
+			Delay = LoopIterationDelay
+			ticker.Reset(Delay)
+		}
+
 		v, err := mem.VirtualMemory()
 
 		if err != nil {
@@ -49,7 +61,5 @@ func (c *MyConfig) UpdateMemStats() {
 				c.Channels.UpdateReady <- true
 			}
 		}
-
-		time.Sleep(3 * time.Second)
 	}
 }

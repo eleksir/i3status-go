@@ -10,12 +10,21 @@ import (
 // UpdateVPNStatus periodically update status of openvpn daemon.
 func (c *MyConfig) UpdateVPNStatus() {
 	var (
-		vpnCStatus string
-		tcpCheck   string
-		vpnCheck   string
+		vpnCStatus         string
+		tcpCheck           string
+		vpnCheck           string
+		InitialDelay       = 100 * time.Millisecond
+		LoopIterationDelay = 3 * time.Second
+		Delay              = InitialDelay
+		ticker             = time.NewTicker(Delay)
 	)
 
-	for {
+	for range ticker.C {
+		if Delay == InitialDelay {
+			Delay = LoopIterationDelay
+			ticker.Reset(Delay)
+		}
+
 		if c.VPNFileCheck() {
 			if c.Vpn.UpColor == "" {
 				vpnCheck = `⍋`
@@ -54,8 +63,6 @@ func (c *MyConfig) UpdateVPNStatus() {
 			c.Values.VPNStatus = vpnCStatus
 			c.Channels.UpdateReady <- true
 		}
-
-		time.Sleep(3 * time.Second)
 	}
 }
 

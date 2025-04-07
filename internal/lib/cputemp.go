@@ -10,14 +10,25 @@ import (
 
 // UpdateCPUTemperature gets and updates average CPU cores temperature.
 func (c *MyConfig) UpdateCPUTemperature() {
-	n := len(c.CPUTemp.File)
+	var (
+		n                  = len(c.CPUTemp.File)
+		InitialDelay       = 100 * time.Millisecond
+		LoopIterationDelay = 3 * time.Second
+		Delay              = InitialDelay
+		ticker             = time.NewTicker(Delay)
+	)
 
-	for {
+	for range ticker.C {
 		var (
 			temperature = make([]int64, n)
 			tSum        int64
 			tAvg        int64
 		)
+
+		if Delay == InitialDelay {
+			Delay = LoopIterationDelay
+			ticker.Reset(Delay)
+		}
 
 		for i, filename := range c.CPUTemp.File {
 			file, err := os.Open(filename)
@@ -71,7 +82,5 @@ func (c *MyConfig) UpdateCPUTemperature() {
 			c.Values.CPUTemperature = tAvg
 			c.Channels.UpdateReady <- true
 		}
-
-		time.Sleep(3 * time.Second)
 	}
 }

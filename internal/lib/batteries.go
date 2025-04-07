@@ -16,10 +16,9 @@ func (c *MyConfig) UpdateBatteryInfo() {
 		Batts              string
 		InitialDelay       = 100 * time.Millisecond
 		LoopIterationDelay = 5 * time.Second
+		Delay              = InitialDelay
+		ticker             = time.NewTicker(Delay)
 	)
-
-	Delay := InitialDelay
-	ticker := time.NewTicker(Delay)
 
 	for range ticker.C {
 		if Delay == InitialDelay {
@@ -170,7 +169,5 @@ func (c *MyConfig) UpdateBatteryInfo() {
 			c.Values.BatteryString = Batts
 			c.Channels.UpdateReady <- true
 		}
-
-		time.Sleep(5 * time.Second)
 	}
 }
