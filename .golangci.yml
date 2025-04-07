@@ -1,28 +1,12 @@
+version: "2"
 run:
-  tests: false
-  skip-dirs:
-    - data
-    - vendor
+  go: "1.24"
   modules-download-mode: readonly
+  tests: false
   allow-parallel-runners: true
-  go: '1.21'
-output:
-  sort-results: true
-linters-settings:
-  gosec:
-    excludes:
-      # not relevant here
-      - G404 # Insecure random number source (rand)
-      - G306 # Expect WriteFile permissions to be 0600 or less (gosec)
 linters:
-  disable-all: true
+  default: none
   enable:
-    - errcheck
-    - gosimple
-    - govet
-    - ineffassign
-    - staticcheck
-    - unused
     - asasalint
     - asciicheck
     - bodyclose
@@ -30,20 +14,20 @@ linters:
     - contextcheck
     - decorder
     - durationcheck
+    - err113
+    - errcheck
     - errchkjson
     - errorlint
-    - exportloopref
     - ginkgolinter
     - gocheckcompilerdirectives
     - gocritic
     - godot
-    - goerr113
-    - gofmt
-    - goimports
     - gosec
     - gosmopolitan
+    - govet
     - grouper
     - importas
+    - ineffassign
     - ireturn
     - makezero
     - mirror
@@ -59,8 +43,39 @@ linters:
     - reassign
     - revive
     - rowserrcheck
-    - stylecheck
+    - staticcheck
     - unconvert
+    - unused
     - wastedassign
     - whitespace
     - wsl
+  settings:
+    gosec:
+      excludes:
+        - G404
+        - G306
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - data
+      - vendor
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  exclusions:
+    generated: lax
+    paths:
+      - data
+      - vendor
+      - third_party$
+      - builtin$
+      - examples$

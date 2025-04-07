@@ -11,11 +11,11 @@ import (
 // UpdateBatteryInfo updates info about battery charge.
 func (c *MyConfig) UpdateBatteryInfo() {
 	var (
-		ch     int
-		status string
-		Batts  string
-		InitialDelay time.Duration = 100 * time.Millisecond
-		LoopIterationDelay time.Duration = 5 * time.Second
+		ch                 int
+		status             string
+		Batts              string
+		InitialDelay       = 100 * time.Millisecond
+		LoopIterationDelay = 5 * time.Second
 	)
 
 	Delay := InitialDelay
@@ -30,7 +30,7 @@ func (c *MyConfig) UpdateBatteryInfo() {
 		batteries, _ := battery.GetAll()
 		// In theory, this module should give for each entry its separate err, but in practice it gives
 		// one single err for all entries, so we cannot detemine whist exatly entry errored.
- 
+
 		var (
 			battsInfo string
 			chStr     string

@@ -152,10 +152,10 @@ func HasWindows(className string, instanceName string) bool {
 func FindWindowInstance(regexpStr string) bool {
 	var found = false
 
-	f := func(key interface{}, value interface{}) bool {
+	f := func(key any, value any) bool { //nolint: revive
 		keyStr := reflect.ValueOf(key).String()
 
-		re, err := regexp.Compile(regexpStr) //nolint:nolintlint, gocritic, we do not want shit our pants and panic on
+		re, err := regexp.Compile(regexpStr) // we do not want shit our pants and panic on
 		//        erroneous regexp, we want log it to stderr, that it.
 
 		if err != nil {
@@ -183,10 +183,10 @@ func FindWindowInstance(regexpStr string) bool {
 func FindWindowClass(regexpStr string) bool {
 	var found = false
 
-	f := func(key interface{}, value interface{}) bool {
+	f := func(key any, value any) bool { //nolint: revive
 		keyStr := reflect.ValueOf(key).String()
 
-		re, err := regexp.Compile(regexpStr) //nolint:nolintlint, gocritic, we do not want shit our pants and panic on
+		re, err := regexp.Compile(regexpStr) // we do not want shit our pants and panic on
 		//        erroneous regexp, we want log it to stderr, that it.
 
 		if err != nil {

@@ -135,7 +135,7 @@ func (c *MyConfig) PaReinit() error {
 			}
 
 			if cnt >= 5 {
-				return errors.New("timeout waiting pulseaudio to exit") //nolint: goerr113
+				return errors.New("timeout waiting pulseaudio to exit") //nolint: err113
 			}
 
 			log.Print("Waiting for pulseaudio to exit")

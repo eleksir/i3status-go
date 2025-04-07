@@ -252,7 +252,7 @@ type MyConfig struct {
 
 // readConf reads and validates config if config does not exist, it puts default config to the same dir where i3 config
 // is located.
-func ReadConf(DefaultConfig []byte) (*MyConfig, error) {
+func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 	var (
 		path   string
 		config *MyConfig
@@ -272,7 +272,7 @@ func ReadConf(DefaultConfig []byte) (*MyConfig, error) {
 	// about it for now.
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
-			buf = DefaultConfig
+			buf = defaultConfig
 
 			if err := os.WriteFile(path, buf, 0644); err != nil {
 				return config, err
@@ -283,7 +283,7 @@ func ReadConf(DefaultConfig []byte) (*MyConfig, error) {
 	} else {
 		// Config file looks too long for config...
 		if fileInfo.Size() > 65535 {
-			err := fmt.Errorf("config file %s is too long for config", path) //nolint: goerr113
+			err := fmt.Errorf("config file %s is too long for config", path) //nolint: err113
 
 			return config, err
 		}
@@ -1530,13 +1530,11 @@ func ReadConf(DefaultConfig []byte) (*MyConfig, error) {
 		for num, app := range sampleConfig.Apps {
 			// app.Instance can be missing.
 			// app.Class can be missing.
-
 			if app.Name == "" {
 				app.Name = fmt.Sprintf("app%d", num)
 			}
 
 			// app.Args can be empty slice. In that case command will be run without aruments.
-
 			if app.Cmd == "" {
 				app.Cmd = "true"
 			}
@@ -1557,12 +1555,11 @@ func ReadConf(DefaultConfig []byte) (*MyConfig, error) {
 				app.BorderActive = sampleConfig.Color
 			}
 
+			// app.Separator can be omitted, in that case it is false
+			// app.SeparatorBlockWidth can be missing
 			if app.FullText == "" {
 				app.FullText = fmt.Sprintf(" %d ", num)
 			}
-
-			// app.Separator can be omitted, in that case it is false
-			// app.SeparatorBlockWidth can be missing
 		}
 	}
 

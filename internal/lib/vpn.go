@@ -69,6 +69,7 @@ func (c *MyConfig) VPNTCPCheck() bool {
 
 	if err == nil {
 		_ = conn.Close()
+
 		return true
 	}
 

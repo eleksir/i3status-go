@@ -1,6 +1,6 @@
 #!/usr/bin/env gmake -f
 
-BUILDOPTS=-ldflags="-s -w" -a -gcflags=all=-l -trimpath
+BUILDOPTS=-ldflags="-s -w" -a -gcflags=all=-l -trimpath -buildvcs=false
 
 BINARY=i3status-go
 TEST1=battery-test

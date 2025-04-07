@@ -14,7 +14,7 @@ func main() {
 		batteries, _ := battery.GetAll()
 
 		for index, battery := range batteries {
-			fmt.Printf("Battery %s: %s\n", index, spew.Sdump(battery))
+			fmt.Printf("Battery %d: %s\n", index, spew.Sdump(battery))
 		}
 
 		time.Sleep(1 * time.Second)
