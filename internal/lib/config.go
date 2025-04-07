@@ -302,7 +302,7 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 	// then produced json unmarshal to struct. Not very effective way, but in app lifetime it happens only once.
 	var (
 		sampleConfig *MyConfig
-		tmp          map[string]interface{}
+		tmp          map[string]any
 	)
 
 	err = hjson.Unmarshal(buf, &tmp)

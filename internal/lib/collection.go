@@ -12,7 +12,7 @@ type Collection struct {
 
 // Item just interface for stoing any data.
 type item struct {
-	data interface{}
+	data any
 }
 
 // NewCollection creates new instance of "collection".
@@ -25,7 +25,7 @@ func NewCollection() *Collection {
 }
 
 // Get returns value by given key. Or empty value.
-func (collection *Collection) Get(key interface{}) (interface{}, bool) {
+func (collection *Collection) Get(key any) (any, bool) {
 	obj, exists := collection.items.Load(key)
 
 	if !exists {
@@ -38,15 +38,15 @@ func (collection *Collection) Get(key interface{}) (interface{}, bool) {
 }
 
 // Set saves value to given "collection".
-func (collection *Collection) Set(key interface{}, value interface{}) {
+func (collection *Collection) Set(key any, value any) {
 	collection.items.Store(key, item{
 		data: value,
 	})
 }
 
 // Range apply function f to all keys/values in collection. Retuns immediatly on first error.
-func (collection *Collection) Range(f func(key, value interface{}) bool) {
-	fn := func(key, value interface{}) bool {
+func (collection *Collection) Range(f func(key, value any) bool) {
+	fn := func(key, value any) bool {
 		item := value.(item)
 
 		return f(key, item.data)
@@ -56,7 +56,7 @@ func (collection *Collection) Range(f func(key, value interface{}) bool) {
 }
 
 // Delete deletes key and corresponding value from collection.
-func (collection *Collection) Delete(key interface{}) {
+func (collection *Collection) Delete(key any) {
 	collection.items.Delete(key)
 }
 
