@@ -2,7 +2,12 @@ package lib
 
 import (
 	"fmt"
+	"log"
 	"math"
+	"os"
+	"path/filepath"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/distatus/battery"
@@ -11,9 +16,6 @@ import (
 // UpdateBatteryInfo updates info about battery charge.
 func (c *MyConfig) UpdateBatteryInfo() {
 	var (
-		ch                 int
-		status             string
-		Batts              string
 		InitialDelay       = 100 * time.Millisecond
 		LoopIterationDelay = 5 * time.Second
 		Delay              = InitialDelay
@@ -26,9 +28,82 @@ func (c *MyConfig) UpdateBatteryInfo() {
 			ticker.Reset(Delay)
 		}
 
-		batteries, _ := battery.GetAll()
-		// In theory, this module should give for each entry its separate err, but in practice it gives
-		// one single err for all entries, so we cannot detemine whist exatly entry errored.
+		var (
+			batteries []*battery.Battery = []*battery.Battery{}
+			Batts     string
+			ch        int
+			status    string
+		)
+
+		if c.Battery.UseSysfs {
+			for _, file := range c.Battery.SysfsFiles {
+				var batt battery.Battery
+
+				_, err := os.Stat(file)
+
+				// If file exists.
+				if !os.IsNotExist(err) {
+					var (
+						myCharge string
+						myStatus string
+					)
+
+					b, err := os.ReadFile(file)
+
+					if err != nil {
+						log.Printf("Unable to read file %s: %s", file, err)
+						continue
+					}
+
+					myCharge = strings.Trim(string(b), "\n")
+
+					statusFile := filepath.Dir(file) + "/status"
+
+					// If file exists.
+					if !os.IsNotExist(err) {
+						b, err := os.ReadFile(statusFile)
+
+						if err != nil {
+							log.Printf("Unable to read file %s: %s", statusFile, err)
+							continue
+						}
+
+						myStatus = strings.Trim(string(b), "\n")
+					} else {
+						continue
+					}
+
+					// Make stub battery class :) .
+					switch myStatus {
+					case "Charging":
+						batt.State.Raw = battery.Charging
+					case "Discharging":
+						batt.State.Raw = battery.Discharging
+					case "Empty":
+						batt.State.Raw = battery.Empty
+					case "Full":
+						batt.State.Raw = battery.Full
+					default:
+						batt.State.Raw = battery.Unknown
+					}
+
+					ch, err := strconv.Atoi(myCharge)
+
+					if err != nil {
+						log.Printf("Unable to convert string from file %s to integer", file)
+						continue
+					}
+
+					batt.Current = float64(ch)
+
+					batteries = append(batteries, &batt)
+				}
+			}
+		} else {
+			batteries, _ = battery.GetAll()
+			// In theory, this module should give for each entry its separate err, but in practice it gives
+			// one single err for all entries, so we cannot detemine whist exatly entry errored.
+		}
 
 		var (
 			battsInfo string
@@ -49,7 +124,11 @@ func (c *MyConfig) UpdateBatteryInfo() {
 
 			// N.B. there can be case when battery is overcharged and shows >100%. It also can indicate that
 			//      calibration data is out of date and battery should be re-calibrated.
-			ch = int(math.Round((b.Full - (b.Full - b.Current)) * (100 / b.Full)))
+			if c.Battery.UseSysfs {
+				ch = int(b.Current)
+			} else {
+				ch = int(math.Round((b.Full - (b.Full - b.Current)) * (100 / b.Full)))
+			}
 
 			switch {
 			case ch <= 500 && ch >= 84:

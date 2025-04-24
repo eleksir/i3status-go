@@ -134,14 +134,16 @@ type MyConfig struct {
 	} `json:"clock,omitempty"`
 
 	Battery struct {
-		Enabled        bool   `json:"enabled,omitempty"`
-		Color          string `json:"color,omitempty"`
-		Background     string `json:"background,omitempty"`
-		Font           string `json:"font,omitempty"`
-		FontSize       string `json:"font_size,omitempty"`
-		Symbol         string `json:"symbol,omitempty"`
-		SymbolFont     string `json:"symbol_font,omitempty"`
-		SymbolFontSize string `json:"symbol_font_size,omitempty"`
+		Enabled        bool     `json:"enabled,omitempty"`
+		UseSysfs       bool     `json:"use_sysfs,omitempty"`
+		SysfsFiles     []string `json:"sysfs_files,omitempty"`
+		Color          string   `json:"color,omitempty"`
+		Background     string   `json:"background,omitempty"`
+		Font           string   `json:"font,omitempty"`
+		FontSize       string   `json:"font_size,omitempty"`
+		Symbol         string   `json:"symbol,omitempty"`
+		SymbolFont     string   `json:"symbol_font,omitempty"`
+		SymbolFontSize string   `json:"symbol_font_size,omitempty"`
 
 		ChargeColor struct {
 			Full        string `json:"full,omitempty"`
@@ -778,6 +780,15 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 	}
 
 	// sampleConfig.Battery.Enabled will be false if not set in config
+	// sampleConfig.Battery.UseSysfs will be false if not set in config
+
+	if len(sampleConfig.Battery.SysfsFiles) == 0 {
+		sampleConfig.Battery.SysfsFiles = append(
+			sampleConfig.Battery.SysfsFiles,
+			"/sys/class/power_supply/BAT0/capacity",
+		)
+	}
+
 	if sampleConfig.Battery.Color == "" {
 		sampleConfig.Battery.Color = sampleConfig.Color
 	}

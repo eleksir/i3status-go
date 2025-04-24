@@ -518,6 +518,15 @@
 "battery": {
 	"enabled": false,
 
+	// Valid only on linux, where we have mounted sysfs and /sys/class/power_supply/BAT0/capacity available
+	"use_sysfs": false,
+
+	// it is possible to set files here, if none set, /sys/class/power_supply/BAT0/capacity will be taken.
+	"sysfs_files": [
+		"/sys/class/power_supply/BAT0/capacity",
+		"/sys/class/power_supply/HIDP0/capacity"
+	],
+
 	// If omitted set to default color defined up here.
 	"color": "#3e78fd",
 
