@@ -11,6 +11,7 @@ import (
 // Spawner forks and execs given program, and also detaches form its control tty.
 func (c *MyConfig) Spawner() {
 	for prg := range c.Channels.RunChan {
+		<-time.After(25 * time.Millisecond)
 		devnullR, _ := os.Open(os.DevNull)
 		devnullW, _ := os.OpenFile(os.DevNull, os.O_WRONLY|os.O_APPEND, 0644)
 
