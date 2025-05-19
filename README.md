@@ -14,11 +14,12 @@ It is i3bar text generator.
 * PulseAudio volume indicator, can adjust master volume too
 * Clock
 * Cron jobs (intended to use for show periodic desktop notifications but not limited to)
+* Show output of one-shot system command
 
 ## How to build it
 
-This appliction was tested to compile with go v1.21 but can be built with earlier versions (seems down to 1.18, not
-sure).
+This appliction was tested to compile with go v1.24.
+
 All you need is go lang compiler and gnu make utility. Invoke
 
 ```bash
