@@ -70,7 +70,7 @@ func (c *MyConfig) UpdateVPNStatus() {
 func (c *MyConfig) VPNTCPCheck() bool {
 	conn, err := net.DialTimeout(
 		"tcp",
-		fmt.Sprintf("%s:%d", c.Vpn.TCPCheck.Host, c.Vpn.TCPCheck.Port),
+		fmt.Sprintf("%s:%d", c.Vpn.TCPCheck.Host, c.Vpn.TCPCheck.Port), //nolint: hostport
 		time.Second*time.Duration(c.Vpn.TCPCheck.Timeout),
 	)
 

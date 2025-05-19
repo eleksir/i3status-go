@@ -84,6 +84,14 @@ func main() {
 		Conf.Clock.FontSize,
 	)
 
+	Conf.Values.RunCommandOutput = fmt.Sprintf(
+		"<span color='%s' background='%s' font='%s' size='%s'>?</span>",
+		Conf.CmdRun.Color,
+		Conf.CmdRun.Background,
+		Conf.CmdRun.Font,
+		Conf.CmdRun.FontSize,
+	)
+
 	go Conf.Spawner()
 	go Conf.ParseStdin()
 	go Conf.CleanZombies()
@@ -141,6 +149,10 @@ func main() {
 
 	if Conf.Vpn.Enabled {
 		go Conf.UpdateVPNStatus()
+	}
+
+	if Conf.CmdRun.Enabled {
+		go Conf.RunCommand()
 	}
 
 	/*
@@ -510,6 +522,50 @@ func main() {
 					Conf.SimpleVolumePa.Separator.Right.Font,
 					Conf.SimpleVolumePa.Separator.Right.FontSize,
 					Conf.SimpleVolumePa.Separator.Right.Symbol,
+				)
+			}
+
+			b.Markup = "pango"
+			b.Separator = false
+
+			j = append(j, b)
+		}
+
+		if Conf.CmdRun.Enabled {
+			var b lib.I3BarOutBlock
+
+			b.Name = `runcommandoutput`
+			b.Color = Conf.CmdRun.Color
+			b.Background = Conf.CmdRun.Background
+
+			if Conf.CmdRun.Separator.Left.Enabled {
+				b.FullText = fmt.Sprintf(
+					"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
+					Conf.CmdRun.Separator.Left.Color,
+					Conf.CmdRun.Separator.Left.Background,
+					Conf.CmdRun.Separator.Left.Font,
+					Conf.CmdRun.Separator.Left.FontSize,
+					Conf.CmdRun.Separator.Left.Symbol,
+				)
+			}
+
+			b.FullText += fmt.Sprintf(
+				"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
+				Conf.CmdRun.Color,
+				Conf.CmdRun.Background,
+				Conf.CmdRun.Font,
+				Conf.CmdRun.FontSize,
+				Conf.Values.RunCommandOutput,
+			)
+
+			if Conf.CmdRun.Separator.Right.Enabled {
+				b.FullText += fmt.Sprintf(
+					"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
+					Conf.CmdRun.Separator.Right.Color,
+					Conf.CmdRun.Separator.Right.Background,
+					Conf.CmdRun.Separator.Right.Font,
+					Conf.CmdRun.Separator.Right.FontSize,
+					Conf.CmdRun.Separator.Right.Symbol,
 				)
 			}
 

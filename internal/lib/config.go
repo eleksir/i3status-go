@@ -59,16 +59,17 @@ type Separator struct {
 
 type MyConfig struct {
 	Values struct {
-		PrintOutput    bool
-		CPUTemperature int64
-		BatteryString  string
-		ClockTime      string
-		IfStatus       string
-		VPNStatus      string
-		Memory         Mem
-		La             string
-		PA             *p.Client
-		SoundVolume    string
+		PrintOutput      bool
+		CPUTemperature   int64
+		BatteryString    string
+		ClockTime        string
+		IfStatus         string
+		VPNStatus        string
+		Memory           Mem
+		La               string
+		PA               *p.Client
+		SoundVolume      string
+		RunCommandOutput string
 	}
 
 	Channels struct {
@@ -230,6 +231,18 @@ type MyConfig struct {
 			Cmd  []string `json:"cmd,omitempty"`
 		} `json:"tasks,omitempty"`
 	} `json:"cron,omitempty"`
+
+	CmdRun struct {
+		Enabled    bool      `json:"enabled,omitempty"`
+		Color      string    `json:"color,omitempty"`
+		Background string    `json:"background,omitempty"`
+		Font       string    `json:"font,omitempty"`
+		FontSize   string    `json:"font_size,omitempty"`
+		Separator  Separator `json:"separator,omitempty"`
+		Cmd        string    `json:"cmd,omitempty"`
+		Delay      int       `json:"delay,omitempty"`
+		Args       []string  `json:"args,omitempty"`
+	}
 
 	AppButtons struct {
 		Enabled   bool      `json:"enabled,omitempty"`
@@ -1443,6 +1456,121 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 			)
 
 			sampleConfig.NetIf.Separator.Right.FontSize = sampleConfig.Separator.Right.FontSize
+		}
+	}
+
+	// sampleConfig.CmdRun.Enabled will false if not set in config
+
+	if sampleConfig.CmdRun.Cmd == "" && sampleConfig.CmdRun.Enabled {
+		sampleConfig.CmdRun.Enabled = false
+		log.Print(
+			"Setting sampleConfig.CmdRun.Enabled to false because sampleConfig.CmdRun.Cmd is not set",
+		)
+	}
+
+	// sampleConfig.CmdRun.Args can be empty
+
+	if sampleConfig.CmdRun.Color == "" {
+		sampleConfig.CmdRun.Color = sampleConfig.Color
+	}
+
+	if sampleConfig.CmdRun.Background == "" {
+		sampleConfig.CmdRun.Background = sampleConfig.Background
+	}
+
+	if sampleConfig.CmdRun.Font == "" {
+		sampleConfig.CmdRun.Font = sampleConfig.Font
+	}
+
+	if sampleConfig.CmdRun.FontSize == "" {
+		sampleConfig.CmdRun.FontSize = sampleConfig.FontSize
+	}
+
+	if sampleConfig.CmdRun.Separator.Left.Color == "" {
+		sampleConfig.CmdRun.Separator.Left.Color = sampleConfig.Separator.Left.Color
+	}
+
+	if sampleConfig.CmdRun.Separator.Left.Background == "" {
+		sampleConfig.CmdRun.Separator.Left.Background = sampleConfig.Separator.Left.Background
+	}
+
+	if sampleConfig.CmdRun.Separator.Left.Symbol == "" {
+		sampleConfig.CmdRun.Separator.Left.Symbol = sampleConfig.Separator.Left.Symbol
+	}
+
+	if sampleConfig.CmdRun.Separator.Left.Font == "" {
+		sampleConfig.CmdRun.Separator.Left.Font = sampleConfig.Separator.Left.Font
+	}
+
+	if sampleConfig.CmdRun.Separator.Left.FontSize == "" {
+		sampleConfig.CmdRun.Separator.Left.FontSize = sampleConfig.Separator.Left.FontSize
+	} else {
+		matched, err := regexp.MatchString(
+			`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
+			sampleConfig.CmdRun.Separator.Left.FontSize,
+		)
+
+		if err != nil {
+			log.Printf(
+				"Unable to set sampleConfig.CmdRun.Separator.Left.FontSize: %s, fallback to %s",
+				err,
+				sampleConfig.Separator.Left.FontSize,
+			)
+
+			sampleConfig.CmdRun.Separator.Left.FontSize = sampleConfig.Separator.Left.FontSize
+		}
+
+		if !matched {
+			log.Printf(
+				"Unable to set sampleConfig.CmdRun.Separator.Left.FontSize, fallback to %s",
+				sampleConfig.Separator.Left.FontSize,
+			)
+
+			sampleConfig.CmdRun.Separator.Left.FontSize = sampleConfig.Separator.Left.FontSize
+		}
+	}
+
+	if sampleConfig.CmdRun.Separator.Right.Color == "" {
+		sampleConfig.CmdRun.Separator.Right.Color = sampleConfig.Separator.Right.Color
+	}
+
+	if sampleConfig.CmdRun.Separator.Right.Background == "" {
+		sampleConfig.CmdRun.Separator.Right.Background = sampleConfig.Separator.Right.Background
+	}
+
+	if sampleConfig.CmdRun.Separator.Right.Symbol == "" {
+		sampleConfig.CmdRun.Separator.Right.Symbol = sampleConfig.Separator.Right.Symbol
+	}
+
+	if sampleConfig.CmdRun.Separator.Right.Font == "" {
+		sampleConfig.CmdRun.Separator.Right.Font = sampleConfig.Separator.Right.Font
+	}
+
+	if sampleConfig.CmdRun.Separator.Right.FontSize == "" {
+		sampleConfig.CmdRun.Separator.Right.FontSize = sampleConfig.Separator.Right.FontSize
+	} else {
+		matched, err := regexp.MatchString(
+			`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
+			sampleConfig.CmdRun.Separator.Right.FontSize,
+		)
+
+		if err != nil {
+			log.Printf(
+				"Unable to set sampleConfig.CmdRun.Separator.Right.FontSize: %s, fallback to %s",
+				err,
+				sampleConfig.Separator.Right.FontSize,
+			)
+
+			sampleConfig.CmdRun.Separator.Right.FontSize = sampleConfig.Separator.Right.FontSize
+		}
+
+		if !matched {
+			log.Printf(
+				"Unable to set sampleConfig.CmdRun.Separator.Right.FontSize, fallback to %s",
+				sampleConfig.Separator.Right.FontSize,
+			)
+
+			sampleConfig.CmdRun.Separator.Right.FontSize = sampleConfig.Separator.Right.FontSize
 		}
 	}
 

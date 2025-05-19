@@ -1,9 +1,11 @@
 package lib
 
 import (
+	"bytes"
 	"log"
 	"os"
 	"os/exec"
+	"strings"
 	"syscall"
 	"time"
 )
@@ -54,4 +56,42 @@ func (c *MyConfig) CleanZombies() {
 
 		time.Sleep(1 * time.Minute)
 	}
+}
+
+// RunProcess runs given command and returns contens of command stdout. On error prints error on stderr and returns
+// empty syting.
+func RunProcess(command []string) string {
+	var (
+		cmd            *exec.Cmd
+		stdout, stderr bytes.Buffer
+	)
+
+	switch len(command) {
+	case 1:
+		cmd = exec.Command(command[0], "")
+	default:
+		cmd = exec.Command(command[0], command[1:]...)
+	}
+
+	cmd.Dir = "/"
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+
+	err := cmd.Run()
+
+	if err != nil {
+		if stdout.String() != "" {
+			log.Printf("Unable to run '%s': %s, %s", strings.Join(command, " "), err, stdout.String())
+		} else {
+			log.Printf("Unable to run '%s': %s", strings.Join(command, " "), err)
+		}
+
+		return ""
+	} else {
+		if stderr.String() != "" {
+			log.Printf("%s: %s", strings.Join(command, " "), stderr.String())
+		}
+	}
+
+	return strings.TrimRight(stdout.String(), "\n")
 }

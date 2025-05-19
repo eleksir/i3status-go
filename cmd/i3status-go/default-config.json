@@ -702,6 +702,78 @@
 	]
 },
 
+// Prints stdout of command to panel.
+"cmdrun" : {
+	"enabled": false,
+
+	// Delay between two consecutive command batch runs.
+	"delay": 3,
+
+	// command' binary.
+	"cmd": "/bin/bash",
+
+	// Arguments for command binary.
+	"args": ["-c", "echo 42"],
+
+	// If omitted set to default color defined up here.
+	"color": "#3e78fd",
+
+	// If omitted set to default background color defined up here.
+	"background": "#000000",
+
+	// If omitted set to default font defined up here.
+	"font": "Noto Sans",
+
+	// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+	// ‘smaller’ or ‘larger’. If omitted set to default font size defined up here.
+	"font_size": "medium",
+
+	// Re-define separator parameters for each command block here.
+	"separator": {
+		"left": {
+			// Set to false if omitted.
+			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
+			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
+			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
+			"symbol": "▶",
+
+			// If omitted set to default font defined for separator up here.
+			"font": "Noto Sans",
+
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
+			"font_size": "medium"
+		},
+
+		"right": {
+			// Set to false if omitted.
+			"enabled": true,
+
+			// If omitted set to default color defined for separator up here.
+			"color": "#3e78fd",
+
+			// If omitted set to default background color defined for separator up here.
+			"background": "#000000",
+
+			// If omitted set to default symbol defined for separator up here.
+			"symbol": "◀",
+
+			// If omitted set to default font defined for separator up here.
+			"font": "Noto Sans",
+
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
+			"font_size": "medium"
+		}
+	}
+}
+
 // Whether to display Application Buttons.
 "app_buttons": {
 	"enabled": true,
