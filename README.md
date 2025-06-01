@@ -18,7 +18,7 @@ It is i3bar text generator.
 
 ## How to build it
 
-This appliction was tested to compile with go v1.24.
+This application was tested to compile with go v1.24.
 
 All you need is go lang compiler and gnu make utility. Invoke
 
