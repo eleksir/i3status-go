@@ -1049,7 +1049,7 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 	}
 
 	if sampleConfig.Vpn.Font == "" {
-		sampleConfig.Vpn.FontSize = sampleConfig.Font
+		sampleConfig.Vpn.Font = sampleConfig.Font
 	}
 
 	if sampleConfig.Vpn.FontSize == "" {
@@ -1463,6 +1463,7 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 
 	if sampleConfig.CmdRun.Cmd == "" && sampleConfig.CmdRun.Enabled {
 		sampleConfig.CmdRun.Enabled = false
+
 		log.Print(
 			"Setting sampleConfig.CmdRun.Enabled to false because sampleConfig.CmdRun.Cmd is not set",
 		)
