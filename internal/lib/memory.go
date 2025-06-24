@@ -51,7 +51,7 @@ func (c *MyConfig) UpdateMemStats() {
 			if c.Values.Memory.Usedpct != uint64(v.UsedPercent) || c.Values.Memory.Shared != v.Shared/1024/1024 || c.Values.Memory.Swap != v.SwapTotal-v.SwapFree {
 				c.Values.Memory.Usedpct = uint64(v.UsedPercent)
 				c.Values.Memory.Shared = v.Shared / 1024 / 1024
-				c.Values.Memory.Swap = sw.Used
+				c.Values.Memory.Swap = sw.Used / 1024 / 1024
 				c.Channels.UpdateReady <- true
 			}
 		} else {
