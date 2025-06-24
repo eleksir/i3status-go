@@ -14,6 +14,7 @@ import (
 func (c *MyConfig) Spawner() {
 	for prg := range c.Channels.RunChan {
 		<-time.After(25 * time.Millisecond)
+
 		devnullR, _ := os.Open(os.DevNull)
 		devnullW, _ := os.OpenFile(os.DevNull, os.O_WRONLY|os.O_APPEND, 0644)
 
@@ -68,9 +69,9 @@ func RunProcess(command []string) string {
 
 	switch len(command) {
 	case 1:
-		cmd = exec.Command(command[0], "")
+		cmd = exec.Command(command[0], "") //nolint: gosec
 	default:
-		cmd = exec.Command(command[0], command[1:]...)
+		cmd = exec.Command(command[0], command[1:]...) //nolint: gosec
 	}
 
 	cmd.Dir = "/"
@@ -87,10 +88,10 @@ func RunProcess(command []string) string {
 		}
 
 		return ""
-	} else {
-		if stderr.String() != "" {
-			log.Printf("%s: %s", strings.Join(command, " "), stderr.String())
-		}
+	}
+
+	if stderr.String() != "" {
+		log.Printf("%s: %s", strings.Join(command, " "), stderr.String())
 	}
 
 	return strings.TrimRight(stdout.String(), "\n")

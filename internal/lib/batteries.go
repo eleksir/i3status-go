@@ -29,7 +29,7 @@ func (c *MyConfig) UpdateBatteryInfo() {
 		}
 
 		var (
-			batteries []*battery.Battery = []*battery.Battery{}
+			batteries = []*battery.Battery{}
 			Batts     string
 			ch        int
 			status    string
@@ -52,6 +52,7 @@ func (c *MyConfig) UpdateBatteryInfo() {
 
 					if err != nil {
 						log.Printf("Unable to read file %s: %s", file, err)
+
 						continue
 					}
 
@@ -65,6 +66,7 @@ func (c *MyConfig) UpdateBatteryInfo() {
 
 						if err != nil {
 							log.Printf("Unable to read file %s: %s", statusFile, err)
+
 							continue
 						}
 
@@ -91,6 +93,7 @@ func (c *MyConfig) UpdateBatteryInfo() {
 
 					if err != nil {
 						log.Printf("Unable to convert string from file %s to integer", file)
+
 						continue
 					}
 
@@ -100,9 +103,9 @@ func (c *MyConfig) UpdateBatteryInfo() {
 				}
 			}
 		} else {
-			batteries, _ = battery.GetAll()
 			// In theory, this module should give for each entry its separate err, but in practice it gives
 			// one single err for all entries, so we cannot detemine whist exatly entry errored.
+			batteries, _ = battery.GetAll()
 		}
 
 		var (
