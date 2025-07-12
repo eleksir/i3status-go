@@ -12,7 +12,7 @@
 // ‘smaller’ or ‘larger’
 "font_size": "medium",
 
-"separator"	: {
+"separator": {
 	"left": {
 		// Set to false if omitted.
 		"enabled": true,
@@ -778,6 +778,19 @@
 "app_buttons": {
 	"enabled": true,
 
+	// If omitted set to default color defined up here.
+	"color": "#3e78fd",
+
+	// If omitted set to default background color defined up here.
+	"background": "#000000",
+
+	// If omitted set to default font defined up here.
+	"font": "Noto Sans",
+
+	// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+	// ‘smaller’ or ‘larger’. If omitted set to default font size defined up here.
+	"font_size": "medium",
+
 	// Re-define separator parameters for net-if block here.
 	"separator": {
 		"left": {
@@ -844,6 +857,11 @@
 			// background color in html notation
 			"background" : "#000000",
 			// border color in html notation
+			// If omitted set to default font defined for separator up here.
+			"font": "Noto Sans",
+			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
+			"font_size": "medium"
 			"border": "#666666",
 			// border color if there is at least one window with given Instance and/or Class exist
 			"border_active": "#3e78fd",
