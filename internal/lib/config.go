@@ -245,8 +245,12 @@ type MyConfig struct {
 	}
 
 	AppButtons struct {
-		Enabled   bool      `json:"enabled,omitempty"`
-		Separator Separator `json:"separator,omitempty"`
+		Enabled    bool      `json:"enabled,omitempty"`
+		Color      string    `json:"color,omitempty"`
+		Background string    `json:"background,omitempty"`
+		Font       string    `json:"font,omitempty"`
+		FontSize   string    `json:"font_size,omitempty"`
+		Separator  Separator `json:"separator,omitempty"`
 	} `json:"app_buttons,omitempty"`
 
 	Apps []struct {
@@ -258,6 +262,8 @@ type MyConfig struct {
 		Class               string   `json:"class,omitempty"`
 		Color               string   `json:"color,omitempty"`
 		Background          string   `json:"background,omitempty"`
+		Font                string   `json:"font,omitempty"`
+		FontSize            string   `json:"font_size,omitempty"`
 		Border              string   `json:"border,omitempty"`
 		BorderActive        string   `json:"border_active,omitempty"`
 		Separator           bool     `json:"separator,omitempty"`
@@ -464,6 +470,30 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 
 	if sampleConfig.LA.FontSize == "" {
 		sampleConfig.LA.FontSize = sampleConfig.FontSize
+	} else {
+		matched, err := regexp.MatchString(
+			`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
+			sampleConfig.LA.FontSize,
+		)
+
+		if err != nil {
+			log.Printf(
+				"Unable to set sampleConfig.LA.FontSize: %s, fallback to %s",
+				err,
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.LA.FontSize = sampleConfig.FontSize
+		}
+
+		if !matched {
+			log.Printf(
+				"Unable to set sampleConfig.LA.FontSize, fallback to %s",
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.LA.FontSize = sampleConfig.FontSize
+		}
 	}
 
 	if sampleConfig.LA.Separator.Left.Color == "" {
@@ -508,22 +538,6 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 
 			sampleConfig.LA.Separator.Left.FontSize = sampleConfig.Separator.Left.FontSize
 		}
-	}
-
-	if sampleConfig.LA.Separator.Right.Color == "" {
-		sampleConfig.LA.Separator.Right.Color = sampleConfig.Separator.Right.Color
-	}
-
-	if sampleConfig.LA.Separator.Right.Background == "" {
-		sampleConfig.LA.Separator.Right.Background = sampleConfig.Separator.Right.Background
-	}
-
-	if sampleConfig.LA.Separator.Right.Font == "" {
-		sampleConfig.LA.Separator.Right.Font = sampleConfig.Separator.Right.Font
-	}
-
-	if sampleConfig.LA.Separator.Right.FontSize == "" {
-		sampleConfig.LA.Separator.Right.FontSize = sampleConfig.Separator.Right.FontSize
 	}
 
 	if sampleConfig.LA.Separator.Right.Color == "" {
@@ -584,6 +598,30 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 
 	if sampleConfig.Mem.FontSize == "" {
 		sampleConfig.Mem.FontSize = sampleConfig.FontSize
+	} else {
+		matched, err := regexp.MatchString(
+			`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
+			sampleConfig.Mem.FontSize,
+		)
+
+		if err != nil {
+			log.Printf(
+				"Unable to set sampleConfig.Mem.FontSize: %s, fallback to %s",
+				err,
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.Mem.FontSize = sampleConfig.FontSize
+		}
+
+		if !matched {
+			log.Printf(
+				"Unable to set sampleConfig.Mem.FontSize, fallback to %s",
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.Mem.FontSize = sampleConfig.FontSize
+		}
 	}
 
 	if sampleConfig.Mem.Separator.Left.Color == "" {
@@ -688,6 +726,30 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 
 	if sampleConfig.Clock.FontSize == "" {
 		sampleConfig.Clock.FontSize = sampleConfig.FontSize
+	} else {
+		matched, err := regexp.MatchString(
+			`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
+			sampleConfig.Clock.FontSize,
+		)
+
+		if err != nil {
+			log.Printf(
+				"Unable to set sampleConfig.Clock.FontSize: %s, fallback to %s",
+				err,
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.Clock.FontSize = sampleConfig.FontSize
+		}
+
+		if !matched {
+			log.Printf(
+				"Unable to set sampleConfig.Clock.FontSize, fallback to %s",
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.Clock.FontSize = sampleConfig.FontSize
+		}
 	}
 
 	if sampleConfig.Clock.Separator.Left.Enabled {
@@ -816,6 +878,30 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 
 	if sampleConfig.Battery.FontSize == "" {
 		sampleConfig.Battery.FontSize = sampleConfig.FontSize
+	} else {
+		matched, err := regexp.MatchString(
+			`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
+			sampleConfig.Battery.FontSize,
+		)
+
+		if err != nil {
+			log.Printf(
+				"Unable to set sampleConfig.Battery.FontSize: %s, fallback to %s",
+				err,
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.Battery.FontSize = sampleConfig.FontSize
+		}
+
+		if !matched {
+			log.Printf(
+				"Unable to set sampleConfig.Battery.FontSize, fallback to %s",
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.Battery.FontSize = sampleConfig.FontSize
+		}
 	}
 
 	if sampleConfig.Battery.Symbol == "" {
@@ -828,6 +914,30 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 
 	if sampleConfig.Battery.SymbolFontSize == "" {
 		sampleConfig.Battery.SymbolFontSize = sampleConfig.Battery.FontSize
+	} else {
+		matched, err := regexp.MatchString(
+			`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
+			sampleConfig.Battery.SymbolFontSize,
+		)
+
+		if err != nil {
+			log.Printf(
+				"Unable to set sampleConfig.Battery.SymbolFontSize: %s, fallback to %s",
+				err,
+				sampleConfig.Battery.FontSize,
+			)
+
+			sampleConfig.Battery.SymbolFontSize = sampleConfig.Battery.FontSize
+		}
+
+		if !matched {
+			log.Printf(
+				"Unable to set sampleConfig.Battery.SymbolFontSize, fallback to %s",
+				sampleConfig.Battery.FontSize,
+			)
+
+			sampleConfig.Battery.SymbolFontSize = sampleConfig.Battery.FontSize
+		}
 	}
 
 	// sampleConfig.Battery.ChargeColor.Full will be empty string if not set
@@ -943,6 +1053,30 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 
 	if sampleConfig.CPUTemp.FontSize == "" {
 		sampleConfig.CPUTemp.FontSize = sampleConfig.FontSize
+	} else {
+		matched, err := regexp.MatchString(
+			`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
+			sampleConfig.CPUTemp.FontSize,
+		)
+
+		if err != nil {
+			log.Printf(
+				"Unable to set sampleConfig.CPUTemp.FontSize: %s, fallback to %s",
+				err,
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.CPUTemp.FontSize = sampleConfig.FontSize
+		}
+
+		if !matched {
+			log.Printf(
+				"Unable to set sampleConfig.CPUTemp.FontSize, fallback to %s",
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.CPUTemp.FontSize = sampleConfig.FontSize
+		}
 	}
 
 	if sampleConfig.CPUTemp.Separator.Left.Enabled {
@@ -1054,6 +1188,30 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 
 	if sampleConfig.Vpn.FontSize == "" {
 		sampleConfig.Vpn.FontSize = sampleConfig.FontSize
+	} else {
+		matched, err := regexp.MatchString(
+			`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
+			sampleConfig.Vpn.FontSize,
+		)
+
+		if err != nil {
+			log.Printf(
+				"Unable to set sampleConfig.Vpn.FontSize: %s, fallback to %s",
+				err,
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.Vpn.FontSize = sampleConfig.FontSize
+		}
+
+		if !matched {
+			log.Printf(
+				"Unable to set sampleConfig.Vpn.FontSize, fallback to %s",
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.Vpn.FontSize = sampleConfig.FontSize
+		}
 	}
 
 	// Check status file at least once per 3 seconds
@@ -1198,6 +1356,30 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 
 	if sampleConfig.SimpleVolumePa.FontSize == "" {
 		sampleConfig.SimpleVolumePa.FontSize = sampleConfig.FontSize
+	} else {
+		matched, err := regexp.MatchString(
+			`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
+			sampleConfig.SimpleVolumePa.FontSize,
+		)
+
+		if err != nil {
+			log.Printf(
+				"Unable to set sampleConfig.SimpleVolumePa.FontSize: %s, fallback to %s",
+				err,
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.SimpleVolumePa.FontSize = sampleConfig.FontSize
+		}
+
+		if !matched {
+			log.Printf(
+				"Unable to set sampleConfig.SimpleVolumePa.FontSize, fallback to %s",
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.SimpleVolumePa.FontSize = sampleConfig.FontSize
+		}
 	}
 
 	if sampleConfig.SimpleVolumePa.Symbol == "" {
@@ -1210,6 +1392,30 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 
 	if sampleConfig.SimpleVolumePa.SymbolFontSize == "" {
 		sampleConfig.SimpleVolumePa.SymbolFontSize = sampleConfig.SimpleVolumePa.FontSize
+	} else {
+		matched, err := regexp.MatchString(
+			`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
+			sampleConfig.SimpleVolumePa.SymbolFontSize,
+		)
+
+		if err != nil {
+			log.Printf(
+				"Unable to set sampleConfig.SimpleVolumePa.SymbolFontSize: %s, fallback to %s",
+				err,
+				sampleConfig.SimpleVolumePa.FontSize,
+			)
+
+			sampleConfig.SimpleVolumePa.SymbolFontSize = sampleConfig.SimpleVolumePa.FontSize
+		}
+
+		if !matched {
+			log.Printf(
+				"Unable to set sampleConfig.SimpleVolumePa.SymbolFontSize, fallback to %s",
+				sampleConfig.SimpleVolumePa.FontSize,
+			)
+
+			sampleConfig.SimpleVolumePa.SymbolFontSize = sampleConfig.SimpleVolumePa.FontSize
+		}
 	}
 
 	if sampleConfig.SimpleVolumePa.Step == 0 {
@@ -1370,6 +1576,29 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 
 	if sampleConfig.NetIf.FontSize == "" {
 		sampleConfig.NetIf.FontSize = sampleConfig.FontSize
+	} else {
+		matched, err := regexp.MatchString(
+			`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
+			sampleConfig.NetIf.FontSize,
+		)
+
+		if err != nil {
+			log.Printf(
+				"Unable to set sampleConfig.NetIf.FontSize: %s, fallback to %s",
+				err,
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.NetIf.FontSize = sampleConfig.FontSize
+		}
+
+		if !matched {
+			log.Printf("Unable to set sampleConfig.NetIf.FontSize, fallback to %s",
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.NetIf.FontSize = sampleConfig.FontSize
+		}
 	}
 
 	if sampleConfig.NetIf.Separator.Left.Color == "" {
@@ -1485,6 +1714,30 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 
 	if sampleConfig.CmdRun.FontSize == "" {
 		sampleConfig.CmdRun.FontSize = sampleConfig.FontSize
+	} else {
+		matched, err := regexp.MatchString(
+			`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
+			sampleConfig.CmdRun.FontSize,
+		)
+
+		if err != nil {
+			log.Printf(
+				"Unable to set sampleConfig.CmdRun.FontSize: %s, fallback to %s",
+				err,
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.CmdRun.FontSize = sampleConfig.FontSize
+		}
+
+		if !matched {
+			log.Printf(
+				"Unable to set sampleConfig.CmdRun.FontSize, fallback to %s",
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.CmdRun.FontSize = sampleConfig.FontSize
+		}
 	}
 
 	if sampleConfig.CmdRun.Separator.Left.Color == "" {
@@ -1590,6 +1843,30 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 
 	if sampleConfig.AppButtons.FontSize == "" {
 		sampleConfig.AppButtons.FontSize = sampleConfig.FontSize
+	} else {
+		matched, err := regexp.MatchString(
+			`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
+			sampleConfig.AppButtons.FontSize,
+		)
+
+		if err != nil {
+			log.Printf(
+				"Unable to set sampleConfig.AppButtons.FontSize: %s, fallback to %s",
+				err,
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.AppButtons.FontSize = sampleConfig.FontSize
+		}
+
+		if !matched {
+			log.Printf(
+				"Unable to set sampleConfig.AppButtons.FontSize, fallback to %s",
+				sampleConfig.FontSize,
+			)
+
+			sampleConfig.AppButtons.FontSize = sampleConfig.FontSize
+		}
 	}
 
 	if sampleConfig.AppButtons.Separator.Left.Color == "" {
@@ -1703,12 +1980,45 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 				app.Background = sampleConfig.AppButtons.Background
 			}
 
+			if app.Font == "" {
+				app.Font = sampleConfig.AppButtons.Font
+			}
+
+			if app.FontSize == "" {
+				app.FontSize = sampleConfig.AppButtons.FontSize
+			} else {
+				matched, err := regexp.MatchString(
+					`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
+					app.FontSize,
+				)
+
+				if err != nil {
+					log.Printf(
+						"Unable to set %s.FontSize: %s, fallback to %s",
+						app.Name,
+						err,
+						sampleConfig.AppButtons.FontSize,
+					)
+
+					app.FontSize = sampleConfig.AppButtons.FontSize
+				}
+
+				if !matched {
+					log.Printf("Unable to set %s.FontSize, fallback to %s",
+						app.Name,
+						sampleConfig.AppButtons.FontSize,
+					)
+
+					app.FontSize = sampleConfig.AppButtons.FontSize
+				}
+			}
+
 			if app.Border == "" {
-				app.Border = sampleConfig.AppButton.Color
+				app.Border = sampleConfig.AppButtons.Color
 			}
 
 			if app.BorderActive == "" {
-				app.BorderActive = sampleConfig.AppButton.Color
+				app.BorderActive = sampleConfig.AppButtons.Color
 			}
 
 			// app.Separator can be omitted, in that case it is false
