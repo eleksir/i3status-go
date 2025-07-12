@@ -1576,6 +1576,21 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 	}
 
 	// sampleConfig.AppButtons.Enabled will false if not set in config
+	if sampleConfig.AppButtons.Color == "" {
+		sampleConfig.AppButtons.Color = sampleConfig.Color
+	}
+
+	if sampleConfig.AppButtons.Background == "" {
+		sampleConfig.AppButtons.Background = sampleConfig.Background
+	}
+
+	if sampleConfig.AppButtons.Font == "" {
+		sampleConfig.AppButtons.Font = sampleConfig.Font
+	}
+
+	if sampleConfig.AppButtons.FontSize == "" {
+		sampleConfig.AppButtons.FontSize = sampleConfig.FontSize
+	}
 
 	if sampleConfig.AppButtons.Separator.Left.Color == "" {
 		sampleConfig.AppButtons.Separator.Left.Color = sampleConfig.Separator.Left.Color
@@ -1676,23 +1691,24 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 
 			// app.Args can be empty slice. In that case command will be run without aruments.
 			if app.Cmd == "" {
+				// If command omitted it will be just /usr/bin/true.
 				app.Cmd = "true"
 			}
 
 			if app.Color == "" {
-				app.Color = sampleConfig.Color
+				app.Color = sampleConfig.AppButtons.Color
 			}
 
 			if app.Background == "" {
-				app.Background = sampleConfig.Background
+				app.Background = sampleConfig.AppButtons.Background
 			}
 
 			if app.Border == "" {
-				app.Border = sampleConfig.Color
+				app.Border = sampleConfig.AppButton.Color
 			}
 
 			if app.BorderActive == "" {
-				app.BorderActive = sampleConfig.Color
+				app.BorderActive = sampleConfig.AppButton.Color
 			}
 
 			// app.Separator can be omitted, in that case it is false
