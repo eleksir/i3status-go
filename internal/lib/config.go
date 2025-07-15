@@ -21,6 +21,8 @@ type I3BarOutBlock struct {
 	ShortText    string `json:"short_text,omitempty"`
 	Color        string `json:"color,omitempty"`
 	Background   string `json:"background,omitempty"`
+	Font         string `json:"font,omitempty"`
+	FontSize     string `json:"font_size,omitempty"`
 	Border       string `json:"border,omitempty"`
 	BorderTop    int    `json:"border_top"`
 	BorderRight  int    `json:"border_right"`
@@ -1963,29 +1965,29 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 			// app.Instance can be missing.
 			// app.Class can be missing.
 			if app.Name == "" {
-				app.Name = fmt.Sprintf("app%d", num)
+				sampleConfig.Apps[num].Name = fmt.Sprintf("app%d", num)
 			}
 
 			// app.Args can be empty slice. In that case command will be run without aruments.
 			if app.Cmd == "" {
 				// If command omitted it will be just /usr/bin/true.
-				app.Cmd = "true"
+				sampleConfig.Apps[num].Cmd = "true"
 			}
 
 			if app.Color == "" {
-				app.Color = sampleConfig.AppButtons.Color
+				sampleConfig.Apps[num].Color = sampleConfig.AppButtons.Color
 			}
 
 			if app.Background == "" {
-				app.Background = sampleConfig.AppButtons.Background
+				sampleConfig.Apps[num].Background = sampleConfig.AppButtons.Background
 			}
 
 			if app.Font == "" {
-				app.Font = sampleConfig.AppButtons.Font
+				sampleConfig.Apps[num].Font = sampleConfig.AppButtons.Font
 			}
 
 			if app.FontSize == "" {
-				app.FontSize = sampleConfig.AppButtons.FontSize
+				sampleConfig.Apps[num].FontSize = sampleConfig.AppButtons.FontSize
 			} else {
 				matched, err := regexp.MatchString(
 					`^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger)$`,
@@ -2000,7 +2002,7 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 						sampleConfig.AppButtons.FontSize,
 					)
 
-					app.FontSize = sampleConfig.AppButtons.FontSize
+					sampleConfig.Apps[num].FontSize = sampleConfig.AppButtons.FontSize
 				}
 
 				if !matched {
@@ -2009,22 +2011,22 @@ func ReadConf(defaultConfig []byte) (*MyConfig, error) {
 						sampleConfig.AppButtons.FontSize,
 					)
 
-					app.FontSize = sampleConfig.AppButtons.FontSize
+					sampleConfig.Apps[num].FontSize = sampleConfig.AppButtons.FontSize
 				}
 			}
 
 			if app.Border == "" {
-				app.Border = sampleConfig.AppButtons.Color
+				sampleConfig.Apps[num].Border = sampleConfig.AppButtons.Color
 			}
 
 			if app.BorderActive == "" {
-				app.BorderActive = sampleConfig.AppButtons.Color
+				sampleConfig.Apps[num].BorderActive = sampleConfig.AppButtons.Color
 			}
 
 			// app.Separator can be omitted, in that case it is false
 			// app.SeparatorBlockWidth can be missing
 			if app.FullText == "" {
-				app.FullText = fmt.Sprintf(" %d ", num)
+				sampleConfig.Apps[num].FullText = fmt.Sprintf(" %d ", num)
 			}
 		}
 	}

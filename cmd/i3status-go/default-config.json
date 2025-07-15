@@ -2,7 +2,7 @@
 // Default text and *block* border colors. If not set #3e78fd is used.
 "color" : "#3e78fd",
 
-// Default backbround color. If not set value of #edeceb is used.
+// Default background color. If not set value of #edeceb is used.
 "background" : "#000000",
 
 // Can be omitted, then Liberation Mono will be used.
@@ -834,36 +834,36 @@
 			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
 			"font_size": "medium"
 		}
-	},
+	}
 },
 
 // Buttons - application launch "buttons"
 "apps": [
 		{
-			// Text dispalyed on button
+			// Text displayed on button, pango markup supported.
 			"full_text" : "📂",
-			// Internal name, can be any string, but unique for each app button
+			// Internal name, can be any string, but unique for each app button.
 			"name" : "thunar",
-			// Command itself
+			// Command itself.
 			"cmd" : "thunar",
-			// Array of command args, optional
+			// Array of command args, optional.
 			"args": [ "." ],
-			// Regexp that match with Instance component of WM_CLASS(STRING) of xprop output
+			// Regexp that match with Instance component of WM_CLASS(STRING) of xprop output.
 			"instance": "^thunar$",
-			// Regexp that match with Class component of WM_CLASS(STRING) of xprop output
+			// Regexp that match with Class component of WM_CLASS(STRING) of xprop output.
 			"class": "^Thunar$",
-			// text color in html notation
+			// Text color in html notation.
 			"color": "#ffa500",
-			// background color in html notation
+			// background color in html notation.
 			"background" : "#000000",
-			// border color in html notation
-			// If omitted set to default font defined for separator up here.
+			// If omitted set to default font defined for app_buttons up here.
 			"font": "Noto Sans",
 			// ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’, ‘x-large’, ‘xx-large’,  or one of relative sizes
-			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for separator up here.
-			"font_size": "medium"
+			// ‘smaller’ or ‘larger’. If omitted set to default font size defined for app_buttons up here.
+			"font_size": "medium",
+			// Border color in html notation.
 			"border": "#666666",
-			// border color if there is at least one window with given Instance and/or Class exist
+			// Border color if there is at least one window with given Instance and/or Class exist.
 			"border_active": "#3e78fd",
 			// Vertical line between objects on bar - if omitted true value is assumed by i3bar, but we set it to false
 			// in that case. It is limitation of golang json parser.

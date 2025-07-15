@@ -192,7 +192,14 @@ func main() {
 					)
 				}
 
-				b.FullText = app.FullText
+				b.FullText = fmt.Sprintf(
+					"<span color='%s' background='%s' font='%s' size='%s'>%s</span>",
+					app.Color,
+					app.Background,
+					app.Font,
+					app.FontSize,
+					app.FullText,
+				)
 
 				if num == len(Conf.Apps) {
 					b.FullText = fmt.Sprintf(
@@ -205,8 +212,6 @@ func main() {
 					)
 				}
 
-				b.Background = app.Background
-				b.Color = app.Color
 				b.Instance = app.Instance
 				b.Markup = `pango`
 				b.Separator = app.Separator
